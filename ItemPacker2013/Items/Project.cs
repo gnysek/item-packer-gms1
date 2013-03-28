@@ -37,7 +37,7 @@ namespace ItemPacker2013.Items
 
 	public class Project
 	{
-		public Dictionary<string, List<string>> groupDefinitions;
+		public Dictionary<string, List<string>> groupDefinitions = new Dictionary<string, List<string>>();
 		public Dictionary<string, DefinitionData> attributeDefinitions = new Dictionary<string, DefinitionData>();
 		public Dictionary<int, ItemExtendable> itemCollection = new Dictionary<int, ItemExtendable>();
 		public string filename = "";
@@ -96,6 +96,19 @@ namespace ItemPacker2013.Items
 				}
 			}
 
+			//groupDefinitions
+			groupDefinitions.Clear();
+			foreach (XmlNode node in settings.SelectNodes("groupDefinitions/group"))
+			{
+				string name = node.SelectSingleNode("name").InnerText;
+				List<string> options = new List<string>();
+				foreach (XmlNode option in settings.SelectNodes("options/option"))
+				{
+					options.Add(option.InnerText);
+				}
+				groupDefinitions.Add(name, options);
+			}
+
 			return true;
 		}
 
@@ -139,9 +152,22 @@ namespace ItemPacker2013.Items
 				_attr.AppendChild(_xme(doc, "group", pair.Value.GroupLink.ToString()));
 				_attr.AppendChild(_xme(doc, "default", pair.Value.DefaultValue));
 
-				//_attr.AppendChild(_xme(doc, pair.Key, pair.Value.Type.ToString()));
-
 				xGroup.AppendChild(_attr);
+			}
+			settings.AppendChild(xGroup);
+
+			// groupDefinitions
+			xGroup = doc.CreateElement("groupDefinitions");
+			foreach (KeyValuePair<string, List<string>> pair in groupDefinitions)
+			{
+				XmlElement _grp = doc.CreateElement("group");
+				_grp.AppendChild(_xme(doc, "name", pair.Key));
+				XmlElement _options = doc.CreateElement("options");
+				foreach (string option in pair.Value)
+				{
+					_options.AppendChild(_xme(doc, "option", option));
+				}
+				_grp.AppendChild(_options);
 			}
 			settings.AppendChild(xGroup);
 

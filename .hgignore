@@ -1,0 +1,6 @@
+# use glob syntax.
+syntax: glob
+
+ItemPacker2013\bin\Debug\*
+ItemPacker2013\bin\Release\*
+obj\*

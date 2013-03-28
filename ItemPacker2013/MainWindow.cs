@@ -117,6 +117,10 @@ namespace ItemPacker2013
 						}
 						CurrentProject.attributeDefinitions.Add(item.SubItems[0].Text, new DefinitionData() { Type = type });
 					}
+
+					foreach(string item in form.settingsGroupDefinitions.Items) {
+						CurrentProject.groupDefinitions.Add(item, new List<string>());
+					}
 				}
 			}
 		}
