@@ -153,6 +153,7 @@
 			this.Controls.Add(this.settingName);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.MaximizeBox = false;
 			this.Name = "ItemAttributeForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "ItemAttributeForm";
@@ -166,7 +167,6 @@
 		#endregion
 
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button bOK;
 		private System.Windows.Forms.Button butCancel;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
@@ -175,5 +175,6 @@
 		public System.Windows.Forms.ComboBox settingDropdown;
 		private System.Windows.Forms.Label label4;
 		public System.Windows.Forms.TextBox settingDefault;
+		public System.Windows.Forms.Button bOK;
 	}
 }

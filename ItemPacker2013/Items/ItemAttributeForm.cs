@@ -11,9 +11,9 @@ namespace ItemPacker2013.Items
 {
 	public partial class ItemAttributeForm : Form
 	{
-		public string attrName;
-		public DefinitionData attrData;
-		public KeyValuePair<string, DefinitionData> currentAttribute;
+		public string attrName = "Add new Attribute";
+		public DefinitionData attrData = new DefinitionData();
+		//public KeyValuePair<string, DefinitionData> currentAttribute;
 
 		public ItemAttributeForm()
 		{
@@ -31,12 +31,9 @@ namespace ItemPacker2013.Items
 					e.Cancel = true;
 				}
 
-				attrName = '';
-
-				currentAttribute = new KeyValuePair<string, DefinitionData>(
-					settingName.Text,
-					new DefinitionData() { TypeString = settingType.Text }
-				);
+				attrName = settingName.Text;
+				attrData.TypeString = settingType.Text;
+				attrData.DefaultValue = settingDefault.Text;
 			}
 		}
 
@@ -45,15 +42,15 @@ namespace ItemPacker2013.Items
 			foreach (ItemDefinitionType definition in Enum.GetValues(typeof(ItemDefinitionType)))
 			{
 				settingType.Items.Add(definition.ToString());
-				if (definition.ToString() == currentAttribute.Value.Type.ToString())
+				if (definition.ToString() == attrData.Type.ToString())
 				{
 					settingType.SelectedIndex = settingType.Items.Count - 1;
 				}
 			}
 
 			settingDropdown.SelectedIndex = 0;
-			settingName.Text = currentAttribute.Key;
-			settingDefault.Text = currentAttribute.Value.DefaultValue;
+			settingName.Text = attrName;
+			settingDefault.Text = attrData.DefaultValue;
 		}
 	}
 }

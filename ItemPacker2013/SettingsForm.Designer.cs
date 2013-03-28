@@ -28,10 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "Name",
             "String"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "Price",
             "Int"}, -1);
 			this.label1 = new System.Windows.Forms.Label();
@@ -44,6 +44,8 @@
 			this.settingDefinitions = new System.Windows.Forms.ListView();
 			this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnDropdown = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnDefault = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.label5 = new System.Windows.Forms.Label();
 			this.button3 = new System.Windows.Forms.Button();
 			this.button4 = new System.Windows.Forms.Button();
@@ -51,10 +53,9 @@
 			this.settingGMXglobalItemsName = new System.Windows.Forms.TextBox();
 			this.settingsGroupDefinitions = new System.Windows.Forms.ListBox();
 			this.label7 = new System.Windows.Forms.Label();
-			this.columnDropdown = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.button5 = new System.Windows.Forms.Button();
 			this.button7 = new System.Windows.Forms.Button();
-			this.button8 = new System.Windows.Forms.Button();
+			this.groupAddB = new System.Windows.Forms.Button();
 			this.button10 = new System.Windows.Forms.Button();
 			this.button9 = new System.Windows.Forms.Button();
 			this.attrAddB = new System.Windows.Forms.Button();
@@ -63,7 +64,8 @@
 			this.attrDeleteB = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
-			this.columnDefault = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.button8 = new System.Windows.Forms.Button();
+			this.button11 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -141,8 +143,8 @@
 			this.settingDefinitions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.settingDefinitions.HideSelection = false;
 			this.settingDefinitions.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
+            listViewItem3,
+            listViewItem4});
 			this.settingDefinitions.LabelWrap = false;
 			this.settingDefinitions.Location = new System.Drawing.Point(123, 157);
 			this.settingDefinitions.MultiSelect = false;
@@ -162,6 +164,16 @@
 			// 
 			this.columnType.Text = "Type";
 			this.columnType.Width = 50;
+			// 
+			// columnDropdown
+			// 
+			this.columnDropdown.Text = "Dropdown Group";
+			this.columnDropdown.Width = 95;
+			// 
+			// columnDefault
+			// 
+			this.columnDefault.Text = "Default Value";
+			this.columnDefault.Width = 83;
 			// 
 			// label5
 			// 
@@ -225,11 +237,6 @@
 			this.label7.TabIndex = 22;
 			this.label7.Text = "Dropdown Groups:";
 			// 
-			// columnDropdown
-			// 
-			this.columnDropdown.Text = "Dropdown Group";
-			this.columnDropdown.Width = 95;
-			// 
 			// button5
 			// 
 			this.button5.Enabled = false;
@@ -254,23 +261,23 @@
 			this.button7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.button7.UseVisualStyleBackColor = true;
 			// 
-			// button8
+			// groupAddB
 			// 
-			this.button8.Enabled = false;
-			this.button8.Image = global::ItemPacker2013.Properties.Resources.add;
-			this.button8.Location = new System.Drawing.Point(525, 297);
-			this.button8.Name = "button8";
-			this.button8.Size = new System.Drawing.Size(24, 24);
-			this.button8.TabIndex = 23;
-			this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.button8.UseVisualStyleBackColor = true;
+			this.groupAddB.Image = global::ItemPacker2013.Properties.Resources.add;
+			this.groupAddB.Location = new System.Drawing.Point(525, 297);
+			this.groupAddB.Name = "groupAddB";
+			this.groupAddB.Size = new System.Drawing.Size(24, 24);
+			this.groupAddB.TabIndex = 23;
+			this.groupAddB.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.groupAddB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.groupAddB.UseVisualStyleBackColor = true;
+			this.groupAddB.Click += new System.EventHandler(this.groupAddB_Click);
 			// 
 			// button10
 			// 
 			this.button10.Enabled = false;
 			this.button10.Image = global::ItemPacker2013.Properties.Resources.pencil;
-			this.button10.Location = new System.Drawing.Point(65, 297);
+			this.button10.Location = new System.Drawing.Point(42, 297);
 			this.button10.Name = "button10";
 			this.button10.Size = new System.Drawing.Size(24, 24);
 			this.button10.TabIndex = 18;
@@ -282,7 +289,7 @@
 			// 
 			this.button9.Enabled = false;
 			this.button9.Image = global::ItemPacker2013.Properties.Resources.delete;
-			this.button9.Location = new System.Drawing.Point(95, 297);
+			this.button9.Location = new System.Drawing.Point(72, 297);
 			this.button9.Name = "button9";
 			this.button9.Size = new System.Drawing.Size(24, 24);
 			this.button9.TabIndex = 17;
@@ -318,7 +325,7 @@
 			// 
 			this.button6.Enabled = false;
 			this.button6.Image = global::ItemPacker2013.Properties.Resources.add;
-			this.button6.Location = new System.Drawing.Point(35, 297);
+			this.button6.Location = new System.Drawing.Point(12, 297);
 			this.button6.Name = "button6";
 			this.button6.Size = new System.Drawing.Size(24, 24);
 			this.button6.TabIndex = 14;
@@ -364,19 +371,38 @@
 			this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.button1.UseVisualStyleBackColor = true;
 			// 
-			// columnDefault
+			// button8
 			// 
-			this.columnDefault.Text = "Default Value";
-			this.columnDefault.Width = 83;
+			this.button8.Image = global::ItemPacker2013.Properties.Resources.arrow_down;
+			this.button8.Location = new System.Drawing.Point(153, 297);
+			this.button8.Name = "button8";
+			this.button8.Size = new System.Drawing.Size(24, 24);
+			this.button8.TabIndex = 26;
+			this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.button8.UseVisualStyleBackColor = true;
+			// 
+			// button11
+			// 
+			this.button11.Image = global::ItemPacker2013.Properties.Resources.arrow_up;
+			this.button11.Location = new System.Drawing.Point(123, 297);
+			this.button11.Name = "button11";
+			this.button11.Size = new System.Drawing.Size(24, 24);
+			this.button11.TabIndex = 27;
+			this.button11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button11.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.button11.UseVisualStyleBackColor = true;
 			// 
 			// SettingsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(623, 373);
+			this.Controls.Add(this.button11);
+			this.Controls.Add(this.button8);
 			this.Controls.Add(this.button5);
 			this.Controls.Add(this.button7);
-			this.Controls.Add(this.button8);
+			this.Controls.Add(this.groupAddB);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.settingsGroupDefinitions);
 			this.Controls.Add(this.settingGMXglobalItemsName);
@@ -401,6 +427,8 @@
 			this.Controls.Add(this.settingGMXsource);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "SettingsForm";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
@@ -442,7 +470,9 @@
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Button button5;
 		private System.Windows.Forms.Button button7;
-		private System.Windows.Forms.Button button8;
+		private System.Windows.Forms.Button groupAddB;
 		private System.Windows.Forms.ColumnHeader columnDefault;
+		private System.Windows.Forms.Button button8;
+		private System.Windows.Forms.Button button11;
 	}
 }

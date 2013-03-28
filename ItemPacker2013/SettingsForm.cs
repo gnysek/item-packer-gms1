@@ -61,20 +61,17 @@ namespace ItemPacker2013
 		{
 			using (ItemAttributeForm form = new ItemAttributeForm())
 			{
-				KeyValuePair<string, DefinitionData> entry = new KeyValuePair<string, DefinitionData>("Add new Attribute",new DefinitionData());
-
-				form.currentAttribute = entry;
 				form.ShowDialog();
 
 				if (form.DialogResult == DialogResult.OK)
 				{
-					if (settingDefinitions.FindItemWithText(form.currentAttribute.Key) != null)
+					if (settingDefinitions.FindItemWithText(form.attrName) != null)
 					{
-						MessageBox.Show("Duplicated Key: " + form.settingName.Text);
+						MessageBox.Show("Duplicated Key: " + form.attrName);
 						return;
 					}
 
-					addAttributeViewList(form.currentAttribute);
+					addAttributeViewList(form.attrName, form.attrData);
 				}
 			}
 		}
@@ -87,54 +84,29 @@ namespace ItemPacker2013
 
 				using (ItemAttributeForm form = new ItemAttributeForm())
 				{
-					KeyValuePair<string, DefinitionData> entry = new KeyValuePair<string, DefinitionData>(settingDefinitions.SelectedItems[0].Text, new DefinitionData()
-					{
-						TypeString = settingDefinitions.SelectedItems[0].SubItems[1].Text
-					});
+					form.attrName = settingDefinitions.SelectedItems[0].Text;
+					form.attrData.TypeString = settingDefinitions.SelectedItems[0].SubItems[1].Text;
+					form.bOK.Text = "Update";
+					form.bOK.Image = new Bitmap(ItemPacker2013.Properties.Resources.pencil);
 
-					form.currentAttribute = entry;
 					form.ShowDialog();
 
 					if (form.DialogResult == DialogResult.OK)
 					{
-						if (settingDefinitions.FindItemWithText(entry.Key) != null)
+						if (settingDefinitions.FindItemWithText(form.attrName) != null)
 						{
 							//if new Name isn't same as this item previous Name, that means above conflict is with another element
-							if (form.currentAttribute.Key != settingDefinitions.Items[editItemIndex].Text)
+							if (form.attrName != settingDefinitions.Items[editItemIndex].Text)
 							{
-								MessageBox.Show("Duplicated Key: " + form.currentAttribute.Key);
+								MessageBox.Show("Duplicated Key: " + form.attrName);
 								return;
 							}
 						}
 
-						settingDefinitions.Items[editItemIndex].Text = form.currentAttribute.Key;
-						settingDefinitions.Items[editItemIndex].SubItems[1].Text = form.currentAttribute.Value.TypeString;
+						settingDefinitions.Items[editItemIndex].Text = form.attrName;
+						settingDefinitions.Items[editItemIndex].SubItems[1].Text = form.attrData.TypeString;
 					}
 				}
-
-				//ItemDefinitionType type;
-				//if (!Enum.TryParse(settingDefinitions.SelectedItems[0].SubItems[1].Text, true, out type))
-				//{
-				//    type = ItemDefinitionType.String;
-				//}
-
-				//KeyValuePair<string, ItemDefinitionType> t = ItemAttributePrompt.ShowDialog("Edit attribute", settingDefinitions.SelectedItems[0].Text, type);
-				//if (t.Key != "")
-				//{
-				//    // if found existing item with same Name
-				//    if (settingDefinitions.FindItemWithText(t.Key) != null)
-				//    {
-				//        //if new Name isn't same as this item previous Name, that means above conflict is with another element
-				//        if (t.Key != settingDefinitions.Items[editItemIndex].Text)
-				//        {
-				//            MessageBox.Show("Duplicated Key: " + t.Key);
-				//            return;
-				//        }
-				//    }
-
-				//    settingDefinitions.Items[editItemIndex].Text = t.Key;
-				//    settingDefinitions.Items[editItemIndex].SubItems[1].Text = t.Value.ToString();
-				//}
 			}
 			editItemIndex = -1;
 		}
@@ -150,6 +122,23 @@ namespace ItemPacker2013
 				}
 
 				settingDefinitions.Items.RemoveAt(settingDefinitions.SelectedItems[0].Index);
+			}
+		}
+
+		private void groupAddB_Click(object sender, EventArgs e)
+		{
+			using (GroupForm form = new GroupForm())
+			{
+				form.groupName.Text = "New Group";
+				form.ShowDialog();
+
+				if (settingsGroupDefinitions.FindString(form.groupName.Text) > -1)
+				{
+					MessageBox.Show("Duplicate for key: " + form.groupName.Text);
+					return;
+				}
+
+				settingsGroupDefinitions.Items.Add(form.groupName.Text);
 			}
 		}
 
