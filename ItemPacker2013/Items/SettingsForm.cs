@@ -14,6 +14,8 @@ namespace ItemPacker2013
 	public partial class SettingsForm : Form
 	{
 		public int editItemIndex = -1;
+		public int editGroupIndex = -1;
+		public Dictionary<string, List<string>> tempGroups = new Dictionary<string, List<string>>();
 
 		public SettingsForm()
 		{
@@ -40,6 +42,18 @@ namespace ItemPacker2013
 			foreach (KeyValuePair<string, DefinitionData> definition in definitions)
 			{
 				addAttributeViewList(definition);
+			}
+			return true;
+		}
+
+		public bool renderTempGroupList(Dictionary<string, List<string>> definitions)
+		{
+			settingsGroupDefinitions.Items.Clear();
+			tempGroups.Clear();
+			foreach (KeyValuePair<string, List<string>> entry in definitions)
+			{
+				settingsGroupDefinitions.Items.Add(entry.Key);
+				tempGroups.Add(entry.Key, entry.Value);
 			}
 			return true;
 		}
@@ -132,14 +146,66 @@ namespace ItemPacker2013
 				form.groupName.Text = "New Group";
 				form.ShowDialog();
 
-				if (settingsGroupDefinitions.FindString(form.groupName.Text) > -1)
+				if (form.DialogResult == DialogResult.OK)
 				{
-					MessageBox.Show("Duplicate for key: " + form.groupName.Text);
-					return;
-				}
+					if (settingsGroupDefinitions.FindStringExact(form.groupName.Text) > -1)
+					{
+						MessageBox.Show("Duplicate for key: " + form.groupName.Text);
+						return;
+					}
 
-				settingsGroupDefinitions.Items.Add(form.groupName.Text);
+					tempGroups.Add(form.groupName.Text, form.groupOptions.Items.Cast<string>().ToList());
+					settingsGroupDefinitions.Items.Add(form.groupName.Text);
+				}
 			}
+		}
+
+		private void groupEditB_Click(object sender, EventArgs e)
+		{
+			editGroupIndex = settingsGroupDefinitions.SelectedIndex;
+
+			if (editGroupIndex < 0)
+			{
+				return;
+			}
+
+			string editGroupLabel = settingsGroupDefinitions.Items[editGroupIndex].ToString();
+
+			using (GroupForm form = new GroupForm())
+			{
+				form.groupName.Text = editGroupLabel;
+				foreach (string option in tempGroups[editGroupLabel])
+				{
+					form.groupOptions.Items.Add(option);
+				}
+				form.ShowDialog();
+
+				if (form.DialogResult == DialogResult.OK)
+				{
+					int duplicateLocation = settingsGroupDefinitions.FindStringExact(form.groupName.Text);
+					if (duplicateLocation > -1 && duplicateLocation != editGroupIndex)
+					{
+						MessageBox.Show("Duplicate for key: " + form.groupName.Text);
+						editGroupIndex = -1;
+						return;
+					}
+
+					if (duplicateLocation > -1)
+					{
+						// name is same
+						tempGroups[editGroupLabel] = form.groupOptions.Items.Cast<string>().ToList();
+					}
+					else
+					{
+						tempGroups.Remove(editGroupLabel);
+						editGroupLabel = form.groupName.Text;
+						tempGroups.Add(editGroupLabel, form.groupOptions.Items.Cast<string>().ToList());
+						settingsGroupDefinitions.Items[editGroupIndex] = editGroupLabel;
+					}
+				}
+			}
+
+			editGroupIndex = -1;
 		}
 
 	}

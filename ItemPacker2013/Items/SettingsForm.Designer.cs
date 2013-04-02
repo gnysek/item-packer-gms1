@@ -28,10 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Name",
             "String"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Price",
             "Int"}, -1);
 			this.label1 = new System.Windows.Forms.Label();
@@ -53,7 +53,7 @@
 			this.settingGMXglobalItemsName = new System.Windows.Forms.TextBox();
 			this.settingsGroupDefinitions = new System.Windows.Forms.ListBox();
 			this.label7 = new System.Windows.Forms.Label();
-			this.button5 = new System.Windows.Forms.Button();
+			this.groupEditB = new System.Windows.Forms.Button();
 			this.button7 = new System.Windows.Forms.Button();
 			this.groupAddB = new System.Windows.Forms.Button();
 			this.button10 = new System.Windows.Forms.Button();
@@ -143,8 +143,8 @@
 			this.settingDefinitions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.settingDefinitions.HideSelection = false;
 			this.settingDefinitions.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3,
-            listViewItem4});
+            listViewItem1,
+            listViewItem2});
 			this.settingDefinitions.LabelWrap = false;
 			this.settingDefinitions.Location = new System.Drawing.Point(123, 157);
 			this.settingDefinitions.MultiSelect = false;
@@ -237,17 +237,17 @@
 			this.label7.TabIndex = 22;
 			this.label7.Text = "Dropdown Groups:";
 			// 
-			// button5
+			// groupEditB
 			// 
-			this.button5.Enabled = false;
-			this.button5.Image = global::ItemPacker2013.Properties.Resources.pencil;
-			this.button5.Location = new System.Drawing.Point(555, 297);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(24, 24);
-			this.button5.TabIndex = 25;
-			this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.button5.UseVisualStyleBackColor = true;
+			this.groupEditB.Image = global::ItemPacker2013.Properties.Resources.pencil;
+			this.groupEditB.Location = new System.Drawing.Point(555, 297);
+			this.groupEditB.Name = "groupEditB";
+			this.groupEditB.Size = new System.Drawing.Size(24, 24);
+			this.groupEditB.TabIndex = 25;
+			this.groupEditB.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.groupEditB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.groupEditB.UseVisualStyleBackColor = true;
+			this.groupEditB.Click += new System.EventHandler(this.groupEditB_Click);
 			// 
 			// button7
 			// 
@@ -400,7 +400,7 @@
 			this.ClientSize = new System.Drawing.Size(623, 373);
 			this.Controls.Add(this.button11);
 			this.Controls.Add(this.button8);
-			this.Controls.Add(this.button5);
+			this.Controls.Add(this.groupEditB);
 			this.Controls.Add(this.button7);
 			this.Controls.Add(this.groupAddB);
 			this.Controls.Add(this.label7);
@@ -468,7 +468,7 @@
 		private System.Windows.Forms.ColumnHeader columnDropdown;
 		public System.Windows.Forms.ListBox settingsGroupDefinitions;
 		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.Button groupEditB;
 		private System.Windows.Forms.Button button7;
 		private System.Windows.Forms.Button groupAddB;
 		private System.Windows.Forms.ColumnHeader columnDefault;
