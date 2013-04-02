@@ -13,7 +13,7 @@ namespace ItemPacker2013.Items
 		Int,
 		String,
 		Sprite,
-		Dropdown,
+		//Dropdown,
 	}
 
 	public class DefinitionData
@@ -102,11 +102,36 @@ namespace ItemPacker2013.Items
 			{
 				string name = node.SelectSingleNode("name").InnerText;
 				List<string> options = new List<string>();
-				foreach (XmlNode option in settings.SelectNodes("options/option"))
+				foreach (XmlNode option in node.SelectNodes("options/option"))
 				{
 					options.Add(option.InnerText);
 				}
 				groupDefinitions.Add(name, options);
+			}
+
+			//items
+			itemCollection.Clear();
+			foreach (XmlNode node in doc.SelectNodes("nodes/items/item"))
+			{
+				int id = int.Parse(node.SelectSingleNode("id").InnerText);
+				ItemExtendable attr = new ItemExtendable();
+				foreach (XmlNode subnode in node.SelectNodes("attr/*"))
+				{
+					switch (attributeDefinitions[subnode.Name].Type)
+					{
+						case ItemDefinitionType.Bool:
+							attr.setValue(subnode.Name, subnode.InnerText == "1" ? true : false);
+							break;
+						case ItemDefinitionType.Int:
+							attr.setValue(subnode.Name, int.Parse(subnode.InnerText));
+							break;
+						case ItemDefinitionType.Sprite:
+						case ItemDefinitionType.String:
+							attr.setValue(subnode.Name, subnode.InnerText);
+							break;
+					}
+				}
+				itemCollection.Add(id, attr);
 			}
 
 			return true;
@@ -168,10 +193,26 @@ namespace ItemPacker2013.Items
 					_options.AppendChild(_xme(doc, "option", option));
 				}
 				_grp.AppendChild(_options);
+				xGroup.AppendChild(_grp);
 			}
 			settings.AppendChild(xGroup);
 
 			nodes.AppendChild(settings);
+
+			foreach (KeyValuePair<int, ItemExtendable> item in itemCollection)
+			{
+				XmlElement _itm = doc.CreateElement("item");
+				_itm.AppendChild(_xme(doc, "id", item.Value.ID.ToString()));
+
+				XmlElement _attr = doc.CreateElement("attr");
+				foreach (string param in this.attributeDefinitions.Keys)
+				{
+					_attr.AppendChild(_xme(doc, param, item.Value.getValue(param)));
+				}
+				_itm.AppendChild(_attr);
+				items.AppendChild(_itm);
+			}
+
 			nodes.AppendChild(items);
 
 			doc.AppendChild(comment);

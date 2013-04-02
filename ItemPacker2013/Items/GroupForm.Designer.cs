@@ -84,6 +84,7 @@
 			this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
 			// attrAddB
 			// 
@@ -95,6 +96,7 @@
 			this.attrAddB.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.attrAddB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.attrAddB.UseVisualStyleBackColor = true;
+			this.attrAddB.Click += new System.EventHandler(this.attrAddB_Click);
 			// 
 			// attrEditB
 			// 
@@ -106,15 +108,18 @@
 			this.attrEditB.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.attrEditB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.attrEditB.UseVisualStyleBackColor = true;
+			this.attrEditB.Click += new System.EventHandler(this.attrEditB_Click);
 			// 
 			// attrDeleteB
 			// 
+			this.attrDeleteB.Enabled = false;
 			this.attrDeleteB.Image = global::ItemPacker2013.Properties.Resources.delete;
 			this.attrDeleteB.Location = new System.Drawing.Point(193, 217);
 			this.attrDeleteB.Name = "attrDeleteB";
 			this.attrDeleteB.Size = new System.Drawing.Size(24, 24);
 			this.attrDeleteB.TabIndex = 17;
 			this.attrDeleteB.UseVisualStyleBackColor = true;
+			this.attrDeleteB.Click += new System.EventHandler(this.attrDeleteB_Click);
 			// 
 			// button2
 			// 
@@ -153,6 +158,7 @@
 			this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.button4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.button4.UseVisualStyleBackColor = true;
+			this.button4.Click += new System.EventHandler(this.button4_Click);
 			// 
 			// GroupForm
 			// 
@@ -175,6 +181,7 @@
 			this.Name = "GroupForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "GroupForm";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GroupForm_FormClosing);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
