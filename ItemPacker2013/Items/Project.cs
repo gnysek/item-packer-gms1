@@ -116,7 +116,7 @@ namespace ItemPacker2013.Items
 			foreach (XmlNode node in doc.SelectNodes("nodes/items/item"))
 			{
 				int id = int.Parse(node.SelectSingleNode("id").InnerText);
-				ItemExtendable attr = new ItemExtendable();
+				ItemExtendable attr = new ItemExtendable() { ID = id };
 				foreach (XmlNode subnode in node.SelectNodes("attr/*"))
 				{
 					switch (attributeDefinitions[subnode.Name].Type)
@@ -125,7 +125,9 @@ namespace ItemPacker2013.Items
 							attr.setValue(subnode.Name, subnode.InnerText == "1" ? true : false);
 							break;
 						case ItemDefinitionType.Int:
-							attr.setValue(subnode.Name, int.Parse(subnode.InnerText));
+							int val = 0;
+							int.TryParse(subnode.InnerText, out val);
+							attr.setValue(subnode.Name, val);
 							break;
 						case ItemDefinitionType.Sprite:
 						case ItemDefinitionType.String:
