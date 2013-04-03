@@ -28,12 +28,16 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
             "Name",
-            "String"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            "String",
+            "-",
+            ""}, -1);
+			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
             "Price",
-            "Int"}, -1);
+            "Int",
+            "-1",
+            "0"}, -1);
 			this.label1 = new System.Windows.Forms.Label();
 			this.settingGMXsource = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
@@ -81,8 +85,10 @@
 			// 
 			this.settingGMXsource.Location = new System.Drawing.Point(12, 25);
 			this.settingGMXsource.Name = "settingGMXsource";
-			this.settingGMXsource.Size = new System.Drawing.Size(327, 20);
+			this.settingGMXsource.ReadOnly = true;
+			this.settingGMXsource.Size = new System.Drawing.Size(568, 20);
 			this.settingGMXsource.TabIndex = 1;
+			this.settingGMXsource.WordWrap = false;
 			// 
 			// label2
 			// 
@@ -143,8 +149,8 @@
 			this.settingDefinitions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.settingDefinitions.HideSelection = false;
 			this.settingDefinitions.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
+            listViewItem7,
+            listViewItem8});
 			this.settingDefinitions.LabelWrap = false;
 			this.settingDefinitions.Location = new System.Drawing.Point(123, 157);
 			this.settingDefinitions.MultiSelect = false;
@@ -186,7 +192,8 @@
 			// 
 			// button3
 			// 
-			this.button3.Location = new System.Drawing.Point(344, 23);
+			this.button3.Enabled = false;
+			this.button3.Location = new System.Drawing.Point(586, 23);
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(25, 24);
 			this.button3.TabIndex = 11;
@@ -195,6 +202,7 @@
 			// 
 			// button4
 			// 
+			this.button4.Enabled = false;
 			this.button4.Location = new System.Drawing.Point(344, 75);
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(25, 24);

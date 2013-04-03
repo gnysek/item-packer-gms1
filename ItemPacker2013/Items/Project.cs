@@ -45,6 +45,7 @@ namespace ItemPacker2013.Items
 		public List<string> GMXspritePattern = new List<string>() { "sprInv*", "sprEquip*" };
 		public string GMXglobalItemsName = "global.item";
 		public List<string> ItemGroups = new List<string>() { "Default" };
+		public string gridView = "1";
 
 		public const string C_GMXSource = "gmxSource";
 		public const string C_GMXglobalItemsName = "globalItemsName";
@@ -64,6 +65,7 @@ namespace ItemPacker2013.Items
 			XmlNode settings = doc.SelectSingleNode("nodes/settings");
 			GMXsource = settings.SelectSingleNode(C_GMXSource).InnerText;
 			GMXglobalItemsName = settings.SelectSingleNode(C_GMXglobalItemsName).InnerText;
+			gridView = settings.SelectSingleNode("gridView").InnerText;
 
 			// sprite patterns
 			GMXspritePattern.Clear();
@@ -148,6 +150,7 @@ namespace ItemPacker2013.Items
 
 			settings.AppendChild(_xme(doc, C_GMXSource, this.GMXsource));
 			settings.AppendChild(_xme(doc, C_GMXglobalItemsName, this.GMXglobalItemsName));
+			settings.AppendChild(_xme(doc, "gridView", gridView));
 
 			// sprite pattern
 			XmlElement xGroup;
@@ -199,6 +202,7 @@ namespace ItemPacker2013.Items
 
 			nodes.AppendChild(settings);
 
+			// items
 			foreach (KeyValuePair<int, ItemExtendable> item in itemCollection)
 			{
 				XmlElement _itm = doc.CreateElement("item");
@@ -212,7 +216,6 @@ namespace ItemPacker2013.Items
 				_itm.AppendChild(_attr);
 				items.AppendChild(_itm);
 			}
-
 			nodes.AppendChild(items);
 
 			doc.AppendChild(comment);
