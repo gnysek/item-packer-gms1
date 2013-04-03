@@ -28,12 +28,12 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Name",
             "String",
             "-",
             ""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Price",
             "Int",
             "-1",
@@ -120,6 +120,7 @@
 			// 
 			// settingItemGroups
 			// 
+			this.settingItemGroups.Enabled = false;
 			this.settingItemGroups.FormattingEnabled = true;
 			this.settingItemGroups.Items.AddRange(new object[] {
             "Default"});
@@ -149,8 +150,8 @@
 			this.settingDefinitions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.settingDefinitions.HideSelection = false;
 			this.settingDefinitions.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem7,
-            listViewItem8});
+            listViewItem1,
+            listViewItem2});
 			this.settingDefinitions.LabelWrap = false;
 			this.settingDefinitions.Location = new System.Drawing.Point(123, 157);
 			this.settingDefinitions.MultiSelect = false;

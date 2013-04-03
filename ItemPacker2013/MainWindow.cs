@@ -99,21 +99,8 @@ namespace ItemPacker2013
 				CurrentProject.filename = openFileDialog1.FileName;
 				CurrentProject.loadXml();
 
-				itemListView.Columns.Clear();
-				itemListView.Columns.Add("ID");
-				foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
-				{
-					itemListView.Columns.Add(entry.Key);
-				}
-
-				foreach (KeyValuePair<int, ItemExtendable> entry in CurrentProject.itemCollection)
-				{
-					ListViewItem item = itemListView.Items.Add(entry.Key.ToString());
-					foreach (KeyValuePair<string, DefinitionData> data in CurrentProject.attributeDefinitions)
-					{
-						item.SubItems.Add(entry.Value.getValue(data.Key));
-					}
-				}
+				//render items
+				renderItemList();
 			}
 
 			ensureButtonsVisible();
@@ -124,6 +111,38 @@ namespace ItemPacker2013
 			else
 			{
 				toolViewIcons_Click(sender, e);
+			}
+		}
+
+		private void renderItemList()
+		{
+			int selection = -1;
+			if (itemListView.SelectedItems.Count > 0)
+			{
+				selection = itemListView.SelectedItems[0].Index;
+			}
+			// render columns
+			itemListView.Columns.Clear();
+			itemListView.Columns.Add("ID");
+			foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
+			{
+				itemListView.Columns.Add(entry.Key);
+			}
+
+			// render items
+			itemListView.Items.Clear();
+			foreach (KeyValuePair<int, ItemExtendable> entry in CurrentProject.itemCollection)
+			{
+				ListViewItem item = itemListView.Items.Add(entry.Key.ToString());
+				foreach (KeyValuePair<string, DefinitionData> data in CurrentProject.attributeDefinitions)
+				{
+					item.SubItems.Add(entry.Value.getValue(data.Key));
+				}
+			}
+
+			if (selection > 1)
+			{
+				itemListView.Items[selection].Selected = true;
 			}
 		}
 
@@ -166,6 +185,8 @@ namespace ItemPacker2013
 					{
 						CurrentProject.groupDefinitions.Add(entry.Key, entry.Value);
 					}
+
+					renderItemList();
 
 					//foreach(string item in form.settingsGroupDefinitions.Items) {
 					//    CurrentProject.groupDefinitions.Add(item, new List<string>());
@@ -235,18 +256,47 @@ namespace ItemPacker2013
 							break;
 						case ItemDefinitionType.Int:
 						case ItemDefinitionType.String:
-							TextBox t = new TextBox();
-							t.Top = counter;
-							t.Left = 20;
-							t.Tag = definition.Key;
-							if (edit)
+
+							if (definition.Value.GroupLink > -1)
 							{
-								t.Text = CurrentProject.itemCollection[itemID].getValue(definition.Key);
+								ComboBox t = new ComboBox();
+								t.Top = counter;
+								t.Left = 20;
+								t.DropDownStyle = ComboBoxStyle.DropDownList;
+								t.Tag = definition.Key;
+
+								foreach (string option in CurrentProject.groupDefinitions.ElementAt(definition.Value.GroupLink).Value)
+								{
+									t.Items.Add(option);
+								}
+								t.SelectedIndex = 0;
+								if (edit)
+								{
+									int selected = 0;
+									if (int.TryParse(CurrentProject.itemCollection[itemID].getValue(definition.Key), out selected))
+									{
+										t.SelectedIndex = selected;
+									}
+								}
+
+								form.Controls.Add(t);
+								controlList.Add(t);
 							}
-							form.Controls.Add(t);
-							controlList.Add(t);
+							else
+							{
+
+								TextBox t = new TextBox();
+								t.Top = counter;
+								t.Left = 20;
+								t.Tag = definition.Key;
+								if (edit)
+								{
+									t.Text = CurrentProject.itemCollection[itemID].getValue(definition.Key);
+								}
+								form.Controls.Add(t);
+								controlList.Add(t);
+							}
 							break;
-						//case ItemDefinitionType.Dropdown:
 						case ItemDefinitionType.Sprite:
 							ComboBox cb = new ComboBox();
 							cb.Top = counter;
@@ -307,7 +357,14 @@ namespace ItemPacker2013
 								break;
 							case ItemDefinitionType.Int:
 								int value = 0;
-								int.TryParse(control.Text, out value);
+								if (control is ComboBox)
+								{
+									value = ((ComboBox)control).SelectedIndex;
+								}
+								else
+								{
+									int.TryParse(control.Text, out value);
+								}
 								itemData.setValue(control.Tag.ToString(), value);
 								newItem.SubItems.Add(value.ToString());
 								break;
