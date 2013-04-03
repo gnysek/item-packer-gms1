@@ -68,7 +68,6 @@
 			// settingDropdown
 			// 
 			this.settingDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.settingDropdown.FormattingEnabled = true;
 			this.settingDropdown.Items.AddRange(new object[] {
             "Disabled"});
 			this.settingDropdown.Location = new System.Drawing.Point(218, 68);

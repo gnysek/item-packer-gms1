@@ -34,6 +34,7 @@ namespace ItemPacker2013.Items
 				attrName = settingName.Text;
 				attrData.TypeString = settingType.Text;
 				attrData.DefaultValue = settingDefault.Text;
+				attrData.GroupLink = settingDropdown.SelectedIndex - 1;
 			}
 		}
 
@@ -48,7 +49,15 @@ namespace ItemPacker2013.Items
 				}
 			}
 
-			settingDropdown.SelectedIndex = 0;
+			if (attrData.GroupLink > -1)
+			{
+				settingDropdown.SelectedIndex = attrData.GroupLink;
+			}
+			else
+			{
+				settingDropdown.SelectedIndex = 0;
+			}
+
 			settingName.Text = attrName;
 			settingDefault.Text = attrData.DefaultValue;
 		}

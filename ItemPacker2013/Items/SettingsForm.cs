@@ -58,11 +58,14 @@ namespace ItemPacker2013
 			return true;
 		}
 
+		#region attributes list adding/addB/editB/deleteB
+
 		private bool addAttributeViewList(KeyValuePair<string, DefinitionData> entry)
 		{
 			ListViewItem item = settingDefinitions.Items.Add(entry.Key);
 			item.SubItems.Add(entry.Value.Type.ToString());
 			item.SubItems.Add((entry.Value.GroupLink == -1) ? "-" : entry.Value.GroupLink.ToString());
+			item.SubItems.Add(entry.Value.DefaultValue);
 			return true;
 		}
 
@@ -71,10 +74,21 @@ namespace ItemPacker2013
 			return addAttributeViewList(new KeyValuePair<string, DefinitionData>(name, data));
 		}
 
+		private void renderAttributeDropdownGroupList(ItemAttributeForm form)
+		{
+			form.settingDropdown.Items.Clear();
+			form.settingDropdown.Items.Add("- Disabled -");
+			foreach (KeyValuePair<string, List<string>> element in tempGroups)
+			{
+				form.settingDropdown.Items.Add(element.Key);
+			}
+		}
+
 		private void attrAddB_Click(object sender, EventArgs e)
 		{
 			using (ItemAttributeForm form = new ItemAttributeForm())
 			{
+				renderAttributeDropdownGroupList(form);
 				form.ShowDialog();
 
 				if (form.DialogResult == DialogResult.OK)
@@ -100,8 +114,13 @@ namespace ItemPacker2013
 				{
 					form.attrName = settingDefinitions.SelectedItems[0].Text;
 					form.attrData.TypeString = settingDefinitions.SelectedItems[0].SubItems[1].Text;
+					form.attrData.GroupLink = settingsGroupDefinitions.FindStringExact(settingDefinitions.SelectedItems[0].SubItems[2].Text) + 1;
+					form.attrData.DefaultValue = settingDefinitions.SelectedItems[0].SubItems[3].Text;
 					form.bOK.Text = "Update";
 					form.bOK.Image = new Bitmap(ItemPacker2013.Properties.Resources.pencil);
+					renderAttributeDropdownGroupList(form);
+					//form.settingDropdown.SelectedItem = form.attrData.GroupLink;
+					//form.settingDropdown.SelectedValue = form.attrData.GroupLink;
 
 					form.ShowDialog();
 
@@ -119,6 +138,8 @@ namespace ItemPacker2013
 
 						settingDefinitions.Items[editItemIndex].Text = form.attrName;
 						settingDefinitions.Items[editItemIndex].SubItems[1].Text = form.attrData.TypeString;
+						settingDefinitions.Items[editItemIndex].SubItems[2].Text = (form.attrData.GroupLink == -1) ? "-" : settingsGroupDefinitions.Items[form.attrData.GroupLink].ToString();
+						settingDefinitions.Items[editItemIndex].SubItems[3].Text = form.attrData.DefaultValue;
 					}
 				}
 			}
@@ -138,6 +159,8 @@ namespace ItemPacker2013
 				settingDefinitions.Items.RemoveAt(settingDefinitions.SelectedItems[0].Index);
 			}
 		}
+
+		#endregion
 
 		private void groupAddB_Click(object sender, EventArgs e)
 		{

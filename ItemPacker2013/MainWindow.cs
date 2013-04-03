@@ -33,6 +33,13 @@ namespace ItemPacker2013
 			toolViewDetail.Enabled = (itemListView.View != View.Details) & toolSave.Enabled;
 		}
 
+		public void closeCurrentProject()
+		{
+			CurrentProject = null;
+			itemListView.Items.Clear();
+			ensureButtonsVisible();
+		}
+
 		private void toolPackage_Click(object sender, EventArgs e)
 		{
 			if (CurrentProject != null)
@@ -80,8 +87,7 @@ namespace ItemPacker2013
 				}
 			}
 
-			CurrentProject = null;
-			ensureButtonsVisible();
+			closeCurrentProject();
 
 			openFileDialog1.Title = "Open Item package...";
 			openFileDialog1.DefaultExt = "*.gear.itm";
@@ -111,6 +117,14 @@ namespace ItemPacker2013
 			}
 
 			ensureButtonsVisible();
+			if (CurrentProject.gridView == "1")
+			{
+				toolViewDetail_Click(sender, e);
+			}
+			else
+			{
+				toolViewIcons_Click(sender, e);
+			}
 		}
 
 		private void toolOptions_Click(object sender, EventArgs e)
@@ -161,7 +175,10 @@ namespace ItemPacker2013
 
 		private void toolEditItem_Click(object sender, EventArgs e)
 		{
-			editItem(true, itemListView.SelectedItems[0].Index);
+			if (itemListView.SelectedItems.Count > 0)
+			{
+				editItem(true, itemListView.SelectedItems[0].Index);
+			}
 		}
 
 		private void toolAddItem_Click(object sender, EventArgs e)
@@ -320,43 +337,55 @@ namespace ItemPacker2013
 		private void toolViewIcons_Click(object sender, EventArgs e)
 		{
 			itemListView.View = View.LargeIcon;
+			CurrentProject.gridView = "0";
 			ensureButtonsVisible();
 		}
 
 		private void toolViewDetail_Click(object sender, EventArgs e)
 		{
 			itemListView.View = View.Details;
+			CurrentProject.gridView = "1";
 			ensureButtonsVisible();
 		}
 
 		private void toolExport_Click(object sender, EventArgs e)
 		{
-			StreamWriter f = new StreamWriter(Path.GetDirectoryName(CurrentProject.filename) + @"\items.gml", false);
-
-			foreach (KeyValuePair<int, ItemExtendable> item in CurrentProject.itemCollection)
+			saveFileDialog1.InitialDirectory = Path.GetDirectoryName(CurrentProject.filename);
+			if (saveFileDialog1.FileName == "")
 			{
-				int row = 0;
-				string line = "";
-				foreach (KeyValuePair<string, DefinitionData> definition in CurrentProject.attributeDefinitions)
-				{
-					switch (definition.Value.Type)
-					{
-						case ItemDefinitionType.Bool:
-							line = item.Value.getValue(definition.Key) == "1" ? "true" : "false";
-							break;
-						case ItemDefinitionType.Int:
-							line = int.Parse(item.Value.getValue(definition.Key)).ToString();
-							break;
-						default:
-							line = "\"" + item.Value.getValue(definition.Key) + "\"";
-							break;
-					}
-
-					f.WriteLine(CurrentProject.GMXglobalItemsName + "[" + item.Key.ToString() + "," + (row++) + "] = " + line + ";");
-				}
+				saveFileDialog1.FileName = "scItemDefinition.gml";
 			}
 
-			f.Close();
+			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+
+				StreamWriter f = new StreamWriter(Path.GetDirectoryName(CurrentProject.filename) + @"\items.gml", false);
+
+				foreach (KeyValuePair<int, ItemExtendable> item in CurrentProject.itemCollection)
+				{
+					int row = 0;
+					string line = "";
+					foreach (KeyValuePair<string, DefinitionData> definition in CurrentProject.attributeDefinitions)
+					{
+						switch (definition.Value.Type)
+						{
+							case ItemDefinitionType.Bool:
+								line = item.Value.getValue(definition.Key) == "1" ? "true" : "false";
+								break;
+							case ItemDefinitionType.Int:
+								line = int.Parse(item.Value.getValue(definition.Key)).ToString();
+								break;
+							default:
+								line = "\"" + item.Value.getValue(definition.Key) + "\"";
+								break;
+						}
+
+						f.WriteLine(CurrentProject.GMXglobalItemsName + "[" + item.Key.ToString() + "," + (row++) + "] = " + line + ";");
+					}
+				}
+
+				f.Close();
+			}
 		}
 	}
 }

@@ -46,7 +46,10 @@
 			this.toolViewIcons = new System.Windows.Forms.ToolStripButton();
 			this.toolViewDetail = new System.Windows.Forms.ToolStripButton();
 			this.toolExport = new System.Windows.Forms.ToolStripButton();
+			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStrip1.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStrip1
@@ -101,6 +104,8 @@
 			// 
 			// statusStrip1
 			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 456);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(790, 22);
@@ -153,7 +158,7 @@
 			this.toolOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolOptions.Name = "toolOptions";
 			this.toolOptions.Size = new System.Drawing.Size(36, 36);
-			this.toolOptions.Text = "Global Settings";
+			this.toolOptions.Text = "Global Settings...";
 			this.toolOptions.Click += new System.EventHandler(this.toolOptions_Click);
 			// 
 			// toolAddItem
@@ -163,7 +168,7 @@
 			this.toolAddItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolAddItem.Name = "toolAddItem";
 			this.toolAddItem.Size = new System.Drawing.Size(36, 36);
-			this.toolAddItem.Text = "Add Item";
+			this.toolAddItem.Text = "Add Item...";
 			this.toolAddItem.Click += new System.EventHandler(this.toolAddItem_Click);
 			// 
 			// toolEditItem
@@ -173,7 +178,7 @@
 			this.toolEditItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolEditItem.Name = "toolEditItem";
 			this.toolEditItem.Size = new System.Drawing.Size(36, 36);
-			this.toolEditItem.Text = "toolEditItem";
+			this.toolEditItem.Text = "Edit Item...";
 			this.toolEditItem.Click += new System.EventHandler(this.toolEditItem_Click);
 			// 
 			// toolViewIcons
@@ -183,7 +188,7 @@
 			this.toolViewIcons.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolViewIcons.Name = "toolViewIcons";
 			this.toolViewIcons.Size = new System.Drawing.Size(36, 36);
-			this.toolViewIcons.Text = "toolStripButton1";
+			this.toolViewIcons.Text = "Icon View";
 			this.toolViewIcons.Click += new System.EventHandler(this.toolViewIcons_Click);
 			// 
 			// toolViewDetail
@@ -193,7 +198,7 @@
 			this.toolViewDetail.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolViewDetail.Name = "toolViewDetail";
 			this.toolViewDetail.Size = new System.Drawing.Size(36, 36);
-			this.toolViewDetail.Text = "toolStripButton2";
+			this.toolViewDetail.Text = "Detail View";
 			this.toolViewDetail.Click += new System.EventHandler(this.toolViewDetail_Click);
 			// 
 			// toolExport
@@ -203,8 +208,20 @@
 			this.toolExport.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolExport.Name = "toolExport";
 			this.toolExport.Size = new System.Drawing.Size(36, 36);
-			this.toolExport.Text = "toolStripButton1";
+			this.toolExport.Text = "Export to GML";
 			this.toolExport.Click += new System.EventHandler(this.toolExport_Click);
+			// 
+			// saveFileDialog1
+			// 
+			this.saveFileDialog1.CreatePrompt = true;
+			this.saveFileDialog1.DefaultExt = "*.gml";
+			this.saveFileDialog1.Filter = "GML files|*gml";
+			// 
+			// toolStripStatusLabel1
+			// 
+			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(12, 17);
+			this.toolStripStatusLabel1.Text = "-";
 			// 
 			// MainForm
 			// 
@@ -220,6 +237,8 @@
 			this.Text = "Extendible Item Editor (C) by Gear-Studio 2013";
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -244,6 +263,8 @@
 		private System.Windows.Forms.ToolStripButton toolEditItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 		private System.Windows.Forms.ToolStripButton toolExport;
+		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 	}
 }
 
