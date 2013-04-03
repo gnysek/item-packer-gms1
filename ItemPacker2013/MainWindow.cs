@@ -136,26 +136,32 @@ namespace ItemPacker2013
 				form.settingGMXsource.Text = CurrentProject.GMXsource;
 				form.settingGMXglobalItemsName.Text = CurrentProject.GMXglobalItemsName;
 
+				form.renderTempGroupList(CurrentProject.groupDefinitions); //need to be done first
 				form.renderAttributeViewList(CurrentProject.attributeDefinitions);
-				form.renderTempGroupList(CurrentProject.groupDefinitions);
 				form.ShowDialog();
 
 				if (form.DialogResult == DialogResult.OK)
 				{
-					CurrentProject.attributeDefinitions.Clear();
 					ItemDefinitionType type;
 
+					// attribute definitions
+					CurrentProject.attributeDefinitions.Clear();
 					foreach (ListViewItem item in form.settingDefinitions.Items)
 					{
 						if (!Enum.TryParse(item.SubItems[1].Text, true, out type))
 						{
 							type = ItemDefinitionType.String;
 						}
-						CurrentProject.attributeDefinitions.Add(item.SubItems[0].Text, new DefinitionData() { Type = type });
+						CurrentProject.attributeDefinitions.Add(item.SubItems[0].Text, new DefinitionData()
+						{
+							Type = type,
+							DefaultValue = item.SubItems[3].Text,
+							GroupLink = form.settingsGroupDefinitions.FindStringExact(item.SubItems[2].Text)
+						});
 					}
 
+					// group definitions
 					CurrentProject.groupDefinitions.Clear();
-
 					foreach (KeyValuePair<string, List<string>> entry in form.tempGroups)
 					{
 						CurrentProject.groupDefinitions.Add(entry.Key, entry.Value);

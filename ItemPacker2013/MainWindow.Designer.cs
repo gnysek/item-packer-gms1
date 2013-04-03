@@ -48,6 +48,7 @@
 			this.toolExport = new System.Windows.Forms.ToolStripButton();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -63,6 +64,7 @@
             this.toolStripSeparator1,
             this.toolOptions,
             this.toolStripSeparator2,
+            this.toolStripSeparator5,
             this.toolAddItem,
             this.toolEditItem,
             this.toolStripSeparator3,
@@ -223,6 +225,11 @@
 			this.toolStripStatusLabel1.Size = new System.Drawing.Size(12, 17);
 			this.toolStripStatusLabel1.Text = "-";
 			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -265,6 +272,7 @@
 		private System.Windows.Forms.ToolStripButton toolExport;
 		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 	}
 }
 

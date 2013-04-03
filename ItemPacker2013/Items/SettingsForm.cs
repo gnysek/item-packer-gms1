@@ -64,7 +64,7 @@ namespace ItemPacker2013
 		{
 			ListViewItem item = settingDefinitions.Items.Add(entry.Key);
 			item.SubItems.Add(entry.Value.Type.ToString());
-			item.SubItems.Add((entry.Value.GroupLink == -1) ? "-" : entry.Value.GroupLink.ToString());
+			item.SubItems.Add((entry.Value.GroupLink == -1) ? "-" : settingsGroupDefinitions.Items[entry.Value.GroupLink].ToString());
 			item.SubItems.Add(entry.Value.DefaultValue);
 			return true;
 		}
