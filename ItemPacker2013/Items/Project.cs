@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Windows.Forms;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace ItemPacker2013.Items
 {
@@ -12,8 +14,7 @@ namespace ItemPacker2013.Items
 		Bool,
 		Int,
 		String,
-		Sprite,
-		//Dropdown,
+		Sprite
 	}
 
 	public class DefinitionData
@@ -37,15 +38,17 @@ namespace ItemPacker2013.Items
 
 	public class Project
 	{
+		public string filename = "";
+		public string GMXsource = "";
+		public string GMXglobalItemsName = "global.item";
+		public string gridView = "1"; 
 		public Dictionary<string, List<string>> groupDefinitions = new Dictionary<string, List<string>>();
 		public Dictionary<string, DefinitionData> attributeDefinitions = new Dictionary<string, DefinitionData>();
 		public Dictionary<int, ItemExtendable> itemCollection = new Dictionary<int, ItemExtendable>();
-		public string filename = "";
-		public string GMXsource = "";
 		public List<string> GMXspritePattern = new List<string>() { "sprInv*", "sprEquip*" };
-		public string GMXglobalItemsName = "global.item";
 		public List<string> ItemGroups = new List<string>() { "Default" };
-		public string gridView = "1";
+		public List<string> GMXsprites = new List<string>();
+		public List<string> GMXspritesFiltered = new List<string>();
 
 		public const string C_GMXSource = "gmxSource";
 		public const string C_GMXglobalItemsName = "globalItemsName";
@@ -55,6 +58,36 @@ namespace ItemPacker2013.Items
 		{
 			attributeDefinitions.Add("Name", new DefinitionData() { Type = ItemDefinitionType.String });
 			attributeDefinitions.Add("Price", new DefinitionData() { Type = ItemDefinitionType.String });
+		}
+
+		public bool preloadGMXsprites()
+		{
+			string dir = Path.GetDirectoryName(this.GMXsource);
+
+			GMXsprites.Clear();
+			foreach (string file in Directory.GetFiles(dir + @"\sprites", "*.sprite.gmx"))
+			{
+				GMXsprites.Add(Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file)));
+			}
+
+			return true;
+		}
+
+		public bool filterGMXsprites()
+		{
+			GMXspritesFiltered.Clear();
+			foreach (string sprite in GMXsprites)
+			{
+				foreach (string pattern in GMXspritePattern)
+				{
+					Regex mask = new Regex(pattern.Replace("*", ".*"));
+					if (mask.IsMatch(sprite))
+					{
+						GMXspritesFiltered.Add(sprite);
+					}
+				}
+			}
+			return true;
 		}
 
 		public bool loadXml()

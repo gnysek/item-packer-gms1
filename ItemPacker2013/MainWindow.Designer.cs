@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -49,6 +50,7 @@
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.toolStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -98,9 +100,11 @@
 			this.itemListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.itemListView.FullRowSelect = true;
 			this.itemListView.GridLines = true;
+			this.itemListView.LargeImageList = this.imageList1;
 			this.itemListView.Location = new System.Drawing.Point(0, 39);
 			this.itemListView.Name = "itemListView";
 			this.itemListView.Size = new System.Drawing.Size(790, 417);
+			this.itemListView.SmallImageList = this.imageList1;
 			this.itemListView.TabIndex = 1;
 			this.itemListView.UseCompatibleStateImageBehavior = false;
 			// 
@@ -230,6 +234,12 @@
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
 			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
 			// 
+			// imageList1
+			// 
+			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageList1.Images.SetKeyName(0, "error.png");
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -273,6 +283,7 @@
 		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+		private System.Windows.Forms.ImageList imageList1;
 	}
 }
 

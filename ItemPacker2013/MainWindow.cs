@@ -13,7 +13,7 @@ namespace ItemPacker2013
 {
 	public partial class MainForm : Form
 	{
-		public Project CurrentProject = null;
+		public static Project CurrentProject = null;
 
 		public MainForm()
 		{
@@ -37,6 +37,8 @@ namespace ItemPacker2013
 		{
 			CurrentProject = null;
 			itemListView.Items.Clear();
+			itemListView.Columns.Clear();
+			itemListView.Groups.Clear();
 			ensureButtonsVisible();
 		}
 
@@ -67,6 +69,7 @@ namespace ItemPacker2013
 					{
 						CurrentProject = new Project();
 						CurrentProject.GMXsource = settings.settingGMXsource.Text;
+						CurrentProject.preloadGMXsprites();
 						//CurrentProject.GMXspritePattern = settings.settingGMXspritePattern.Text.Split('|');
 						CurrentProject.filename = Path.GetDirectoryName(CurrentProject.GMXsource) + @"\items.gear.itm";
 						CurrentProject.saveXml();
@@ -98,19 +101,24 @@ namespace ItemPacker2013
 				CurrentProject = new Project();
 				CurrentProject.filename = openFileDialog1.FileName;
 				CurrentProject.loadXml();
+				CurrentProject.preloadGMXsprites();
+				CurrentProject.filterGMXsprites();
 
 				//render items
 				renderItemList();
 			}
 
 			ensureButtonsVisible();
-			if (CurrentProject.gridView == "1")
+			if (CurrentProject != null)
 			{
-				toolViewDetail_Click(sender, e);
-			}
-			else
-			{
-				toolViewIcons_Click(sender, e);
+				if (CurrentProject.gridView == "1")
+				{
+					toolViewDetail_Click(sender, e);
+				}
+				else
+				{
+					toolViewIcons_Click(sender, e);
+				}
 			}
 		}
 
@@ -134,12 +142,14 @@ namespace ItemPacker2013
 			foreach (KeyValuePair<int, ItemExtendable> entry in CurrentProject.itemCollection)
 			{
 				ListViewItem item = itemListView.Items.Add(entry.Key.ToString());
+				item.ImageIndex = 0;
 				foreach (KeyValuePair<string, DefinitionData> data in CurrentProject.attributeDefinitions)
 				{
 					item.SubItems.Add(entry.Value.getValue(data.Key));
 				}
 			}
 
+			// bring back selection
 			if (selection > 1)
 			{
 				itemListView.Items[selection].Selected = true;
@@ -159,11 +169,16 @@ namespace ItemPacker2013
 				form.renderAttributeViewList(CurrentProject.attributeDefinitions);
 				form.ShowDialog();
 
+				// reorganize everything
 				if (form.DialogResult == DialogResult.OK)
 				{
 					ItemDefinitionType type;
 
-					// attribute definitions
+					// keep attribute names to remove names
+					List<string> toRemove = CurrentProject.attributeDefinitions.Keys.ToList();
+					List<string> toAdd = new List<string>();
+
+					// update attribute definitions
 					CurrentProject.attributeDefinitions.Clear();
 					foreach (ListViewItem item in form.settingDefinitions.Items)
 					{
@@ -171,12 +186,29 @@ namespace ItemPacker2013
 						{
 							type = ItemDefinitionType.String;
 						}
+
 						CurrentProject.attributeDefinitions.Add(item.SubItems[0].Text, new DefinitionData()
 						{
 							Type = type,
 							DefaultValue = item.SubItems[3].Text,
 							GroupLink = form.settingsGroupDefinitions.FindStringExact(item.SubItems[2].Text)
 						});
+
+						if (toRemove.IndexOf(item.SubItems[0].Text) > -1)
+						{
+							toAdd.Add(item.SubItems[0].Text);
+						}
+
+						toRemove.Remove(item.SubItems[0].Text);
+					}
+
+					// remove removed keys from items
+					if (toRemove.Count > 0)
+					{
+						foreach (int itemID in CurrentProject.itemCollection.Keys)
+						{
+							CurrentProject.itemCollection[itemID].removeKeys(toRemove);
+						}
 					}
 
 					// group definitions
@@ -187,10 +219,6 @@ namespace ItemPacker2013
 					}
 
 					renderItemList();
-
-					//foreach(string item in form.settingsGroupDefinitions.Items) {
-					//    CurrentProject.groupDefinitions.Add(item, new List<string>());
-					//}
 				}
 			}
 		}
@@ -284,7 +312,6 @@ namespace ItemPacker2013
 							}
 							else
 							{
-
 								TextBox t = new TextBox();
 								t.Top = counter;
 								t.Left = 20;
@@ -303,6 +330,10 @@ namespace ItemPacker2013
 							cb.Left = 20;
 							cb.DropDownStyle = ComboBoxStyle.DropDownList;
 							cb.Tag = definition.Key;
+							foreach (string sprite in CurrentProject.GMXspritesFiltered)
+							{
+								cb.Items.Add(sprite);
+							}
 							if (edit)
 							{
 								cb.SelectedIndex = cb.FindStringExact(CurrentProject.itemCollection[itemID].getValue(definition.Key));
@@ -421,7 +452,6 @@ namespace ItemPacker2013
 
 			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-
 				StreamWriter f = new StreamWriter(Path.GetDirectoryName(CurrentProject.filename) + @"\items.gml", false);
 
 				foreach (KeyValuePair<int, ItemExtendable> item in CurrentProject.itemCollection)
@@ -437,6 +467,9 @@ namespace ItemPacker2013
 								break;
 							case ItemDefinitionType.Int:
 								line = int.Parse(item.Value.getValue(definition.Key)).ToString();
+								break;
+							case ItemDefinitionType.Sprite:
+								line = item.Value.getValue(definition.Key);
 								break;
 							default:
 								line = "\"" + item.Value.getValue(definition.Key) + "\"";
