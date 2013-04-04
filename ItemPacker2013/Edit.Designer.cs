@@ -65,7 +65,7 @@
 			this.itemID.Name = "itemID";
 			this.itemID.Size = new System.Drawing.Size(75, 20);
 			this.itemID.TabIndex = 2;
-			this.itemID.Text = "0";
+			this.itemID.Text = "-";
 			// 
 			// Edit
 			// 
@@ -81,6 +81,7 @@
 			this.Padding = new System.Windows.Forms.Padding(5, 2, 5, 5);
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Modify";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Edit_FormClosing);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -90,7 +91,7 @@
 
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.TextBox itemID;
+		public System.Windows.Forms.TextBox itemID;
 
 	}
 }

@@ -27,7 +27,7 @@ namespace ItemPacker2013
 			toolOptions.Enabled = toolSave.Enabled;
 			itemListView.Enabled = toolSave.Enabled;
 			toolAddItem.Enabled = toolSave.Enabled;
-			toolEditItem.Enabled = (itemListView.Items.Count > 0) & toolSave.Enabled;
+			toolEditItem.Enabled = (itemListView.Items.Count > 0) & toolSave.Enabled & (itemListView.SelectedItems.Count > 0);
 			toolExport.Enabled = toolSave.Enabled;
 			toolViewIcons.Enabled = (itemListView.View != View.LargeIcon) & toolSave.Enabled;
 			toolViewDetail.Enabled = (itemListView.View != View.Details) & toolSave.Enabled;
@@ -125,6 +125,7 @@ namespace ItemPacker2013
 		private void renderItemList()
 		{
 			int selection = -1;
+			int count = itemListView.Items.Count;
 			if (itemListView.SelectedItems.Count > 0)
 			{
 				selection = itemListView.SelectedItems[0].Index;
@@ -150,9 +151,13 @@ namespace ItemPacker2013
 			}
 
 			// bring back selection
-			if (selection > 1)
+			if (selection > -1 && itemListView.Items.Count == count)
 			{
 				itemListView.Items[selection].Selected = true;
+			}
+			else if (itemListView.Items.Count > 0)
+			{
+				itemListView.Items[itemListView.Items.Count - 1].Selected = true;
 			}
 		}
 
@@ -257,6 +262,14 @@ namespace ItemPacker2013
 				int counter = 10;
 				List<Control> controlList = new List<Control>();
 
+				if (edit)
+				{
+					form.itemID.Text = itemID.ToString();
+					form.EditID = itemID;
+				}
+
+				#region render_controls
+				// render controls
 				foreach (KeyValuePair<string, DefinitionData> definition in CurrentProject.attributeDefinitions)
 				{
 					Label l = new Label();
@@ -345,46 +358,32 @@ namespace ItemPacker2013
 
 					counter += 25;
 				}
+				#endregion
 
 				form.ShowDialog();
 
 				if (form.DialogResult == DialogResult.OK)
 				{
 					ItemExtendable itemData = new ItemExtendable();
-					if (edit)
-					{
-						itemData.ID = itemID;
-					}
-					else
-					{
-						itemData.ID = CurrentProject.itemCollection.Count;
-					}
+					//if (edit)
+					//{
+					//    itemData.ID = itemID;
+					//}
+					//else
+					//{
+					//    itemData.ID = CurrentProject.itemCollection.Count;
+					//}
 
-					ListViewItem newItem;
+					// since it was already try-parsed in Edit form, just parse here
+					itemData.ID = int.Parse(form.itemID.Text);
 
-					if (edit)
-					{
-						newItem = itemListView.Items[selectedID];
-						if (newItem != null)
-						{
-							//newItem.SubItems[0].Text = selectedID.ToString();
-							newItem.SubItems.Clear();
-							newItem.Text = selectedID.ToString();
-						}
-					}
-					else
-					{
-						newItem = itemListView.Items.Add(itemData.ID.ToString());
-					}
-
+					// fill data for (non-)existing item
 					foreach (Control control in controlList)
 					{
-						//MessageBox.Show(control.Tag.ToString());
 						switch (CurrentProject.attributeDefinitions[control.Tag.ToString()].Type)
 						{
 							case ItemDefinitionType.Bool:
 								itemData.setValue(control.Tag.ToString(), ((CheckBox)control).Checked);
-								newItem.SubItems.Add(((CheckBox)control).Checked ? "Y" : "-");
 								break;
 							case ItemDefinitionType.Int:
 								int value = 0;
@@ -397,12 +396,10 @@ namespace ItemPacker2013
 									int.TryParse(control.Text, out value);
 								}
 								itemData.setValue(control.Tag.ToString(), value);
-								newItem.SubItems.Add(value.ToString());
 								break;
 							case ItemDefinitionType.Sprite:
 							case ItemDefinitionType.String:
 								itemData.setValue(control.Tag.ToString(), control.Text);
-								newItem.SubItems.Add(control.Text);
 								break;
 						}
 					}
@@ -425,6 +422,7 @@ namespace ItemPacker2013
 					}
 				}
 			}
+			renderItemList();
 			ensureButtonsVisible();
 		}
 
@@ -482,6 +480,16 @@ namespace ItemPacker2013
 
 				f.Close();
 			}
+		}
+
+		private void itemListView_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ensureButtonsVisible();
+		}
+
+		private void itemListView_MouseClick(object sender, MouseEventArgs e)
+		{
+			ensureButtonsVisible();
 		}
 	}
 }
