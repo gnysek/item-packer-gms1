@@ -74,7 +74,14 @@ namespace ItemPacker2013.Items
 			// default value
 			if (keyType == ItemDefinitionType.Sprite)
 			{
-				return "0";
+				//if no sprite set yet, then set as first one on list :)
+				string defVal = MainForm.CurrentProject.attributeDefinitions[key].DefaultValue;
+				if (defVal.Length > 0 && MainForm.CurrentProject.GMXspritesFiltered.Contains(defVal))
+				{
+					return defVal;
+				}
+
+				return MainForm.CurrentProject.GMXspritesFiltered[0];
 			}
 			else
 			{

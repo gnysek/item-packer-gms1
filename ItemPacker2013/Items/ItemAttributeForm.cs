@@ -20,6 +20,14 @@ namespace ItemPacker2013.Items
 			InitializeComponent();
 		}
 
+		private void checkIsSprite()
+		{
+			bool isSprite = (settingType.Items[settingType.SelectedIndex].ToString() == ItemDefinitionType.Sprite.ToString());
+			settingDefault.Enabled = settingDropdown.Enabled = !isSprite;
+			settingSpriteDropdown.Visible = isSprite;
+			settingDefault.Visible = !isSprite;
+		}
+
 		private void ItemAttributeForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (this.DialogResult == DialogResult.OK)
@@ -34,12 +42,17 @@ namespace ItemPacker2013.Items
 				attrName = settingName.Text;
 				attrData.TypeString = settingType.Text;
 				attrData.DefaultValue = settingDefault.Text;
+				if (settingType.Text == ItemDefinitionType.Sprite.ToString())
+				{
+					attrData.DefaultValue = settingSpriteDropdown.Text;
+				}
 				attrData.GroupLink = settingDropdown.SelectedIndex - 1;
 			}
 		}
 
 		private void ItemAttributeForm_Load(object sender, EventArgs e)
 		{
+			// add value types
 			foreach (ItemDefinitionType definition in Enum.GetValues(typeof(ItemDefinitionType)))
 			{
 				settingType.Items.Add(definition.ToString());
@@ -49,6 +62,24 @@ namespace ItemPacker2013.Items
 				}
 			}
 
+			// add sprites
+			foreach (string sprite in MainForm.CurrentProject.GMXspritesFiltered)
+			{
+				settingSpriteDropdown.Items.Add(sprite);
+			}
+
+
+			settingSpriteDropdown.SelectedIndex = 0;
+			if (attrData.Type == ItemDefinitionType.Sprite)
+			{
+				int sel = settingSpriteDropdown.FindStringExact( attrData.DefaultValue );
+				if (sel > -1)
+				{
+					settingSpriteDropdown.SelectedIndex = sel;
+				}
+			}
+
+			// set group link
 			if (attrData.GroupLink > -1)
 			{
 				settingDropdown.SelectedIndex = attrData.GroupLink;
@@ -60,6 +91,13 @@ namespace ItemPacker2013.Items
 
 			settingName.Text = attrName;
 			settingDefault.Text = attrData.DefaultValue;
+
+			checkIsSprite();
+		}
+
+		private void settingType_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			checkIsSprite();
 		}
 	}
 }
