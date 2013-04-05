@@ -21,24 +21,27 @@ namespace ItemPacker2013
 
 		private void Edit_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			int tmpID = -1;
-			int.TryParse(itemID.Text, out tmpID);
-
-			Regex match = new Regex("^[0-9]+$");
-
-			if (tmpID == -1 || !match.IsMatch(itemID.Text))
+			if (DialogResult == DialogResult.OK)
 			{
-				itemID.BackColor = Color.Red;
-				e.Cancel = true;
-				return;
-			}
+				int tmpID = -1;
+				int.TryParse(itemID.Text, out tmpID);
 
-			if (MainForm.CurrentProject.itemCollection.ContainsKey(tmpID) && EditID != tmpID)
-			{
-				itemID.BackColor = Color.Red;
-				e.Cancel = true;
-				MessageBox.Show("There is already item with that ID");
-				return;
+				Regex match = new Regex("^[0-9]+$");
+
+				if (tmpID == -1 || !match.IsMatch(itemID.Text))
+				{
+					itemID.BackColor = Color.Red;
+					e.Cancel = true;
+					return;
+				}
+
+				if (MainForm.CurrentProject.itemCollection.ContainsKey(tmpID) && EditID != tmpID)
+				{
+					itemID.BackColor = Color.Red;
+					e.Cancel = true;
+					MessageBox.Show("There is already item with that ID");
+					return;
+				}
 			}
 		}
 	}

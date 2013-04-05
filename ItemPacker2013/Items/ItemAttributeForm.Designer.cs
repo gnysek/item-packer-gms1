@@ -38,6 +38,7 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.settingDefault = new System.Windows.Forms.TextBox();
+			this.settingSpriteDropdown = new System.Windows.Forms.ComboBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -64,6 +65,7 @@
 			this.settingType.Name = "settingType";
 			this.settingType.Size = new System.Drawing.Size(100, 21);
 			this.settingType.TabIndex = 1;
+			this.settingType.SelectedIndexChanged += new System.EventHandler(this.settingType_SelectedIndexChanged);
 			// 
 			// settingDropdown
 			// 
@@ -136,11 +138,21 @@
 			this.settingDefault.Size = new System.Drawing.Size(200, 20);
 			this.settingDefault.TabIndex = 2;
 			// 
+			// settingSpriteDropdown
+			// 
+			this.settingSpriteDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.settingSpriteDropdown.Location = new System.Drawing.Point(12, 68);
+			this.settingSpriteDropdown.Name = "settingSpriteDropdown";
+			this.settingSpriteDropdown.Size = new System.Drawing.Size(146, 21);
+			this.settingSpriteDropdown.TabIndex = 9;
+			this.settingSpriteDropdown.Visible = false;
+			// 
 			// ItemAttributeForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(328, 130);
+			this.Controls.Add(this.settingSpriteDropdown);
 			this.Controls.Add(this.settingDefault);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
@@ -175,5 +187,6 @@
 		private System.Windows.Forms.Label label4;
 		public System.Windows.Forms.TextBox settingDefault;
 		public System.Windows.Forms.Button bOK;
+		public System.Windows.Forms.ComboBox settingSpriteDropdown;
 	}
 }
