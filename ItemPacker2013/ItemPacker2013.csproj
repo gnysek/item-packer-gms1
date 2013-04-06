@@ -55,6 +55,8 @@
     <Compile Include="Edit.Designer.cs">
       <DependentUpon>Edit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Items\DefinitionData.cs" />
+    <Compile Include="Items\DefinitionDataType.cs" />
     <Compile Include="Items\GroupForm.cs">
       <SubType>Form</SubType>
     </Compile>

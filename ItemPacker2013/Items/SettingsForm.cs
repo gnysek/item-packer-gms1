@@ -13,7 +13,7 @@ namespace ItemPacker2013
 {
 	public partial class SettingsForm : Form
 	{
-		public int editItemIndex = -1;
+		//public int editItemIndex = -1;
 		public int editGroupIndex = -1;
 		public Dictionary<string, List<string>> tempGroups = new Dictionary<string, List<string>>();
 
@@ -41,7 +41,7 @@ namespace ItemPacker2013
 			settingDefinitions.Items.Clear();
 			foreach (KeyValuePair<string, DefinitionData> definition in definitions)
 			{
-				addAttributeViewList(definition);
+				_addAttributeViewList(definition);
 			}
 			return true;
 		}
@@ -60,92 +60,22 @@ namespace ItemPacker2013
 
 		#region attributes list adding/addB/editB/deleteB
 
-		private bool addAttributeViewList(KeyValuePair<string, DefinitionData> entry)
-		{
-			ListViewItem item = settingDefinitions.Items.Add(entry.Key);
-			item.SubItems.Add(entry.Value.Type.ToString());
-			item.SubItems.Add((entry.Value.GroupLink == -1) ? "-" : settingsGroupDefinitions.Items[entry.Value.GroupLink].ToString());
-			item.SubItems.Add(entry.Value.DefaultValue);
-			return true;
-		}
-
-		private bool addAttributeViewList(string name, DefinitionData data)
-		{
-			return addAttributeViewList(new KeyValuePair<string, DefinitionData>(name, data));
-		}
-
-		private void renderAttributeDropdownGroupList(ItemAttributeForm form)
-		{
-			form.settingDropdown.Items.Clear();
-			form.settingDropdown.Items.Add("- Disabled -");
-			foreach (KeyValuePair<string, List<string>> element in tempGroups)
-			{
-				form.settingDropdown.Items.Add(element.Key);
-			}
-		}
-
+		// button ADD
 		private void attrAddB_Click(object sender, EventArgs e)
 		{
-			using (ItemAttributeForm form = new ItemAttributeForm())
-			{
-				renderAttributeDropdownGroupList(form);
-				form.ShowDialog();
-
-				if (form.DialogResult == DialogResult.OK)
-				{
-					if (settingDefinitions.FindItemWithText(form.attrName) != null)
-					{
-						MessageBox.Show("Duplicated Key: " + form.attrName);
-						return;
-					}
-
-					addAttributeViewList(form.attrName, form.attrData);
-				}
-			}
+			_attributeEdit(true);
 		}
 
+		// button EDIT
 		private void attrEditB_Click(object sender, EventArgs e)
 		{
 			if (settingDefinitions.SelectedItems.Count > 0)
 			{
-				editItemIndex = settingDefinitions.SelectedItems[0].Index;
-
-				using (ItemAttributeForm form = new ItemAttributeForm())
-				{
-					form.attrName = settingDefinitions.SelectedItems[0].Text;
-					form.attrData.TypeString = settingDefinitions.SelectedItems[0].SubItems[1].Text;
-					form.attrData.GroupLink = settingsGroupDefinitions.FindStringExact(settingDefinitions.SelectedItems[0].SubItems[2].Text) + 1;
-					form.attrData.DefaultValue = settingDefinitions.SelectedItems[0].SubItems[3].Text;
-					form.bOK.Text = "Update";
-					form.bOK.Image = new Bitmap(ItemPacker2013.Properties.Resources.pencil);
-					renderAttributeDropdownGroupList(form);
-					//form.settingDropdown.SelectedItem = form.attrData.GroupLink;
-					//form.settingDropdown.SelectedValue = form.attrData.GroupLink;
-
-					form.ShowDialog();
-
-					if (form.DialogResult == DialogResult.OK)
-					{
-						if (settingDefinitions.FindItemWithText(form.attrName) != null)
-						{
-							//if new Name isn't same as this item previous Name, that means above conflict is with another element
-							if (form.attrName != settingDefinitions.Items[editItemIndex].Text)
-							{
-								MessageBox.Show("Duplicated Key: " + form.attrName);
-								return;
-							}
-						}
-
-						settingDefinitions.Items[editItemIndex].Text = form.attrName;
-						settingDefinitions.Items[editItemIndex].SubItems[1].Text = form.attrData.TypeString;
-						settingDefinitions.Items[editItemIndex].SubItems[2].Text = (form.attrData.GroupLink == -1) ? "-" : settingsGroupDefinitions.Items[form.attrData.GroupLink].ToString();
-						settingDefinitions.Items[editItemIndex].SubItems[3].Text = form.attrData.DefaultValue;
-					}
-				}
+				_attributeEdit(true);
 			}
-			editItemIndex = -1;
 		}
 
+		// button DELETE
 		private void attrDeleteB_Click(object sender, EventArgs e)
 		{
 			if (settingDefinitions.SelectedItems.Count > 0)
@@ -157,6 +87,102 @@ namespace ItemPacker2013
 				}
 
 				settingDefinitions.Items.RemoveAt(settingDefinitions.SelectedItems[0].Index);
+			}
+		}
+
+		private void _addAttributeViewList(string name, DefinitionData data)
+		{
+			_addAttributeViewList(new KeyValuePair<string, DefinitionData>(name, data));
+		}
+
+		private void _addAttributeViewList(KeyValuePair<string, DefinitionData> entry)
+		{
+			ListViewItem item = settingDefinitions.Items.Add(entry.Key);
+			_updateAttributeViewList(item, entry);
+		}
+
+		private void _updateAttributeViewList(ListViewItem item, KeyValuePair<string, DefinitionData> entry)
+		{
+			_updateAttributeViewList(
+				item,
+				entry.Key,
+				entry.Value.DataType.ToString(),
+				(entry.Value.GroupLink == -1) ? "-" : settingsGroupDefinitions.Items[entry.Value.GroupLink].ToString(),
+				entry.Value.DefaultValue
+			);
+		}
+
+		private void _updateAttributeViewList(ListViewItem item, string name, string type, string dropdown, string defVal)
+		{
+			item.SubItems.Clear();
+			item.Text = name;
+			item.SubItems.Add(type);
+			item.SubItems.Add(dropdown);
+			item.SubItems.Add(defVal);
+		}
+
+		private void _attributeEdit(bool edit)
+		{
+			int editItemIndex = -1;
+			if (edit)
+			{
+				editItemIndex = settingDefinitions.SelectedItems[0].Index;
+			}
+
+			using (ItemAttributeForm form = new ItemAttributeForm())
+			{
+				if (edit)
+				{
+					form.attrName = settingDefinitions.SelectedItems[0].Text;
+					form.attrData.TypeString = settingDefinitions.SelectedItems[0].SubItems[1].Text;
+					form.attrData.GroupLink = settingsGroupDefinitions.FindStringExact(settingDefinitions.SelectedItems[0].SubItems[2].Text) + 1;
+					form.attrData.DefaultValue = settingDefinitions.SelectedItems[0].SubItems[3].Text;
+					form.bOK.Text = "Update";
+					form.bOK.Image = new Bitmap(ItemPacker2013.Properties.Resources.pencil);
+				}
+
+				renderAttributeDropdownGroupList(form);
+				form.ShowDialog();
+
+				if (form.DialogResult == DialogResult.OK)
+				{
+					if (settingDefinitions.FindItemWithText(form.attrName) != null)
+					{
+						if (edit)
+						{
+							//if new Name isn't same as this item previous Name, that means above conflict is with another element
+							if (form.attrName != settingDefinitions.Items[editItemIndex].Text)
+							{
+								MessageBox.Show("Duplicated Key: " + form.attrName);
+								return;
+							}
+						}
+						else
+						{
+							MessageBox.Show("Duplicated Key: " + form.attrName);
+							return;
+						}
+					}
+
+					if (edit)
+					{
+						_updateAttributeViewList(settingDefinitions.Items[editItemIndex], new KeyValuePair<string, DefinitionData>(form.attrName, form.attrData));
+					}
+					else
+					{
+						_addAttributeViewList(form.attrName, form.attrData);
+					}
+				}
+			}
+		}
+
+		private void renderAttributeDropdownGroupList(ItemAttributeForm form)
+		{
+			form.settingDropdown.Items.Clear();
+			form.settingDropdown.Items.Add("- Disabled -");
+			foreach (KeyValuePair<string, List<string>> element in tempGroups)
+			{
+				form.settingDropdown.Items.Add(element.Key);
 			}
 		}
 

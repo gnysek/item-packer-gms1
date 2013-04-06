@@ -39,6 +39,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.settingDefault = new System.Windows.Forms.TextBox();
 			this.settingSpriteDropdown = new System.Windows.Forms.ComboBox();
+			this.settingDropdownOptionDefault = new System.Windows.Forms.ComboBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -76,6 +77,7 @@
 			this.settingDropdown.Name = "settingDropdown";
 			this.settingDropdown.Size = new System.Drawing.Size(100, 21);
 			this.settingDropdown.TabIndex = 3;
+			this.settingDropdown.SelectedIndexChanged += new System.EventHandler(this.settingDropdown_SelectedIndexChanged);
 			// 
 			// butCancel
 			// 
@@ -147,11 +149,20 @@
 			this.settingSpriteDropdown.TabIndex = 9;
 			this.settingSpriteDropdown.Visible = false;
 			// 
+			// settingDropdownOptionDefault
+			// 
+			this.settingDropdownOptionDefault.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.settingDropdownOptionDefault.Location = new System.Drawing.Point(12, 68);
+			this.settingDropdownOptionDefault.Name = "settingDropdownOptionDefault";
+			this.settingDropdownOptionDefault.Size = new System.Drawing.Size(100, 21);
+			this.settingDropdownOptionDefault.TabIndex = 10;
+			// 
 			// ItemAttributeForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(328, 130);
+			this.Controls.Add(this.settingDropdownOptionDefault);
 			this.Controls.Add(this.settingSpriteDropdown);
 			this.Controls.Add(this.settingDefault);
 			this.Controls.Add(this.label4);
@@ -188,5 +199,6 @@
 		public System.Windows.Forms.TextBox settingDefault;
 		public System.Windows.Forms.Button bOK;
 		public System.Windows.Forms.ComboBox settingSpriteDropdown;
+		public System.Windows.Forms.ComboBox settingDropdownOptionDefault;
 	}
 }
