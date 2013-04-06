@@ -9,33 +9,6 @@ using System.Text.RegularExpressions;
 
 namespace ItemPacker2013.Items
 {
-	public enum ItemDefinitionType
-	{
-		Bool,
-		Int,
-		String,
-		Sprite
-	}
-
-	public class DefinitionData
-	{
-		public ItemDefinitionType Type = ItemDefinitionType.String;
-		public int GroupLink = -1;
-		public string DefaultValue = "";
-
-		public string TypeString
-		{
-			get { return Type.ToString(); }
-			set
-			{
-				if (!Enum.TryParse(value, true, out Type))
-				{
-					Type = ItemDefinitionType.String;
-				}
-			}
-		}
-	}
-
 	public class Project
 	{
 		public string filename = "";
@@ -56,8 +29,8 @@ namespace ItemPacker2013.Items
 
 		public Project()
 		{
-			attributeDefinitions.Add("Name", new DefinitionData() { Type = ItemDefinitionType.String });
-			attributeDefinitions.Add("Price", new DefinitionData() { Type = ItemDefinitionType.String });
+			attributeDefinitions.Add("Name", new DefinitionData() { DataType = DefinitionDataType.String });
+			attributeDefinitions.Add("Price", new DefinitionData() { DataType = DefinitionDataType.String });
 		}
 
 		public bool preloadGMXsprites()
@@ -118,13 +91,13 @@ namespace ItemPacker2013.Items
 			attributeDefinitions.Clear();
 			foreach (XmlNode node in settings.SelectNodes("attributeDefinitions/*"))
 			{
-				ItemDefinitionType type;
+				DefinitionDataType type;
 
 				if (Enum.TryParse(node.SelectSingleNode("type").InnerText, true, out type))
 				{
 					attributeDefinitions.Add(node.SelectSingleNode("name").InnerText, new DefinitionData()
 					{
-						Type = type,
+						DataType = type,
 						GroupLink = int.Parse(node.SelectSingleNode("group").InnerText),
 						DefaultValue = node.SelectSingleNode("default").InnerText
 					});
@@ -152,18 +125,18 @@ namespace ItemPacker2013.Items
 				ItemExtendable attr = new ItemExtendable() { ID = id };
 				foreach (XmlNode subnode in node.SelectNodes("attr/*"))
 				{
-					switch (attributeDefinitions[subnode.Name].Type)
+					switch (attributeDefinitions[subnode.Name].DataType)
 					{
-						case ItemDefinitionType.Bool:
+						case DefinitionDataType.Bool:
 							attr.setValue(subnode.Name, subnode.InnerText == "1" ? true : false);
 							break;
-						case ItemDefinitionType.Int:
+						case DefinitionDataType.Int:
 							int val = 0;
 							int.TryParse(subnode.InnerText, out val);
 							attr.setValue(subnode.Name, val);
 							break;
-						case ItemDefinitionType.Sprite:
-						case ItemDefinitionType.String:
+						case DefinitionDataType.Sprite:
+						case DefinitionDataType.String:
 							attr.setValue(subnode.Name, subnode.InnerText);
 							break;
 					}
@@ -211,7 +184,7 @@ namespace ItemPacker2013.Items
 			{
 				XmlElement _attr = doc.CreateElement("attribute");
 				_attr.AppendChild(_xme(doc, "name", pair.Key));
-				_attr.AppendChild(_xme(doc, "type", pair.Value.Type.ToString()));
+				_attr.AppendChild(_xme(doc, "type", pair.Value.DataType.ToString()));
 				_attr.AppendChild(_xme(doc, "group", pair.Value.GroupLink.ToString()));
 				_attr.AppendChild(_xme(doc, "default", pair.Value.DefaultValue));
 

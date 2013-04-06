@@ -104,13 +104,6 @@ namespace ItemPacker2013
 				CurrentProject.preloadGMXsprites();
 				CurrentProject.filterGMXsprites();
 
-				//render items
-				renderItemList();
-			}
-
-			ensureButtonsVisible();
-			if (CurrentProject != null)
-			{
 				if (CurrentProject.gridView == "1")
 				{
 					toolViewDetail_Click(sender, e);
@@ -119,7 +112,12 @@ namespace ItemPacker2013
 				{
 					toolViewIcons_Click(sender, e);
 				}
+
+				//render items
+				renderItemList();
 			}
+
+			ensureButtonsVisible();
 		}
 
 		private void renderItemList()
@@ -150,6 +148,15 @@ namespace ItemPacker2013
 				}
 			}
 
+			// auto column width
+			foreach (ColumnHeader col in itemListView.Columns)
+			{
+				int w1;
+				col.Width = -1;
+				w1 = col.Width;
+				col.Width = Math.Max(w1, 60);
+			}
+
 			// bring back selection
 			if (selection > -1 && itemListView.Items.Count == count)
 			{
@@ -177,7 +184,7 @@ namespace ItemPacker2013
 				// reorganize everything
 				if (form.DialogResult == DialogResult.OK)
 				{
-					ItemDefinitionType type;
+					DefinitionDataType type;
 
 					// keep attribute names to remove names
 					List<string> toRemove = CurrentProject.attributeDefinitions.Keys.ToList();
@@ -189,12 +196,12 @@ namespace ItemPacker2013
 					{
 						if (!Enum.TryParse(item.SubItems[1].Text, true, out type))
 						{
-							type = ItemDefinitionType.String;
+							type = DefinitionDataType.String;
 						}
 
 						CurrentProject.attributeDefinitions.Add(item.SubItems[0].Text, new DefinitionData()
 						{
-							Type = type,
+							DataType = type,
 							DefaultValue = item.SubItems[3].Text,
 							GroupLink = form.settingsGroupDefinitions.FindStringExact(item.SubItems[2].Text)
 						});
@@ -281,9 +288,9 @@ namespace ItemPacker2013
 
 					counter += 15;
 
-					switch (definition.Value.Type)
+					switch (definition.Value.DataType)
 					{
-						case ItemDefinitionType.Bool:
+						case DefinitionDataType.Bool:
 							CheckBox c = new CheckBox();
 							c.Top = counter;
 							c.Left = 20;
@@ -295,8 +302,8 @@ namespace ItemPacker2013
 							form.Controls.Add(c);
 							controlList.Add(c);
 							break;
-						case ItemDefinitionType.Int:
-						case ItemDefinitionType.String:
+						case DefinitionDataType.Int:
+						case DefinitionDataType.String:
 
 							if (definition.Value.GroupLink > -1)
 							{
@@ -337,7 +344,7 @@ namespace ItemPacker2013
 								controlList.Add(t);
 							}
 							break;
-						case ItemDefinitionType.Sprite:
+						case DefinitionDataType.Sprite:
 							ComboBox cb = new ComboBox();
 							cb.Top = counter;
 							cb.Left = 20;
@@ -380,12 +387,12 @@ namespace ItemPacker2013
 					// fill data for (non-)existing item
 					foreach (Control control in controlList)
 					{
-						switch (CurrentProject.attributeDefinitions[control.Tag.ToString()].Type)
+						switch (CurrentProject.attributeDefinitions[control.Tag.ToString()].DataType)
 						{
-							case ItemDefinitionType.Bool:
+							case DefinitionDataType.Bool:
 								itemData.setValue(control.Tag.ToString(), ((CheckBox)control).Checked);
 								break;
-							case ItemDefinitionType.Int:
+							case DefinitionDataType.Int:
 								int value = 0;
 								if (control is ComboBox)
 								{
@@ -397,8 +404,8 @@ namespace ItemPacker2013
 								}
 								itemData.setValue(control.Tag.ToString(), value);
 								break;
-							case ItemDefinitionType.Sprite:
-							case ItemDefinitionType.String:
+							case DefinitionDataType.Sprite:
+							case DefinitionDataType.String:
 								itemData.setValue(control.Tag.ToString(), control.Text);
 								break;
 						}
@@ -420,9 +427,12 @@ namespace ItemPacker2013
 					{
 						CurrentProject.itemCollection.Add(itemData.ID, itemData);
 					}
+
+					// render only if OK was pressed
+					renderItemList();
 				}
 			}
-			renderItemList();
+			
 			ensureButtonsVisible();
 		}
 
@@ -458,15 +468,15 @@ namespace ItemPacker2013
 					string line = "";
 					foreach (KeyValuePair<string, DefinitionData> definition in CurrentProject.attributeDefinitions)
 					{
-						switch (definition.Value.Type)
+						switch (definition.Value.DataType)
 						{
-							case ItemDefinitionType.Bool:
+							case DefinitionDataType.Bool:
 								line = item.Value.getValue(definition.Key) == "1" ? "true" : "false";
 								break;
-							case ItemDefinitionType.Int:
+							case DefinitionDataType.Int:
 								line = int.Parse(item.Value.getValue(definition.Key)).ToString();
 								break;
-							case ItemDefinitionType.Sprite:
+							case DefinitionDataType.Sprite:
 								line = item.Value.getValue(definition.Key);
 								break;
 							default:

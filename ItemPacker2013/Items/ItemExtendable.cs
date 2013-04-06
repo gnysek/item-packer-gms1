@@ -11,6 +11,18 @@ namespace ItemPacker2013.Items
 		public Dictionary<string, int> integers = new Dictionary<string, int>();
 		public Dictionary<string, string> strings = new Dictionary<string, string>();
 
+		//public int getDefaultValueForKey(string key)
+		//{
+		//    int result = 0;
+		//    int.TryParse(Database.attributeDefinitions[key].DefaultValue, out result);
+		//    return result;
+		//}
+
+		//public string getDefaultValueForKey(string key)
+		//{
+		//    return Database.attributeDefinitions[key].DefaultValue;
+		//}
+
 		public void removeKeys(List<string> keysToRemove)
 		{
 			foreach (string key in keysToRemove)
@@ -18,6 +30,11 @@ namespace ItemPacker2013.Items
 				integers.Remove(key);
 				strings.Remove(key);
 			}
+		}
+
+		public Project Database
+		{
+			get { return MainForm.CurrentProject; }
 		}
 
 		public void setValue(string key, string value)
@@ -49,21 +66,41 @@ namespace ItemPacker2013.Items
 			setValue(key, (value == true) ? 1 : 0);
 		}
 
+
+		// returns value
 		public string getValue(string key)
 		{
-			ItemDefinitionType keyType = MainForm.CurrentProject.attributeDefinitions[key].Type;
+			DefinitionDataType keyType = Database.attributeDefinitions[key].DataType;
 
 			switch (keyType)
 			{
-				case ItemDefinitionType.Bool:
-				case ItemDefinitionType.Int:
+				case DefinitionDataType.Bool:
+				case DefinitionDataType.Int:
+					//if (Database.attributeDefinitions[key].GroupLink > -1)
+					//{
+					//    if (integers.ContainsKey(key))
+					//    {
+					//        return Database.groupDefinitions.ElementAt(Database.attributeDefinitions[key].GroupLink).Value[integers[key]];
+					//    }
+					//}
+
 					if (integers.ContainsKey(key))
 					{
 						return integers[key].ToString();
 					}
 					break;
-				case ItemDefinitionType.Sprite:
-				case ItemDefinitionType.String:
+				case DefinitionDataType.Sprite:
+				case DefinitionDataType.String:
+					if (MainForm.CurrentProject.attributeDefinitions[key].GroupLink > -1)
+					{
+						if (strings.ContainsKey(key))
+						{
+							int value = 0;
+							int.TryParse(strings[key], out value);
+							return Database.groupDefinitions.ElementAt(Database.attributeDefinitions[key].GroupLink).Value[value];
+						}
+					}
+
 					if (strings.ContainsKey(key))
 					{
 						return strings[key];
@@ -72,20 +109,20 @@ namespace ItemPacker2013.Items
 			}
 
 			// default value
-			if (keyType == ItemDefinitionType.Sprite)
+			if (keyType == DefinitionDataType.Sprite)
 			{
 				//if no sprite set yet, then set as first one on list :)
-				string defVal = MainForm.CurrentProject.attributeDefinitions[key].DefaultValue;
-				if (defVal.Length > 0 && MainForm.CurrentProject.GMXspritesFiltered.Contains(defVal))
+				string defVal = Database.attributeDefinitions[key].DefaultValue;
+				if (defVal.Length > 0 && Database.GMXspritesFiltered.Contains(defVal))
 				{
 					return defVal;
 				}
 
-				return MainForm.CurrentProject.GMXspritesFiltered[0];
+				return Database.GMXspritesFiltered[0];
 			}
 			else
 			{
-				return MainForm.CurrentProject.attributeDefinitions[key].DefaultValue;
+				return Database.attributeDefinitions[key].DefaultValue;
 			}
 		}
 	}

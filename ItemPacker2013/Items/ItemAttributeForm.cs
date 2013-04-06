@@ -22,10 +22,39 @@ namespace ItemPacker2013.Items
 
 		private void checkIsSprite()
 		{
-			bool isSprite = (settingType.Items[settingType.SelectedIndex].ToString() == ItemDefinitionType.Sprite.ToString());
-			settingDefault.Enabled = settingDropdown.Enabled = !isSprite;
+			bool isSprite = (settingType.Items[settingType.SelectedIndex].ToString() == DefinitionDataType.Sprite.ToString());
+
+			int index = settingDropdown.SelectedIndex - 1;
+
+			if (index > -1 && !isSprite)
+			{
+				settingDropdownOptionDefault.Items.Clear();
+				foreach (string option in MainForm.CurrentProject.groupDefinitions.ElementAt(index).Value)
+				{
+					settingDropdownOptionDefault.Items.Add(option);
+				}
+
+				if (attrData.DefaultValue.Length > 0)
+				{
+					if (attrData.DataType == DefinitionDataType.String)
+					{
+						settingDropdownOptionDefault.SelectedIndex = Math.Max(0, settingDropdownOptionDefault.FindStringExact(attrData.DefaultValue));
+					}
+					else
+					{
+						int selected = 0;
+						int.TryParse(attrData.DefaultValue, out selected);
+						settingDropdownOptionDefault.SelectedIndex = Math.Max(0, selected);
+					}
+				}
+			}
+
+			// set visibility
+			// settingDefault.Enabled =
+			settingDropdown.Enabled = !isSprite;
 			settingSpriteDropdown.Visible = isSprite;
-			settingDefault.Visible = !isSprite;
+			settingDefault.Visible = !isSprite & index < 0;
+			settingDropdownOptionDefault.Visible = !isSprite & index > -1;
 		}
 
 		private void ItemAttributeForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -42,9 +71,14 @@ namespace ItemPacker2013.Items
 				attrName = settingName.Text;
 				attrData.TypeString = settingType.Text;
 				attrData.DefaultValue = settingDefault.Text;
-				if (settingType.Text == ItemDefinitionType.Sprite.ToString())
+				if (settingType.Text == DefinitionDataType.Sprite.ToString())
 				{
 					attrData.DefaultValue = settingSpriteDropdown.Text;
+				}
+
+				if (settingDropdownOptionDefault.Visible)
+				{
+					attrData.DefaultValue = settingDropdownOptionDefault.SelectedIndex.ToString();
 				}
 				attrData.GroupLink = settingDropdown.SelectedIndex - 1;
 			}
@@ -53,10 +87,10 @@ namespace ItemPacker2013.Items
 		private void ItemAttributeForm_Load(object sender, EventArgs e)
 		{
 			// add value types
-			foreach (ItemDefinitionType definition in Enum.GetValues(typeof(ItemDefinitionType)))
+			foreach (DefinitionDataType definition in Enum.GetValues(typeof(DefinitionDataType)))
 			{
 				settingType.Items.Add(definition.ToString());
-				if (definition.ToString() == attrData.Type.ToString())
+				if (definition.ToString() == attrData.DataType.ToString())
 				{
 					settingType.SelectedIndex = settingType.Items.Count - 1;
 				}
@@ -70,9 +104,9 @@ namespace ItemPacker2013.Items
 
 
 			settingSpriteDropdown.SelectedIndex = 0;
-			if (attrData.Type == ItemDefinitionType.Sprite)
+			if (attrData.DataType == DefinitionDataType.Sprite)
 			{
-				int sel = settingSpriteDropdown.FindStringExact( attrData.DefaultValue );
+				int sel = settingSpriteDropdown.FindStringExact(attrData.DefaultValue);
 				if (sel > -1)
 				{
 					settingSpriteDropdown.SelectedIndex = sel;
@@ -96,6 +130,11 @@ namespace ItemPacker2013.Items
 		}
 
 		private void settingType_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			checkIsSprite();
+		}
+
+		private void settingDropdown_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			checkIsSprite();
 		}

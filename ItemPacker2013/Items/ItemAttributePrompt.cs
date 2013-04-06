@@ -9,9 +9,9 @@ namespace ItemPacker2013.Items
 {
 	class ItemAttributePrompt
 	{
-		public static KeyValuePair<string, ItemDefinitionType> ShowDialog(string Caption, string AttrName, ItemDefinitionType AttrType)
+		public static KeyValuePair<string, DefinitionDataType> ShowDialog(string Caption, string AttrName, DefinitionDataType AttrType)
 		{
-			ItemDefinitionType type;
+			DefinitionDataType type;
 
 			Form prompt = new Form();
 			prompt.Width = 350;
@@ -36,7 +36,7 @@ namespace ItemPacker2013.Items
 			cancel.TextImageRelation = TextImageRelation.ImageBeforeText;
 			cancel.TextAlign = ContentAlignment.MiddleRight;
 
-			foreach (ItemDefinitionType definition in Enum.GetValues(typeof(ItemDefinitionType)))
+			foreach (DefinitionDataType definition in Enum.GetValues(typeof(DefinitionDataType)))
 			{
 				dropDown.Items.Add(definition.ToString());
 				if (AttrType == definition)
@@ -57,10 +57,10 @@ namespace ItemPacker2013.Items
 			
 			if (!Enum.TryParse(dropDown.Text, true, out type))
 			{
-				type = ItemDefinitionType.String;
+				type = DefinitionDataType.String;
 			}
 
-			return new KeyValuePair<string, ItemDefinitionType>(textBox.Text, type);
+			return new KeyValuePair<string, DefinitionDataType>(textBox.Text, type);
 		}
 	}
 }
