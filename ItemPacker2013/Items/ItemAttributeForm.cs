@@ -78,7 +78,18 @@ namespace ItemPacker2013.Items
 
 				if (settingDropdownOptionDefault.Visible)
 				{
-					attrData.DefaultValue = settingDropdownOptionDefault.SelectedIndex.ToString();
+					switch (attrData.DataType)
+					{
+						case DefinitionDataType.Bool:
+							attrData.DefaultValue = Math.Min(1, settingDropdownOptionDefault.SelectedIndex).ToString();
+							break;
+						case DefinitionDataType.Int:
+							attrData.DefaultValue = settingDropdownOptionDefault.SelectedIndex.ToString();
+							break;
+						default:
+							attrData.DefaultValue = settingDropdownOptionDefault.Text;
+							break;
+					}
 				}
 				attrData.GroupLink = settingDropdown.SelectedIndex - 1;
 			}
