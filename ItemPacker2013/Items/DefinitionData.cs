@@ -13,6 +13,11 @@ namespace ItemPacker2013.Items
 		private int _dataInt = 0;
 		private string _dataString = "";
 
+		public string GroupName
+		{
+			get { return (GroupLink < 0) ? "" : MainForm.CurrentProject.groupDefinitions.ElementAt(GroupLink).Key; }
+		}
+
 		public string TypeString
 		{
 			get { return DataType.ToString(); }

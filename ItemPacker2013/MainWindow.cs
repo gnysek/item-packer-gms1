@@ -136,6 +136,18 @@ namespace ItemPacker2013
 				itemListView.Columns.Add(entry.Key);
 			}
 
+			// render groups
+			itemListView.ShowGroups = false;
+			itemListView.Groups.Clear();
+			if (CurrentProject.GroupBy.Length > 0)
+			{
+				foreach (string option in CurrentProject.groupDefinitions[CurrentProject.GroupBy])
+				{
+					itemListView.Groups.Add(option, option);
+				}
+				itemListView.ShowGroups = true;
+			}
+
 			// render items
 			itemListView.Items.Clear();
 			foreach (KeyValuePair<int, ItemExtendable> entry in CurrentProject.itemCollection)
@@ -145,6 +157,10 @@ namespace ItemPacker2013
 				foreach (KeyValuePair<string, DefinitionData> data in CurrentProject.attributeDefinitions)
 				{
 					item.SubItems.Add(entry.Value.getValueLabel(data.Key));
+					if (data.Value.GroupName == CurrentProject.GroupBy)
+					{
+						item.Group = itemListView.Groups[entry.Value.getValueLabel(data.Key)];
+					}
 				}
 			}
 
@@ -228,6 +244,13 @@ namespace ItemPacker2013
 					foreach (KeyValuePair<string, List<string>> entry in form.tempGroups)
 					{
 						CurrentProject.groupDefinitions.Add(entry.Key, entry.Value);
+					}
+
+					// set group by
+					CurrentProject.GroupBy = "";
+					if (form.settingGroupBy.SelectedIndex > 0)
+					{
+						CurrentProject.GroupBy = form.settingGroupBy.Text;
 					}
 
 					renderItemList();
@@ -453,7 +476,7 @@ namespace ItemPacker2013
 		private void toolExport_Click(object sender, EventArgs e)
 		{
 			saveFileDialog1.InitialDirectory = Path.GetDirectoryName(CurrentProject.filename);
-			saveFileDialog1.Filter = "GML files|*gml";
+			saveFileDialog1.Filter = "GML files|*.gml";
 			saveFileDialog1.DefaultExt = "*.gml";
 			//if (saveFileDialog1.FileName == "")
 			//
@@ -470,7 +493,7 @@ namespace ItemPacker2013
 		private void toolExportCSV_Click(object sender, EventArgs e)
 		{
 			saveFileDialog1.InitialDirectory = Path.GetDirectoryName(CurrentProject.filename);
-			saveFileDialog1.Filter = "CSV files|*csv";
+			saveFileDialog1.Filter = "CSV files|*.csv";
 			saveFileDialog1.DefaultExt = "*.csv";
 			//if (saveFileDialog1.FileName == "")
 			//{

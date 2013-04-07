@@ -60,16 +60,16 @@ namespace ItemPacker2013.Items
 				{
 					case DefinitionDataType.Bool:
 					case DefinitionDataType.Int:
-						if (Database.attributeDefinitions[key].GroupLink > -1)
+						if (values.ContainsKey(key))
 						{
-							if (values.ContainsKey(key))
-							{
-								return Database.groupDefinitions.ElementAt(Database.attributeDefinitions[key].GroupLink).Value[int.Parse(values[key])];
-							}
+							return Database.groupDefinitions.ElementAt(Database.attributeDefinitions[key].GroupLink).Value[int.Parse(values[key])];
 						}
-						break;
+						else
+						{
+							return Database.attributeDefinitions[key].DefaultValue;
+						}
 				}
-				// for others value is actually label...
+				// for others value is actually proper label...
 			}
 
 			return getValue(key);
@@ -81,49 +81,28 @@ namespace ItemPacker2013.Items
 		{
 			DefinitionDataType keyType = Database.attributeDefinitions[key].DataType;
 
-			switch (keyType)
+			if (values.ContainsKey(key))
 			{
-				case DefinitionDataType.Bool:
-				case DefinitionDataType.Int:
-					if (values.ContainsKey(key))
-					{
-						return values[key];
-					}
-					break;
-				case DefinitionDataType.Sprite:
-				case DefinitionDataType.String:
-					/*if (MainForm.CurrentProject.attributeDefinitions[key].GroupLink > -1)
-					{
-						if (values.ContainsKey(key))
-						{
-							int value = 0;
-							int.TryParse(values[key], out value);
-							return Database.groupDefinitions.ElementAt(Database.attributeDefinitions[key].GroupLink).Value[value];
-						}
-					}*/
-					// it should always have real option name, not it's number
-					if (values.ContainsKey(key))
-					{
-						return values[key];
-					}
-					break;
-			}
-
-			// default value
-			if (keyType == DefinitionDataType.Sprite)
-			{
-				//if no sprite set yet, then set as first one on list :)
-				string defVal = Database.attributeDefinitions[key].DefaultValue;
-				if (defVal.Length > 0 && Database.GMXspritesFiltered.Contains(defVal))
-				{
-					return defVal;
-				}
-
-				return Database.GMXspritesFiltered[0];
+				return values[key];
 			}
 			else
 			{
-				return Database.attributeDefinitions[key].DefaultValue;
+				// default value
+				if (keyType == DefinitionDataType.Sprite)
+				{
+					//if no sprite set yet, then set as first one on list :)
+					string defVal = Database.attributeDefinitions[key].DefaultValue;
+					if (defVal.Length > 0 && Database.GMXspritesFiltered.Contains(defVal))
+					{
+						return defVal;
+					}
+
+					return Database.GMXspritesFiltered[0];
+				}
+				else
+				{
+					return Database.attributeDefinitions[key].DefaultValue;
+				}
 			}
 		}
 

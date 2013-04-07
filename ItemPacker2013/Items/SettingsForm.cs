@@ -50,11 +50,15 @@ namespace ItemPacker2013
 		{
 			settingsGroupDefinitions.Items.Clear();
 			tempGroups.Clear();
+			settingGroupBy.Items.Clear();
+			settingGroupBy.Items.Add("- None -");
 			foreach (KeyValuePair<string, List<string>> entry in definitions)
 			{
 				settingsGroupDefinitions.Items.Add(entry.Key);
 				tempGroups.Add(entry.Key, entry.Value);
+				settingGroupBy.Items.Add(entry.Key);
 			}
+			settingGroupBy.SelectedIndex = Math.Max(0, settingGroupBy.FindStringExact(MainForm.CurrentProject.GroupBy));
 			return true;
 		}
 
@@ -205,6 +209,7 @@ namespace ItemPacker2013
 
 					tempGroups.Add(form.groupName.Text, form.groupOptions.Items.Cast<string>().ToList());
 					settingsGroupDefinitions.Items.Add(form.groupName.Text);
+					settingGroupBy.Items.Add(form.groupName.Text);
 				}
 			}
 		}
@@ -247,14 +252,27 @@ namespace ItemPacker2013
 					else
 					{
 						tempGroups.Remove(editGroupLabel);
+						settingGroupBy.Items.Remove(editGroupLabel);
 						editGroupLabel = form.groupName.Text;
 						tempGroups.Add(editGroupLabel, form.groupOptions.Items.Cast<string>().ToList());
 						settingsGroupDefinitions.Items[editGroupIndex] = editGroupLabel;
+						settingGroupBy.Items.Add(form.groupName.Text);
 					}
 				}
 			}
 
 			editGroupIndex = -1;
+		}
+
+		private void settingGMXglobalItemsName_TextChanged(object sender, EventArgs e)
+		{
+			changeRadioValues();
+		}
+
+		private void changeRadioValues()
+		{
+			radioButton1.Text = settingGMXglobalItemsName.Text + "[ID, Attr] =";
+			radioButton2.Text = settingGMXglobalItemsName.Text + "Attr[ID] =";
 		}
 
 	}

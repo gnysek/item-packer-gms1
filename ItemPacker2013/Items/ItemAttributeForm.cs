@@ -34,7 +34,9 @@ namespace ItemPacker2013.Items
 				{
 					settingDropdownOptionDefault.Items.Add(option);
 				}
+				settingDropdownOptionDefault.SelectedIndex = 0;
 
+				// for already existing default value
 				if (attrData.DefaultValue.Length > 0)
 				{
 					if (attrData.DataType == DefinitionDataType.String)
