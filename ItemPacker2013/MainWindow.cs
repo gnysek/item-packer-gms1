@@ -400,19 +400,13 @@ namespace ItemPacker2013
 				}
 				#endregion
 
+				form.Height = Math.Min(500, counter + 50);
+
 				form.ShowDialog();
 
 				if (form.DialogResult == DialogResult.OK)
 				{
 					ItemExtendable itemData = new ItemExtendable();
-					//if (edit)
-					//{
-					//    itemData.ID = itemID;
-					//}
-					//else
-					//{
-					//    itemData.ID = CurrentProject.itemCollection.Count;
-					//}
 
 					// since it was already try-parsed in Edit form, just parse here
 					itemData.ID = int.Parse(form.itemID.Text);

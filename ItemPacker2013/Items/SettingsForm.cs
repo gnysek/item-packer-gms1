@@ -275,5 +275,29 @@ namespace ItemPacker2013
 			radioButton2.Text = settingGMXglobalItemsName.Text + "Attr[ID] =";
 		}
 
+		private void move(bool up)
+		{
+			if (settingDefinitions.SelectedItems.Count > 0)
+			{
+				if (up && settingDefinitions.SelectedItems[0].Index == 0) return;
+				if (!up && settingDefinitions.SelectedItems[0].Index == settingDefinitions.Items.Count - 1) return;
+
+				int index = settingDefinitions.SelectedItems[0].Index;
+				ListViewItem toMove = settingDefinitions.Items[index];
+				settingDefinitions.Items.RemoveAt(index);
+				settingDefinitions.Items.Insert((up) ? index - 1 : index + 1, toMove);
+			}
+		}
+
+		private void attrUpB_Click(object sender, EventArgs e)
+		{
+			move(true);
+		}
+
+		private void attrDownB_Click(object sender, EventArgs e)
+		{
+			move(false);
+		}
+
 	}
 }
