@@ -71,6 +71,12 @@
     </Compile>
     <Compile Include="Items\ItemAttributePrompt.cs" />
     <Compile Include="Items\ItemExtendable.cs" />
+    <Compile Include="Items\Loading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Items\Loading.Designer.cs">
+      <DependentUpon>Loading.cs</DependentUpon>
+    </Compile>
     <Compile Include="Items\Prompt.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Items\ItemAttributeForm.resx">
       <DependentUpon>ItemAttributeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Items\Loading.resx">
+      <DependentUpon>Loading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Items\Prompt.resx">
       <DependentUpon>Prompt.cs</DependentUpon>
