@@ -104,6 +104,12 @@ namespace ItemPacker2013
 				CurrentProject.preloadGMXsprites();
 				CurrentProject.filterGMXsprites();
 
+				using (Loading form = new Loading())
+				{
+					//form.ShowDialog();
+					form.loadSprites(imageList1);
+				}
+
 				if (CurrentProject.gridView == "1")
 				{
 					toolViewDetail_Click(sender, e);
@@ -160,6 +166,10 @@ namespace ItemPacker2013
 					if (data.Value.GroupName == CurrentProject.GroupBy)
 					{
 						item.Group = itemListView.Groups[entry.Value.getValueLabel(data.Key)];
+					}
+					if (data.Value.DataType == DefinitionDataType.Sprite && item.ImageIndex == 0)
+					{
+						item.ImageKey = entry.Value.getValue(data.Key);
 					}
 				}
 			}
