@@ -144,7 +144,7 @@ namespace ItemPacker2013
 				item.ImageIndex = 0;
 				foreach (KeyValuePair<string, DefinitionData> data in CurrentProject.attributeDefinitions)
 				{
-					item.SubItems.Add(entry.Value.getValue(data.Key));
+					item.SubItems.Add(entry.Value.getValueLabel(data.Key));
 				}
 			}
 
@@ -460,35 +460,8 @@ namespace ItemPacker2013
 
 			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-				StreamWriter f = new StreamWriter(Path.GetDirectoryName(CurrentProject.filename) + @"\items.gml", false);
-
-				foreach (KeyValuePair<int, ItemExtendable> item in CurrentProject.itemCollection)
-				{
-					int row = 0;
-					string line = "";
-					foreach (KeyValuePair<string, DefinitionData> definition in CurrentProject.attributeDefinitions)
-					{
-						switch (definition.Value.DataType)
-						{
-							case DefinitionDataType.Bool:
-								line = item.Value.getValue(definition.Key) == "1" ? "true" : "false";
-								break;
-							case DefinitionDataType.Int:
-								line = int.Parse(item.Value.getValue(definition.Key)).ToString();
-								break;
-							case DefinitionDataType.Sprite:
-								line = item.Value.getValue(definition.Key);
-								break;
-							default:
-								line = "\"" + item.Value.getValue(definition.Key) + "\"";
-								break;
-						}
-
-						f.WriteLine(CurrentProject.GMXglobalItemsName + "[" + item.Key.ToString() + "," + (row++) + "] = " + line + ";");
-					}
-				}
-
-				f.Close();
+				//string filename = Path.GetDirectoryName(CurrentProject.filename) + @"\items.gml";
+				CurrentProject.saveGML(saveFileDialog1.FileName);
 			}
 		}
 

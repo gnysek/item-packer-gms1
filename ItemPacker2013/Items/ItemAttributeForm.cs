@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace ItemPacker2013.Items
 {
@@ -66,6 +67,18 @@ namespace ItemPacker2013.Items
 				{
 					settingName.BackColor = Color.Red;
 					e.Cancel = true;
+					return;
+				}
+
+				Regex rgx = new Regex(@"[^A-Za-z0-9_]");
+				string test = rgx.Replace(settingName.Text, "");
+
+				if (test != settingName.Text)
+				{
+					MessageBox.Show("Name must start with letter, and can contain only A-Z, a-z, 0-9 and _. Like.: " + test);
+					settingName.BackColor = Color.Red;
+					e.Cancel = true;
+					return;
 				}
 
 				attrName = settingName.Text;

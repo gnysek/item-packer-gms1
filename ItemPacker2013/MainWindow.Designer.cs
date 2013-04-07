@@ -31,26 +31,27 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.toolSave = new System.Windows.Forms.ToolStripButton();
-			this.toolOpen = new System.Windows.Forms.ToolStripButton();
-			this.toolPackage = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolOptions = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolAddItem = new System.Windows.Forms.ToolStripButton();
-			this.toolEditItem = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolViewIcons = new System.Windows.Forms.ToolStripButton();
-			this.toolViewDetail = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolExport = new System.Windows.Forms.ToolStripButton();
 			this.itemListView = new System.Windows.Forms.ListView();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+			this.toolSave = new System.Windows.Forms.ToolStripButton();
+			this.toolOpen = new System.Windows.Forms.ToolStripButton();
+			this.toolPackage = new System.Windows.Forms.ToolStripButton();
+			this.toolOptions = new System.Windows.Forms.ToolStripButton();
+			this.toolAddItem = new System.Windows.Forms.ToolStripButton();
+			this.toolEditItem = new System.Windows.Forms.ToolStripButton();
+			this.toolViewIcons = new System.Windows.Forms.ToolStripButton();
+			this.toolViewDetail = new System.Windows.Forms.ToolStripButton();
+			this.toolExport = new System.Windows.Forms.ToolStripButton();
+			this.toolExportCSV = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -64,66 +65,27 @@
             this.toolOpen,
             this.toolPackage,
             this.toolStripSeparator1,
-            this.toolOptions,
-            this.toolStripSeparator2,
-            this.toolStripSeparator5,
             this.toolAddItem,
             this.toolEditItem,
             this.toolStripSeparator3,
             this.toolViewIcons,
             this.toolViewDetail,
             this.toolStripSeparator4,
-            this.toolExport});
+            this.toolExport,
+            this.toolExportCSV,
+            this.toolStripSeparator2,
+            this.toolOptions,
+            this.toolStripSeparator5});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(790, 39);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
-			// toolSave
-			// 
-			this.toolSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolSave.Image = global::ItemPacker2013.Properties.Resources.disk;
-			this.toolSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolSave.Name = "toolSave";
-			this.toolSave.Size = new System.Drawing.Size(36, 36);
-			this.toolSave.Text = "Save";
-			this.toolSave.Click += new System.EventHandler(this.toolSave_Click);
-			// 
-			// toolOpen
-			// 
-			this.toolOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolOpen.Image = global::ItemPacker2013.Properties.Resources.folder;
-			this.toolOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolOpen.Name = "toolOpen";
-			this.toolOpen.Size = new System.Drawing.Size(36, 36);
-			this.toolOpen.Text = "Open...";
-			this.toolOpen.Click += new System.EventHandler(this.toolOpen_Click);
-			// 
-			// toolPackage
-			// 
-			this.toolPackage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolPackage.Image = global::ItemPacker2013.Properties.Resources.package;
-			this.toolPackage.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolPackage.Name = "toolPackage";
-			this.toolPackage.Size = new System.Drawing.Size(36, 36);
-			this.toolPackage.Text = "Create new Project...";
-			this.toolPackage.Click += new System.EventHandler(this.toolPackage_Click);
-			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
-			// 
-			// toolOptions
-			// 
-			this.toolOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolOptions.Image = global::ItemPacker2013.Properties.Resources.setting_tools;
-			this.toolOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolOptions.Name = "toolOptions";
-			this.toolOptions.Size = new System.Drawing.Size(36, 36);
-			this.toolOptions.Text = "Global Settings...";
-			this.toolOptions.Click += new System.EventHandler(this.toolOptions_Click);
 			// 
 			// toolStripSeparator2
 			// 
@@ -135,65 +97,15 @@
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
 			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
 			// 
-			// toolAddItem
-			// 
-			this.toolAddItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolAddItem.Image = global::ItemPacker2013.Properties.Resources.database_add;
-			this.toolAddItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolAddItem.Name = "toolAddItem";
-			this.toolAddItem.Size = new System.Drawing.Size(36, 36);
-			this.toolAddItem.Text = "Add Item...";
-			this.toolAddItem.Click += new System.EventHandler(this.toolAddItem_Click);
-			// 
-			// toolEditItem
-			// 
-			this.toolEditItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolEditItem.Image = global::ItemPacker2013.Properties.Resources.database_edit;
-			this.toolEditItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolEditItem.Name = "toolEditItem";
-			this.toolEditItem.Size = new System.Drawing.Size(36, 36);
-			this.toolEditItem.Text = "Edit Item...";
-			this.toolEditItem.Click += new System.EventHandler(this.toolEditItem_Click);
-			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 39);
 			// 
-			// toolViewIcons
-			// 
-			this.toolViewIcons.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolViewIcons.Image = global::ItemPacker2013.Properties.Resources.application_view_icons;
-			this.toolViewIcons.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolViewIcons.Name = "toolViewIcons";
-			this.toolViewIcons.Size = new System.Drawing.Size(36, 36);
-			this.toolViewIcons.Text = "Icon View";
-			this.toolViewIcons.Click += new System.EventHandler(this.toolViewIcons_Click);
-			// 
-			// toolViewDetail
-			// 
-			this.toolViewDetail.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolViewDetail.Image = global::ItemPacker2013.Properties.Resources.application_view_detail;
-			this.toolViewDetail.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolViewDetail.Name = "toolViewDetail";
-			this.toolViewDetail.Size = new System.Drawing.Size(36, 36);
-			this.toolViewDetail.Text = "Detail View";
-			this.toolViewDetail.Click += new System.EventHandler(this.toolViewDetail_Click);
-			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
 			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 39);
-			// 
-			// toolExport
-			// 
-			this.toolExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolExport.Image = global::ItemPacker2013.Properties.Resources.page_white_code;
-			this.toolExport.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolExport.Name = "toolExport";
-			this.toolExport.Size = new System.Drawing.Size(36, 36);
-			this.toolExport.Text = "Export to GML";
-			this.toolExport.Click += new System.EventHandler(this.toolExport_Click);
 			// 
 			// itemListView
 			// 
@@ -242,6 +154,105 @@
 			this.saveFileDialog1.DefaultExt = "*.gml";
 			this.saveFileDialog1.Filter = "GML files|*gml";
 			// 
+			// toolSave
+			// 
+			this.toolSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolSave.Image = global::ItemPacker2013.Properties.Resources.disk;
+			this.toolSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolSave.Name = "toolSave";
+			this.toolSave.Size = new System.Drawing.Size(36, 36);
+			this.toolSave.Text = "Save";
+			this.toolSave.Click += new System.EventHandler(this.toolSave_Click);
+			// 
+			// toolOpen
+			// 
+			this.toolOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolOpen.Image = global::ItemPacker2013.Properties.Resources.folder;
+			this.toolOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolOpen.Name = "toolOpen";
+			this.toolOpen.Size = new System.Drawing.Size(36, 36);
+			this.toolOpen.Text = "Open...";
+			this.toolOpen.Click += new System.EventHandler(this.toolOpen_Click);
+			// 
+			// toolPackage
+			// 
+			this.toolPackage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolPackage.Image = global::ItemPacker2013.Properties.Resources.package;
+			this.toolPackage.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolPackage.Name = "toolPackage";
+			this.toolPackage.Size = new System.Drawing.Size(36, 36);
+			this.toolPackage.Text = "Create new Project...";
+			this.toolPackage.Click += new System.EventHandler(this.toolPackage_Click);
+			// 
+			// toolOptions
+			// 
+			this.toolOptions.Image = global::ItemPacker2013.Properties.Resources.setting_tools;
+			this.toolOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolOptions.Name = "toolOptions";
+			this.toolOptions.Size = new System.Drawing.Size(122, 36);
+			this.toolOptions.Text = "Global Settings";
+			this.toolOptions.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+			this.toolOptions.Click += new System.EventHandler(this.toolOptions_Click);
+			// 
+			// toolAddItem
+			// 
+			this.toolAddItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolAddItem.Image = global::ItemPacker2013.Properties.Resources.database_add;
+			this.toolAddItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolAddItem.Name = "toolAddItem";
+			this.toolAddItem.Size = new System.Drawing.Size(36, 36);
+			this.toolAddItem.Text = "Add Item...";
+			this.toolAddItem.Click += new System.EventHandler(this.toolAddItem_Click);
+			// 
+			// toolEditItem
+			// 
+			this.toolEditItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolEditItem.Image = global::ItemPacker2013.Properties.Resources.database_edit;
+			this.toolEditItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolEditItem.Name = "toolEditItem";
+			this.toolEditItem.Size = new System.Drawing.Size(36, 36);
+			this.toolEditItem.Text = "Edit Item...";
+			this.toolEditItem.Click += new System.EventHandler(this.toolEditItem_Click);
+			// 
+			// toolViewIcons
+			// 
+			this.toolViewIcons.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolViewIcons.Image = global::ItemPacker2013.Properties.Resources.application_view_icons;
+			this.toolViewIcons.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolViewIcons.Name = "toolViewIcons";
+			this.toolViewIcons.Size = new System.Drawing.Size(36, 36);
+			this.toolViewIcons.Text = "Icon View";
+			this.toolViewIcons.Click += new System.EventHandler(this.toolViewIcons_Click);
+			// 
+			// toolViewDetail
+			// 
+			this.toolViewDetail.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolViewDetail.Image = global::ItemPacker2013.Properties.Resources.application_view_detail;
+			this.toolViewDetail.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolViewDetail.Name = "toolViewDetail";
+			this.toolViewDetail.Size = new System.Drawing.Size(36, 36);
+			this.toolViewDetail.Text = "Detail View";
+			this.toolViewDetail.Click += new System.EventHandler(this.toolViewDetail_Click);
+			// 
+			// toolExport
+			// 
+			this.toolExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolExport.Image = global::ItemPacker2013.Properties.Resources.page_white_code;
+			this.toolExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolExport.Name = "toolExport";
+			this.toolExport.Size = new System.Drawing.Size(36, 36);
+			this.toolExport.Text = "Export to GML";
+			this.toolExport.Click += new System.EventHandler(this.toolExport_Click);
+			// 
+			// toolExportCSV
+			// 
+			this.toolExportCSV.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolExportCSV.Image = global::ItemPacker2013.Properties.Resources.page_white_excel;
+			this.toolExportCSV.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolExportCSV.Name = "toolExportCSV";
+			this.toolExportCSV.Size = new System.Drawing.Size(36, 36);
+			this.toolExportCSV.Text = "Export to CSV...";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -286,6 +297,7 @@
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ImageList imageList1;
+		private System.Windows.Forms.ToolStripButton toolExportCSV;
 	}
 }
 

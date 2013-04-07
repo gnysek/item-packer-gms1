@@ -63,7 +63,7 @@ namespace ItemPacker2013
 		// button ADD
 		private void attrAddB_Click(object sender, EventArgs e)
 		{
-			_attributeEdit(true);
+			_attributeEdit(false);
 		}
 
 		// button EDIT
