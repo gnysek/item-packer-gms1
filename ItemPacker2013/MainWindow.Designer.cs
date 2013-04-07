@@ -252,6 +252,7 @@
 			this.toolExportCSV.Name = "toolExportCSV";
 			this.toolExportCSV.Size = new System.Drawing.Size(36, 36);
 			this.toolExportCSV.Text = "Export to CSV...";
+			this.toolExportCSV.Click += new System.EventHandler(this.toolExportCSV_Click);
 			// 
 			// MainForm
 			// 
