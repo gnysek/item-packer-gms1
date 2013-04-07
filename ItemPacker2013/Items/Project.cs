@@ -14,7 +14,7 @@ namespace ItemPacker2013.Items
 		public string filename = "";
 		public string GMXsource = "";
 		public string GMXglobalItemsName = "global.item";
-		public string gridView = "1"; 
+		public string gridView = "1";
 		public Dictionary<string, List<string>> groupDefinitions = new Dictionary<string, List<string>>();
 		public Dictionary<string, DefinitionData> attributeDefinitions = new Dictionary<string, DefinitionData>();
 		public Dictionary<int, ItemExtendable> itemCollection = new Dictionary<int, ItemExtendable>();
@@ -247,6 +247,40 @@ namespace ItemPacker2013.Items
 			XmlElement node = doc.CreateElement(elemName);
 			node.InnerText = elemValue;
 			return node;
+		}
+
+		internal void saveGML(string filename)
+		{
+			StreamWriter f = new StreamWriter(filename, false);
+
+			foreach (KeyValuePair<int, ItemExtendable> item in itemCollection)
+			{
+				int row = 0;
+				string variableValue = "";
+				foreach (KeyValuePair<string, DefinitionData> definition in attributeDefinitions)
+				{
+					/*switch (definition.Value.DataType)
+					{
+						case DefinitionDataType.Bool:
+							variableValue = item.Value.getValue(definition.Key) == "1" ? "true" : "false";
+							break;
+						case DefinitionDataType.Int:
+							variableValue = int.Parse(item.Value.getValue(definition.Key)).ToString();
+							break;
+						case DefinitionDataType.Sprite:
+							variableValue = item.Value.getValueGML(definition.Key);
+							break;
+						default:
+							variableValue = "\"" + item.Value.getValueGML(definition.Key) + "\"";
+							break;
+					}*/
+
+					variableValue = item.Value.getValueGML(definition.Key);
+					f.WriteLine(GMXglobalItemsName + "[" + item.Key.ToString() + "," + (row++) + "] = " + variableValue + ";");
+				}
+			}
+
+			f.Close();
 		}
 	}
 }
