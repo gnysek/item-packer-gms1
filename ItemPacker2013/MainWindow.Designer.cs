@@ -189,9 +189,10 @@
 			this.toolOptions.Image = global::ItemPacker2013.Properties.Resources.setting_tools;
 			this.toolOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolOptions.Name = "toolOptions";
-			this.toolOptions.Size = new System.Drawing.Size(122, 36);
-			this.toolOptions.Text = "Global Settings";
+			this.toolOptions.Size = new System.Drawing.Size(125, 36);
+			this.toolOptions.Text = "Project Settings";
 			this.toolOptions.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+			this.toolOptions.ToolTipText = "Project Settings...";
 			this.toolOptions.Click += new System.EventHandler(this.toolOptions_Click);
 			// 
 			// toolAddItem
