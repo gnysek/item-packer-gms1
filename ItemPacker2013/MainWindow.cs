@@ -28,7 +28,7 @@ namespace ItemPacker2013
 			itemListView.Enabled = toolSave.Enabled;
 			toolAddItem.Enabled = toolSave.Enabled;
 			toolEditItem.Enabled = (itemListView.Items.Count > 0) & toolSave.Enabled & (itemListView.SelectedItems.Count > 0);
-			toolExport.Enabled = toolSave.Enabled;
+			toolExportCSV.Enabled = toolExport.Enabled = toolSave.Enabled;
 			toolViewIcons.Enabled = (itemListView.View != View.LargeIcon) & toolSave.Enabled;
 			toolViewDetail.Enabled = (itemListView.View != View.Details) & toolSave.Enabled;
 		}
@@ -432,7 +432,7 @@ namespace ItemPacker2013
 					renderItemList();
 				}
 			}
-			
+
 			ensureButtonsVisible();
 		}
 
@@ -453,15 +453,34 @@ namespace ItemPacker2013
 		private void toolExport_Click(object sender, EventArgs e)
 		{
 			saveFileDialog1.InitialDirectory = Path.GetDirectoryName(CurrentProject.filename);
-			if (saveFileDialog1.FileName == "")
-			{
-				saveFileDialog1.FileName = "scItemDefinition.gml";
-			}
+			saveFileDialog1.Filter = "GML files|*gml";
+			saveFileDialog1.DefaultExt = "*.gml";
+			//if (saveFileDialog1.FileName == "")
+			//
+			saveFileDialog1.FileName = "scItemDefinition.gml";
+			//}
 
 			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				//string filename = Path.GetDirectoryName(CurrentProject.filename) + @"\items.gml";
 				CurrentProject.saveGML(saveFileDialog1.FileName);
+			}
+		}
+
+		private void toolExportCSV_Click(object sender, EventArgs e)
+		{
+			saveFileDialog1.InitialDirectory = Path.GetDirectoryName(CurrentProject.filename);
+			saveFileDialog1.Filter = "CSV files|*csv";
+			saveFileDialog1.DefaultExt = "*.csv";
+			//if (saveFileDialog1.FileName == "")
+			//{
+			saveFileDialog1.FileName = "scItemDefinition.csv";
+			//}
+
+			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				//string filename = Path.GetDirectoryName(CurrentProject.filename) + @"\items.gml";
+				CurrentProject.saveCSV(saveFileDialog1.FileName);
 			}
 		}
 

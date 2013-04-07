@@ -249,9 +249,9 @@ namespace ItemPacker2013.Items
 			return node;
 		}
 
-		internal void saveGML(string filename)
+		internal void saveGML(string p)
 		{
-			StreamWriter f = new StreamWriter(filename, false);
+			StreamWriter f = new StreamWriter(p, false);
 
 			foreach (KeyValuePair<int, ItemExtendable> item in itemCollection)
 			{
@@ -278,6 +278,29 @@ namespace ItemPacker2013.Items
 					variableValue = item.Value.getValueGML(definition.Key);
 					f.WriteLine(GMXglobalItemsName + "[" + item.Key.ToString() + "," + (row++) + "] = " + variableValue + ";");
 				}
+			}
+
+			f.Close();
+		}
+
+		public void saveCSV(string p)
+		{
+			StreamWriter f = new StreamWriter(p, false);
+
+			List<string> columns = new List<string>();
+			foreach(string column in attributeDefinitions.Keys) {
+				columns.Add(column);
+			}
+			f.WriteLine(string.Join(",", columns));
+
+			foreach (KeyValuePair<int, ItemExtendable> item in itemCollection)
+			{
+				List<string> values = new List<string>();
+				foreach (KeyValuePair<string, DefinitionData> definition in attributeDefinitions)
+				{
+					values.Add(item.Value.getValueGML(definition.Key));
+				}
+				f.WriteLine(string.Join(",", values));
 			}
 
 			f.Close();
