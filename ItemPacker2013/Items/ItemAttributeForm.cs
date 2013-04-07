@@ -12,7 +12,7 @@ namespace ItemPacker2013.Items
 {
 	public partial class ItemAttributeForm : Form
 	{
-		public string attrName = "Add new Attribute";
+		public string attrName = "NewAttr";
 		public DefinitionData attrData = new DefinitionData();
 		//public KeyValuePair<string, DefinitionData> currentAttribute;
 

@@ -28,12 +28,12 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "Name",
             "String",
             "-",
             ""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "Price",
             "Int",
             "-1",
@@ -64,8 +64,8 @@
 			this.attrDeleteB = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
-			this.button8 = new System.Windows.Forms.Button();
-			this.button11 = new System.Windows.Forms.Button();
+			this.attrDownB = new System.Windows.Forms.Button();
+			this.attrUpB = new System.Windows.Forms.Button();
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
 			this.radioButton2 = new System.Windows.Forms.RadioButton();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -141,8 +141,8 @@
 			this.settingDefinitions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.settingDefinitions.HideSelection = false;
 			this.settingDefinitions.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem5,
-            listViewItem6});
+            listViewItem3,
+            listViewItem4});
 			this.settingDefinitions.LabelWrap = false;
 			this.settingDefinitions.Location = new System.Drawing.Point(12, 225);
 			this.settingDefinitions.MultiSelect = false;
@@ -336,27 +336,29 @@
 			this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.button1.UseVisualStyleBackColor = true;
 			// 
-			// button8
+			// attrDownB
 			// 
-			this.button8.Image = global::ItemPacker2013.Properties.Resources.arrow_down;
-			this.button8.Location = new System.Drawing.Point(42, 369);
-			this.button8.Name = "button8";
-			this.button8.Size = new System.Drawing.Size(24, 24);
-			this.button8.TabIndex = 26;
-			this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.button8.UseVisualStyleBackColor = true;
+			this.attrDownB.Image = global::ItemPacker2013.Properties.Resources.arrow_down;
+			this.attrDownB.Location = new System.Drawing.Point(42, 369);
+			this.attrDownB.Name = "attrDownB";
+			this.attrDownB.Size = new System.Drawing.Size(24, 24);
+			this.attrDownB.TabIndex = 26;
+			this.attrDownB.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.attrDownB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.attrDownB.UseVisualStyleBackColor = true;
+			this.attrDownB.Click += new System.EventHandler(this.attrDownB_Click);
 			// 
-			// button11
+			// attrUpB
 			// 
-			this.button11.Image = global::ItemPacker2013.Properties.Resources.arrow_up;
-			this.button11.Location = new System.Drawing.Point(12, 369);
-			this.button11.Name = "button11";
-			this.button11.Size = new System.Drawing.Size(24, 24);
-			this.button11.TabIndex = 27;
-			this.button11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button11.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.button11.UseVisualStyleBackColor = true;
+			this.attrUpB.Image = global::ItemPacker2013.Properties.Resources.arrow_up;
+			this.attrUpB.Location = new System.Drawing.Point(12, 369);
+			this.attrUpB.Name = "attrUpB";
+			this.attrUpB.Size = new System.Drawing.Size(24, 24);
+			this.attrUpB.TabIndex = 27;
+			this.attrUpB.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.attrUpB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.attrUpB.UseVisualStyleBackColor = true;
+			this.attrUpB.Click += new System.EventHandler(this.attrUpB_Click);
 			// 
 			// radioButton1
 			// 
@@ -409,8 +411,8 @@
 			this.ClientSize = new System.Drawing.Size(511, 443);
 			this.Controls.Add(this.settingGroupBy);
 			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.button11);
-			this.Controls.Add(this.button8);
+			this.Controls.Add(this.attrUpB);
+			this.Controls.Add(this.attrDownB);
 			this.Controls.Add(this.groupEditB);
 			this.Controls.Add(this.button7);
 			this.Controls.Add(this.groupAddB);
@@ -477,8 +479,8 @@
 		private System.Windows.Forms.Button button7;
 		private System.Windows.Forms.Button groupAddB;
 		private System.Windows.Forms.ColumnHeader columnDefault;
-		private System.Windows.Forms.Button button8;
-		private System.Windows.Forms.Button button11;
+		private System.Windows.Forms.Button attrDownB;
+		private System.Windows.Forms.Button attrUpB;
 		private System.Windows.Forms.RadioButton radioButton1;
 		private System.Windows.Forms.RadioButton radioButton2;
 		private System.Windows.Forms.GroupBox groupBox1;
