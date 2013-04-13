@@ -118,8 +118,6 @@ namespace ItemPacker2013
 				CurrentProject = new Project();
 				CurrentProject.filename = openFileDialog1.FileName;
 				CurrentProject.loadXml();
-				CurrentProject.preloadGMXsprites();
-				CurrentProject.filterGMXsprites();
 
 				using (Loading form = new Loading())
 				{
@@ -156,7 +154,7 @@ namespace ItemPacker2013
 			itemListView.Items.Clear();
 			itemListView.Columns.Clear();
 			itemListView.Groups.Clear();
-			
+
 			// render columns
 			itemListView.Columns.Add("ID");
 			foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
@@ -190,7 +188,8 @@ namespace ItemPacker2013
 					{
 						item.Group = itemListView.Groups[entry.Value.getValueLabel(data.Key)];
 					}
-					if (data.Value.DataType == DefinitionDataType.Sprite /*&& item.ImageIndex == 0*/)
+
+					if (data.Value.DataType == DefinitionDataType.Sprite && item.ImageIndex == 0) // 0 == not yet changed
 					{
 						if (imageList1.Images.Keys.IndexOf(entry.Value.getValue(data.Key)) > -1)
 						{
@@ -198,7 +197,11 @@ namespace ItemPacker2013
 						}
 					}
 
-					if (c.Text == "0")
+					if (c.Text == CurrentProject.attributeDefinitions[data.Key].DefaultValue)
+					{
+						c.ForeColor = Color.Green;
+					}
+					else if (c.Text == "0")
 					{
 						c.ForeColor = Color.Gray;
 					}
@@ -273,13 +276,19 @@ namespace ItemPacker2013
 						toRemove.Remove(item.SubItems[0].Text);
 					}
 
-					// remove removed keys from items
+					// remove removed keys from items, re-set values if changed to dropdown
 					if (toRemove.Count > 0)
 					{
 						foreach (int itemID in CurrentProject.itemCollection.Keys)
 						{
 							CurrentProject.itemCollection[itemID].removeKeys(toRemove);
+							
 						}
+					}
+
+					foreach (int id in CurrentProject.itemCollection.Keys)
+					{
+						CurrentProject.itemCollection[id].re_setValues();
 					}
 
 					// group definitions

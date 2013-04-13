@@ -116,6 +116,10 @@ namespace ItemPacker2013.Items
 				groupDefinitions.Add(name, options);
 			}
 
+			// preload those, cause we need them for SetValue!
+			preloadGMXsprites();
+			filterGMXsprites();
+
 			//items
 			itemCollection.Clear();
 			foreach (XmlNode node in doc.SelectNodes("nodes/items/item"))
@@ -282,7 +286,8 @@ namespace ItemPacker2013.Items
 			StreamWriter f = new StreamWriter(p, false);
 
 			List<string> columns = new List<string>();
-			foreach(string column in attributeDefinitions.Keys) {
+			foreach (string column in attributeDefinitions.Keys)
+			{
 				columns.Add(column);
 			}
 			f.WriteLine(string.Join(",", columns));
