@@ -30,13 +30,33 @@ namespace ItemPacker2013.Items
 
 		public void setValue(string key, string value)
 		{
-			if (values.ContainsKey(key))
+			if (!values.ContainsKey(key))
 			{
-				values[key] = value;
+				values.Add(key, "");
+			}
+
+			if (Database.attributeDefinitions[key].GroupLink > -1)
+			{
+				if (Database.attributeDefinitions[key].DataType == DefinitionDataType.Sprite ||
+					Database.attributeDefinitions[key].DataType == DefinitionDataType.String)
+				{
+
+					if (Database.groupDefinitions.ElementAt(Database.attributeDefinitions[key].GroupLink).Value.IndexOf(value) < 0)
+					{
+						values[key] = Database.attributeDefinitions[key].DefaultValue;
+					}
+				}
+				else
+				{
+					int val = 0;
+					int.TryParse(value, out val);
+
+					values[key] = Math.Min(Math.Max(0, val), Database.groupDefinitions.ElementAt(Database.attributeDefinitions[key].GroupLink).Value.Count).ToString();
+				}
 			}
 			else
 			{
-				values.Add(key, value);
+				values[key] = value;
 			}
 		}
 

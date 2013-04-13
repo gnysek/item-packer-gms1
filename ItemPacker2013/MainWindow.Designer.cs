@@ -32,10 +32,10 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.itemListView = new System.Windows.Forms.ListView();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -45,13 +45,14 @@
 			this.toolSave = new System.Windows.Forms.ToolStripButton();
 			this.toolOpen = new System.Windows.Forms.ToolStripButton();
 			this.toolPackage = new System.Windows.Forms.ToolStripButton();
-			this.toolOptions = new System.Windows.Forms.ToolStripButton();
 			this.toolAddItem = new System.Windows.Forms.ToolStripButton();
 			this.toolEditItem = new System.Windows.Forms.ToolStripButton();
 			this.toolViewIcons = new System.Windows.Forms.ToolStripButton();
 			this.toolViewDetail = new System.Windows.Forms.ToolStripButton();
 			this.toolExport = new System.Windows.Forms.ToolStripButton();
 			this.toolExportCSV = new System.Windows.Forms.ToolStripButton();
+			this.toolOptions = new System.Windows.Forms.ToolStripButton();
+			this.toolImportCSV = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -75,7 +76,8 @@
             this.toolExportCSV,
             this.toolStripSeparator2,
             this.toolOptions,
-            this.toolStripSeparator5});
+            this.toolStripSeparator5,
+            this.toolImportCSV});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(790, 39);
@@ -87,16 +89,6 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
 			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
-			// 
-			// toolStripSeparator5
-			// 
-			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
-			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -107,11 +99,23 @@
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
 			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 39);
 			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
+			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
+			// 
 			// itemListView
 			// 
 			this.itemListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.itemListView.FullRowSelect = true;
 			this.itemListView.GridLines = true;
+			this.itemListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.itemListView.HideSelection = false;
 			this.itemListView.LargeImageList = this.imageList1;
 			this.itemListView.Location = new System.Drawing.Point(0, 39);
 			this.itemListView.Name = "itemListView";
@@ -119,6 +123,7 @@
 			this.itemListView.SmallImageList = this.imageList1;
 			this.itemListView.TabIndex = 1;
 			this.itemListView.UseCompatibleStateImageBehavior = false;
+			this.itemListView.View = System.Windows.Forms.View.Details;
 			this.itemListView.SelectedIndexChanged += new System.EventHandler(this.itemListView_SelectedIndexChanged);
 			this.itemListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.itemListView_MouseClick);
 			// 
@@ -184,17 +189,6 @@
 			this.toolPackage.Text = "Create new Project...";
 			this.toolPackage.Click += new System.EventHandler(this.toolPackage_Click);
 			// 
-			// toolOptions
-			// 
-			this.toolOptions.Image = global::ItemPacker2013.Properties.Resources.setting_tools;
-			this.toolOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolOptions.Name = "toolOptions";
-			this.toolOptions.Size = new System.Drawing.Size(125, 36);
-			this.toolOptions.Text = "Project Settings";
-			this.toolOptions.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-			this.toolOptions.ToolTipText = "Project Settings...";
-			this.toolOptions.Click += new System.EventHandler(this.toolOptions_Click);
-			// 
 			// toolAddItem
 			// 
 			this.toolAddItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -255,6 +249,27 @@
 			this.toolExportCSV.Text = "Export to CSV...";
 			this.toolExportCSV.Click += new System.EventHandler(this.toolExportCSV_Click);
 			// 
+			// toolOptions
+			// 
+			this.toolOptions.Image = global::ItemPacker2013.Properties.Resources.setting_tools;
+			this.toolOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolOptions.Name = "toolOptions";
+			this.toolOptions.Size = new System.Drawing.Size(125, 36);
+			this.toolOptions.Text = "Project Settings";
+			this.toolOptions.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+			this.toolOptions.ToolTipText = "Project Settings...";
+			this.toolOptions.Click += new System.EventHandler(this.toolOptions_Click);
+			// 
+			// toolImportCSV
+			// 
+			this.toolImportCSV.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolImportCSV.Image = global::ItemPacker2013.Properties.Resources.page_white_get;
+			this.toolImportCSV.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolImportCSV.Name = "toolImportCSV";
+			this.toolImportCSV.Size = new System.Drawing.Size(36, 36);
+			this.toolImportCSV.Text = "CSV Import";
+			this.toolImportCSV.Click += new System.EventHandler(this.toolImportCSV_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -300,6 +315,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ImageList imageList1;
 		private System.Windows.Forms.ToolStripButton toolExportCSV;
+		private System.Windows.Forms.ToolStripButton toolImportCSV;
 	}
 }
 

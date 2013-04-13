@@ -192,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1364937998_87369.ico" />
+    <None Include="Resources\page_white_get.png" />
     <None Include="Resources\page_white_excel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
