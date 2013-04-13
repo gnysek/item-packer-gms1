@@ -35,7 +35,13 @@ namespace ItemPacker2013.Items
 				values.Add(key, "");
 			}
 
-			if (Database.attributeDefinitions[key].GroupLink > -1)
+			if (Database.attributeDefinitions[key].DataType == DefinitionDataType.Sprite)
+			{
+				values[key] = Database.attributeDefinitions[key].DefaultValue;
+
+				if (Database.GMXspritesFiltered.IndexOf(value) > -1) values[key] = value;
+			}
+			else if (Database.attributeDefinitions[key].GroupLink > -1)
 			{
 				if (Database.attributeDefinitions[key].DataType == DefinitionDataType.Sprite ||
 					Database.attributeDefinitions[key].DataType == DefinitionDataType.String)
@@ -137,6 +143,15 @@ namespace ItemPacker2013.Items
 			}
 
 			return getValue(key);
+		}
+
+		internal void re_setValues()
+		{
+			List<string> keys = values.Keys.ToList();
+			foreach (string key in keys)
+			{
+				this.setValue(key, values[key]);
+			}
 		}
 	}
 }
