@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ItemPacker2013.Items;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace ItemPacker2013
 {
@@ -15,10 +16,26 @@ namespace ItemPacker2013
 	{
 		public static Project CurrentProject = null;
 
+		[DllImport("user32.dll")]
+		public static extern int SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+		public int MakeLong(short lowPart, short highPart)
+		{
+			return (int)(((ushort)lowPart) | (uint)(highPart << 16));
+		}
+
+		public void ListViewItem_SetSpacing(ListView listview, short leftPadding, short topPadding)
+		{
+			const int LVM_FIRST = 0x1000;
+			const int LVM_SETICONSPACING = LVM_FIRST + 53;
+			SendMessage(listview.Handle, LVM_SETICONSPACING, IntPtr.Zero, (IntPtr)MakeLong(leftPadding, topPadding));
+		}
+
 		public MainForm()
 		{
 			InitializeComponent();
 			ensureButtonsVisible();
+			ListViewItem_SetSpacing(itemListView, 44, 62);
 		}
 
 		public void ensureButtonsVisible()
@@ -28,7 +45,7 @@ namespace ItemPacker2013
 			itemListView.Enabled = toolSave.Enabled;
 			toolAddItem.Enabled = toolSave.Enabled;
 			toolEditItem.Enabled = (itemListView.Items.Count > 0) & toolSave.Enabled & (itemListView.SelectedItems.Count > 0);
-			toolExportCSV.Enabled = toolExport.Enabled = toolSave.Enabled;
+			toolImportCSV.Enabled = toolExportCSV.Enabled = toolExport.Enabled = toolSave.Enabled;
 			toolViewIcons.Enabled = (itemListView.View != View.LargeIcon) & toolSave.Enabled;
 			toolViewDetail.Enabled = (itemListView.View != View.Details) & toolSave.Enabled;
 		}
@@ -134,8 +151,13 @@ namespace ItemPacker2013
 			{
 				selection = itemListView.SelectedItems[0].Index;
 			}
-			// render columns
+
+			itemListView.Enabled = false;
+			itemListView.Items.Clear();
 			itemListView.Columns.Clear();
+			itemListView.Groups.Clear();
+			
+			// render columns
 			itemListView.Columns.Add("ID");
 			foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
 			{
@@ -144,44 +166,53 @@ namespace ItemPacker2013
 
 			// render groups
 			itemListView.ShowGroups = false;
-			itemListView.Groups.Clear();
+			int iteration = 0;
 			if (CurrentProject.GroupBy.Length > 0)
 			{
 				foreach (string option in CurrentProject.groupDefinitions[CurrentProject.GroupBy])
 				{
-					itemListView.Groups.Add(option, option);
+					iteration++;
+					itemListView.Groups.Add(option, iteration.ToString() + ". " + option);
 				}
 				itemListView.ShowGroups = true;
 			}
 
 			// render items
-			itemListView.Items.Clear();
 			foreach (KeyValuePair<int, ItemExtendable> entry in CurrentProject.itemCollection)
 			{
 				ListViewItem item = itemListView.Items.Add(entry.Key.ToString());
 				item.ImageIndex = 0;
+				item.UseItemStyleForSubItems = false;
 				foreach (KeyValuePair<string, DefinitionData> data in CurrentProject.attributeDefinitions)
 				{
-					item.SubItems.Add(entry.Value.getValueLabel(data.Key));
+					ListViewItem.ListViewSubItem c = item.SubItems.Add(entry.Value.getValueLabel(data.Key));
 					if (data.Value.GroupName == CurrentProject.GroupBy)
 					{
 						item.Group = itemListView.Groups[entry.Value.getValueLabel(data.Key)];
 					}
-					if (data.Value.DataType == DefinitionDataType.Sprite && item.ImageIndex == 0)
+					if (data.Value.DataType == DefinitionDataType.Sprite /*&& item.ImageIndex == 0*/)
 					{
-						item.ImageKey = entry.Value.getValue(data.Key);
+						if (imageList1.Images.Keys.IndexOf(entry.Value.getValue(data.Key)) > -1)
+						{
+							item.ImageKey = entry.Value.getValue(data.Key);
+						}
+					}
+
+					if (c.Text == "0")
+					{
+						c.ForeColor = Color.Gray;
 					}
 				}
 			}
 
 			// auto column width
-			foreach (ColumnHeader col in itemListView.Columns)
+			/*foreach (ColumnHeader col in itemListView.Columns)
 			{
 				int w1;
 				col.Width = -1;
 				w1 = col.Width;
 				col.Width = Math.Max(w1, 60);
-			}
+			}*/
 
 			// bring back selection
 			if (selection > -1 && itemListView.Items.Count == count)
@@ -192,6 +223,8 @@ namespace ItemPacker2013
 			{
 				itemListView.Items[itemListView.Items.Count - 1].Selected = true;
 			}
+
+			itemListView.Enabled = true;
 		}
 
 		private void toolOptions_Click(object sender, EventArgs e)
@@ -519,6 +552,50 @@ namespace ItemPacker2013
 		private void itemListView_MouseClick(object sender, MouseEventArgs e)
 		{
 			ensureButtonsVisible();
+		}
+
+		private void toolImportCSV_Click(object sender, EventArgs e)
+		{
+			openFileDialog1.Filter = "CSV Files|*.csv";
+			openFileDialog1.FileName = "";
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				/*var lines*/
+				IEnumerable<string[]> lines = File.ReadAllLines(openFileDialog1.FileName).Select(a => a.Split(','));
+
+				List<string> duplicates = new List<string>();
+
+				foreach (string[] line in lines)
+				{
+					if (line.Count() < 1) continue;
+					ItemExtendable itemData = new ItemExtendable();
+
+					int ID = 0;
+					int.TryParse(line[0], out ID);
+					if (CurrentProject.itemCollection.ContainsKey(ID))
+					{
+						ID = CurrentProject.itemCollection.Count + 1;
+					}
+					itemData.ID = ID;
+
+					int i = 1;
+					foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
+					{
+						if (i < line.Count())
+						{
+							itemData.setValue(entry.Key, line[i]);
+							i++;
+							continue;
+						}
+
+						itemData.setValue(entry.Key, "");
+					}
+
+					CurrentProject.itemCollection.Add(itemData.ID, itemData);
+				}
+
+				renderItemList();
+			}
 		}
 	}
 }
