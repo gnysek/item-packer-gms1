@@ -12,6 +12,7 @@ namespace ItemPacker2013.Items
 		public int GroupLink = -1;
 		private int _dataInt = 0;
 		private string _dataString = "";
+		public bool Export = true;
 
 		public string GroupName
 		{

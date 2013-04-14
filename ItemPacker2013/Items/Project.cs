@@ -96,6 +96,7 @@ namespace ItemPacker2013.Items
 				{
 					attributeDefinitions.Add(node.SelectSingleNode("name").InnerText, new DefinitionData()
 					{
+						Export = (node.SelectSingleNode("export").InnerText == "1") ? true : false,
 						DataType = type,
 						GroupLink = int.Parse(node.SelectSingleNode("group").InnerText),
 						DefaultValue = node.SelectSingleNode("default").InnerText
@@ -181,6 +182,7 @@ namespace ItemPacker2013.Items
 			foreach (KeyValuePair<string, DefinitionData> pair in attributeDefinitions)
 			{
 				XmlElement _attr = doc.CreateElement("attribute");
+				_attr.AppendChild(_xme(doc, "export", pair.Value.Export ? "1" : "0"));
 				_attr.AppendChild(_xme(doc, "name", pair.Key));
 				_attr.AppendChild(_xme(doc, "type", pair.Value.DataType.ToString()));
 				_attr.AppendChild(_xme(doc, "group", pair.Value.GroupLink.ToString()));
@@ -272,9 +274,11 @@ namespace ItemPacker2013.Items
 							variableValue = "\"" + item.Value.getValueGML(definition.Key) + "\"";
 							break;
 					}*/
-
-					variableValue = item.Value.getValueGML(definition.Key);
-					f.WriteLine(GMXglobalItemsName + "[" + item.Key.ToString() + "," + (row++) + "] = " + variableValue + ";");
+					if (definition.Value.Export)
+					{
+						variableValue = item.Value.getValueGML(definition.Key);
+						f.WriteLine(GMXglobalItemsName + "[" + item.Key.ToString() + "," + (row++) + "] = " + variableValue + ";");
+					}
 				}
 			}
 

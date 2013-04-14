@@ -17,15 +17,18 @@ namespace ItemPacker2013.Items
 			InitializeComponent();
 		}
 
-		public void loadSprites(ImageList imgs)
+		public void loadSprites(List<ImageList> imgs)
 		{
 			Show();
 
-			if (imgs.Images.Count > 1)
+			foreach (ImageList imgl in imgs)
 			{
-				for (int i = 1; i < imgs.Images.Count; i++)
+				if (imgl.Images.Count > 1)
 				{
-					imgs.Images.RemoveAt(i);
+					for (int i = 1; i < imgl.Images.Count; i++)
+					{
+						imgl.Images.RemoveAt(i);
+					}
 				}
 			}
 
@@ -35,7 +38,10 @@ namespace ItemPacker2013.Items
 			string fdir = Path.GetDirectoryName(MainForm.CurrentProject.GMXsource) + @"\sprites\images\";
 			foreach (string sprName in MainForm.CurrentProject.GMXspritesFiltered)
 			{
-				imgs.Images.Add(sprName, new Bitmap(fdir + sprName + "_0.png"));
+				foreach (ImageList imgl in imgs)
+				{
+					imgl.Images.Add(sprName, new Bitmap(fdir + sprName + "_0.png"));
+				}
 				progressBar.Value++;
 			}
 

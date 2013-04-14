@@ -53,6 +53,7 @@
 			this.toolExportCSV = new System.Windows.Forms.ToolStripButton();
 			this.toolOptions = new System.Windows.Forms.ToolStripButton();
 			this.toolImportCSV = new System.Windows.Forms.ToolStripButton();
+			this.imageList2 = new System.Windows.Forms.ImageList(this.components);
 			this.toolStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -119,8 +120,9 @@
 			this.itemListView.LargeImageList = this.imageList1;
 			this.itemListView.Location = new System.Drawing.Point(0, 39);
 			this.itemListView.Name = "itemListView";
+			this.itemListView.ShowItemToolTips = true;
 			this.itemListView.Size = new System.Drawing.Size(790, 417);
-			this.itemListView.SmallImageList = this.imageList1;
+			this.itemListView.SmallImageList = this.imageList2;
 			this.itemListView.TabIndex = 1;
 			this.itemListView.UseCompatibleStateImageBehavior = false;
 			this.itemListView.View = System.Windows.Forms.View.Details;
@@ -270,6 +272,12 @@
 			this.toolImportCSV.Text = "CSV Import";
 			this.toolImportCSV.Click += new System.EventHandler(this.toolImportCSV_Click);
 			// 
+			// imageList2
+			// 
+			this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
+			this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageList2.Images.SetKeyName(0, "error.png");
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -316,6 +324,7 @@
 		private System.Windows.Forms.ImageList imageList1;
 		private System.Windows.Forms.ToolStripButton toolExportCSV;
 		private System.Windows.Forms.ToolStripButton toolImportCSV;
+		private System.Windows.Forms.ImageList imageList2;
 	}
 }
 
