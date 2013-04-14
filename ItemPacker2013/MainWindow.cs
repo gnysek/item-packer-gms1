@@ -122,7 +122,7 @@ namespace ItemPacker2013
 				using (Loading form = new Loading())
 				{
 					//form.ShowDialog();
-					form.loadSprites(imageList1);
+					form.loadSprites(new List<ImageList>() { imageList1, imageList2 });
 				}
 
 				if (CurrentProject.gridView == "1")
@@ -197,6 +197,11 @@ namespace ItemPacker2013
 						}
 					}
 
+					if (item.ToolTipText == "" && data.Value.DataType == DefinitionDataType.String)
+					{
+						item.ToolTipText = entry.Value.getValue(data.Key);
+					}
+
 					if (c.Text == CurrentProject.attributeDefinitions[data.Key].DefaultValue)
 					{
 						c.ForeColor = Color.Green;
@@ -263,6 +268,7 @@ namespace ItemPacker2013
 
 						CurrentProject.attributeDefinitions.Add(item.SubItems[0].Text, new DefinitionData()
 						{
+							Export = item.Checked,
 							DataType = type,
 							DefaultValue = item.SubItems[3].Text,
 							GroupLink = form.settingsGroupDefinitions.FindStringExact(item.SubItems[2].Text)
@@ -282,7 +288,7 @@ namespace ItemPacker2013
 						foreach (int itemID in CurrentProject.itemCollection.Keys)
 						{
 							CurrentProject.itemCollection[itemID].removeKeys(toRemove);
-							
+
 						}
 					}
 

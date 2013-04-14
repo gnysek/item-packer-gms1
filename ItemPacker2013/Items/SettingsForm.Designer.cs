@@ -123,7 +123,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(358, 350);
+			this.label4.Location = new System.Drawing.Point(504, 345);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(53, 13);
 			this.label4.TabIndex = 6;
@@ -131,6 +131,7 @@
 			// 
 			// settingDefinitions
 			// 
+			this.settingDefinitions.CheckBoxes = true;
 			this.settingDefinitions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnName,
             this.columnType,
@@ -140,15 +141,17 @@
 			this.settingDefinitions.GridLines = true;
 			this.settingDefinitions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.settingDefinitions.HideSelection = false;
+			listViewItem3.StateImageIndex = 0;
+			listViewItem4.StateImageIndex = 0;
 			this.settingDefinitions.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem3,
             listViewItem4});
 			this.settingDefinitions.LabelWrap = false;
-			this.settingDefinitions.Location = new System.Drawing.Point(12, 225);
+			this.settingDefinitions.Location = new System.Drawing.Point(12, 157);
 			this.settingDefinitions.MultiSelect = false;
 			this.settingDefinitions.Name = "settingDefinitions";
 			this.settingDefinitions.ShowGroups = false;
-			this.settingDefinitions.Size = new System.Drawing.Size(340, 138);
+			this.settingDefinitions.Size = new System.Drawing.Size(486, 206);
 			this.settingDefinitions.TabIndex = 7;
 			this.settingDefinitions.UseCompatibleStateImageBehavior = false;
 			this.settingDefinitions.View = System.Windows.Forms.View.Details;
@@ -176,11 +179,11 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(9, 209);
+			this.label5.Location = new System.Drawing.Point(9, 141);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(77, 13);
+			this.label5.Size = new System.Drawing.Size(135, 13);
 			this.label5.TabIndex = 8;
-			this.label5.Text = "Item Attributes:";
+			this.label5.Text = "Item Attributes [and select]:";
 			// 
 			// button3
 			// 
@@ -224,15 +227,15 @@
 			// settingsGroupDefinitions
 			// 
 			this.settingsGroupDefinitions.FormattingEnabled = true;
-			this.settingsGroupDefinitions.Location = new System.Drawing.Point(358, 225);
+			this.settingsGroupDefinitions.Location = new System.Drawing.Point(504, 157);
 			this.settingsGroupDefinitions.Name = "settingsGroupDefinitions";
-			this.settingsGroupDefinitions.Size = new System.Drawing.Size(140, 108);
+			this.settingsGroupDefinitions.Size = new System.Drawing.Size(140, 173);
 			this.settingsGroupDefinitions.TabIndex = 21;
 			// 
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(355, 209);
+			this.label7.Location = new System.Drawing.Point(501, 141);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(96, 13);
 			this.label7.TabIndex = 22;
@@ -241,7 +244,7 @@
 			// groupEditB
 			// 
 			this.groupEditB.Image = global::ItemPacker2013.Properties.Resources.pencil;
-			this.groupEditB.Location = new System.Drawing.Point(444, 339);
+			this.groupEditB.Location = new System.Drawing.Point(590, 339);
 			this.groupEditB.Name = "groupEditB";
 			this.groupEditB.Size = new System.Drawing.Size(24, 24);
 			this.groupEditB.TabIndex = 25;
@@ -254,7 +257,7 @@
 			// 
 			this.button7.Enabled = false;
 			this.button7.Image = global::ItemPacker2013.Properties.Resources.delete;
-			this.button7.Location = new System.Drawing.Point(474, 339);
+			this.button7.Location = new System.Drawing.Point(620, 339);
 			this.button7.Name = "button7";
 			this.button7.Size = new System.Drawing.Size(24, 24);
 			this.button7.TabIndex = 24;
@@ -265,7 +268,7 @@
 			// groupAddB
 			// 
 			this.groupAddB.Image = global::ItemPacker2013.Properties.Resources.add;
-			this.groupAddB.Location = new System.Drawing.Point(414, 339);
+			this.groupAddB.Location = new System.Drawing.Point(560, 339);
 			this.groupAddB.Name = "groupAddB";
 			this.groupAddB.Size = new System.Drawing.Size(24, 24);
 			this.groupAddB.TabIndex = 23;
@@ -277,7 +280,7 @@
 			// attrAddB
 			// 
 			this.attrAddB.Image = global::ItemPacker2013.Properties.Resources.add;
-			this.attrAddB.Location = new System.Drawing.Point(268, 369);
+			this.attrAddB.Location = new System.Drawing.Point(414, 369);
 			this.attrAddB.Name = "attrAddB";
 			this.attrAddB.Size = new System.Drawing.Size(24, 24);
 			this.attrAddB.TabIndex = 16;
@@ -289,7 +292,7 @@
 			// attrEditB
 			// 
 			this.attrEditB.Image = global::ItemPacker2013.Properties.Resources.pencil;
-			this.attrEditB.Location = new System.Drawing.Point(298, 369);
+			this.attrEditB.Location = new System.Drawing.Point(444, 369);
 			this.attrEditB.Name = "attrEditB";
 			this.attrEditB.Size = new System.Drawing.Size(24, 24);
 			this.attrEditB.TabIndex = 15;
@@ -301,7 +304,7 @@
 			// attrDeleteB
 			// 
 			this.attrDeleteB.Image = global::ItemPacker2013.Properties.Resources.delete;
-			this.attrDeleteB.Location = new System.Drawing.Point(328, 369);
+			this.attrDeleteB.Location = new System.Drawing.Point(474, 369);
 			this.attrDeleteB.Name = "attrDeleteB";
 			this.attrDeleteB.Size = new System.Drawing.Size(24, 24);
 			this.attrDeleteB.TabIndex = 13;
@@ -313,7 +316,7 @@
 			this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.button2.Image = global::ItemPacker2013.Properties.Resources.cross;
-			this.button2.Location = new System.Drawing.Point(358, 399);
+			this.button2.Location = new System.Drawing.Point(504, 399);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(80, 32);
 			this.button2.TabIndex = 10;
@@ -327,7 +330,7 @@
 			this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.button1.Image = global::ItemPacker2013.Properties.Resources.tick;
-			this.button1.Location = new System.Drawing.Point(444, 399);
+			this.button1.Location = new System.Drawing.Point(590, 399);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(54, 32);
 			this.button1.TabIndex = 9;
@@ -388,9 +391,9 @@
 			// 
 			this.groupBox1.Controls.Add(this.radioButton1);
 			this.groupBox1.Controls.Add(this.radioButton2);
-			this.groupBox1.Location = new System.Drawing.Point(12, 144);
+			this.groupBox1.Location = new System.Drawing.Point(358, 76);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(340, 62);
+			this.groupBox1.Size = new System.Drawing.Size(286, 62);
 			this.groupBox1.TabIndex = 31;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Export style:";
@@ -399,16 +402,16 @@
 			// 
 			this.settingGroupBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.settingGroupBy.FormattingEnabled = true;
-			this.settingGroupBy.Location = new System.Drawing.Point(361, 372);
+			this.settingGroupBy.Location = new System.Drawing.Point(504, 372);
 			this.settingGroupBy.Name = "settingGroupBy";
-			this.settingGroupBy.Size = new System.Drawing.Size(137, 21);
+			this.settingGroupBy.Size = new System.Drawing.Size(140, 21);
 			this.settingGroupBy.TabIndex = 32;
 			// 
 			// SettingsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(511, 443);
+			this.ClientSize = new System.Drawing.Size(658, 443);
 			this.Controls.Add(this.settingGroupBy);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.attrUpB);

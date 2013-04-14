@@ -109,6 +109,7 @@ namespace ItemPacker2013
 		{
 			_updateAttributeViewList(
 				item,
+				entry.Value.Export,
 				entry.Key,
 				entry.Value.DataType.ToString(),
 				(entry.Value.GroupLink == -1) ? "-" : settingsGroupDefinitions.Items[entry.Value.GroupLink].ToString(),
@@ -116,10 +117,11 @@ namespace ItemPacker2013
 			);
 		}
 
-		private void _updateAttributeViewList(ListViewItem item, string name, string type, string dropdown, string defVal)
+		private void _updateAttributeViewList(ListViewItem item, bool export, string name, string type, string dropdown, string defVal)
 		{
 			item.SubItems.Clear();
 			item.Text = name;
+			item.Checked = export;
 			item.SubItems.Add(type);
 			item.SubItems.Add(dropdown);
 			item.SubItems.Add(defVal);
