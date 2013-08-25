@@ -10,6 +10,7 @@ namespace ItemPacker2013.Items
 		Bool,
 		Int,
 		String,
-		Sprite
+		Sprite,
+		Var_Const
 	}
 }

@@ -44,7 +44,8 @@ namespace ItemPacker2013.Items
 			else if (Database.attributeDefinitions[key].GroupLink > -1)
 			{
 				if (Database.attributeDefinitions[key].DataType == DefinitionDataType.Sprite ||
-					Database.attributeDefinitions[key].DataType == DefinitionDataType.String)
+					Database.attributeDefinitions[key].DataType == DefinitionDataType.String ||
+					Database.attributeDefinitions[key].DataType == DefinitionDataType.Var_Const)
 				{
 
 					if (Database.groupDefinitions.ElementAt(Database.attributeDefinitions[key].GroupLink).Value.IndexOf(value) < 0)
@@ -102,7 +103,7 @@ namespace ItemPacker2013.Items
 		}
 
 
-		// returns value
+		// returns current value
 		public string getValue(string key)
 		{
 			DefinitionDataType keyType = Database.attributeDefinitions[key].DataType;
@@ -132,6 +133,7 @@ namespace ItemPacker2013.Items
 			}
 		}
 
+		// returns value when exporting to GML files
 		public string getValueGML(string key)
 		{
 			switch (Database.attributeDefinitions[key].DataType)
