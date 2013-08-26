@@ -10,6 +10,11 @@ namespace ItemPacker2013.Items
 		public int ID;
 		public Dictionary<string, string> values = new Dictionary<string, string>();
 
+		public string this[string name]
+		{
+			get { return this.getValueLabel(name); }
+		}
+
 		public void removeKey(string key)
 		{
 			removeKeys(new List<string>(new string[] { key }));

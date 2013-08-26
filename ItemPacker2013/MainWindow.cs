@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using ItemPacker2013.Items;
 using System.IO;
 using System.Runtime.InteropServices;
+using BrightIdeasSoftware;
 
 namespace ItemPacker2013
 {
@@ -154,6 +155,7 @@ namespace ItemPacker2013
 			itemListView.Items.Clear();
 			itemListView.Columns.Clear();
 			itemListView.Groups.Clear();
+			objectListView1.Columns.Clear();
 
 			// render columns
 			itemListView.Columns.Add("ID");
@@ -161,6 +163,25 @@ namespace ItemPacker2013
 			{
 				itemListView.Columns.Add(entry.Key);
 			}
+
+			// render same for objectListView
+			List<OLVColumn> columns  = new List<OLVColumn>();
+			OLVColumn olvDefaultColumn = new OLVColumn() {AspectName = "ID", Text= "ID", Groupable = false, Sortable = true};
+			columns.Add(olvDefaultColumn);
+			//objectListView1.Columns.Add(olvDefaultColumn);
+
+			foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
+			{
+				OLVColumn olvKeyCol = new OLVColumn() { Text = entry.Key, AspectName = entry.Key, Sortable = (entry.Key == CurrentProject.GroupBy), Groupable = (entry.Key == CurrentProject.GroupBy) };
+
+				if (entry.Key == CurrentProject.GroupBy) {
+					objectListView1.Columns.Add(olvKeyCol);
+				} else {
+					columns.Add(olvKeyCol);
+				}
+			}
+
+			objectListView1.Columns.AddRange(columns.ToArray());
 
 			// render groups
 			itemListView.ShowGroups = false;
@@ -174,6 +195,8 @@ namespace ItemPacker2013
 				}
 				itemListView.ShowGroups = true;
 			}
+
+			objectListView1.SetObjects(CurrentProject.itemCollection.Values.ToList());
 
 			// render items
 			foreach (KeyValuePair<int, ItemExtendable> entry in CurrentProject.itemCollection)
