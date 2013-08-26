@@ -165,8 +165,9 @@ namespace ItemPacker2013
 			}
 
 			// render same for objectListView
-			List<OLVColumn> columns  = new List<OLVColumn>();
-			OLVColumn olvDefaultColumn = new OLVColumn() {AspectName = "ID", Text= "ID", Groupable = false, Sortable = true};
+			List<OLVColumn> columns = new List<OLVColumn>();
+			OLVColumn olvDefaultColumn = new OLVColumn() { AspectName = "ID", Text = "ID", Groupable = false, Sortable = true };
+			olvDefaultColumn.ImageGetter = new ImageGetterDelegate(this.RowImageGetter);
 			columns.Add(olvDefaultColumn);
 			//objectListView1.Columns.Add(olvDefaultColumn);
 
@@ -174,9 +175,12 @@ namespace ItemPacker2013
 			{
 				OLVColumn olvKeyCol = new OLVColumn() { Text = entry.Key, AspectName = entry.Key, Sortable = (entry.Key == CurrentProject.GroupBy), Groupable = (entry.Key == CurrentProject.GroupBy) };
 
-				if (entry.Key == CurrentProject.GroupBy) {
+				if (entry.Key == CurrentProject.GroupBy)
+				{
 					objectListView1.Columns.Add(olvKeyCol);
-				} else {
+				}
+				else
+				{
 					columns.Add(olvKeyCol);
 				}
 			}
@@ -256,6 +260,26 @@ namespace ItemPacker2013
 			}
 
 			itemListView.Enabled = true;
+		}
+
+		public object RowImageGetter(object rowObject)
+		{
+			ItemExtendable s = (ItemExtendable)rowObject;
+
+			foreach (KeyValuePair<string, DefinitionData> data in CurrentProject.attributeDefinitions)
+			{
+				if (data.Value.DataType == DefinitionDataType.Sprite)
+				{
+					if (imageList2.Images.Keys.IndexOf(s.getValue(data.Key)) > -1)
+					{
+						string a = s.getValue(data.Key);
+						return a;
+					}
+				}
+			}
+
+
+			return -1;
 		}
 
 		private void toolOptions_Click(object sender, EventArgs e)
@@ -634,6 +658,11 @@ namespace ItemPacker2013
 
 				renderItemList();
 			}
+		}
+
+		private void itemListView_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			toolEditItem_Click(sender, e);
 		}
 	}
 }
