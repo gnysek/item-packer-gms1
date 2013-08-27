@@ -5,11 +5,11 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using BrightIdeasSoftware;
 using System.Windows.Forms;
 using ItemPacker2013.Items;
 using System.IO;
 using System.Runtime.InteropServices;
-using BrightIdeasSoftware;
 
 namespace ItemPacker2013
 {
@@ -36,27 +36,28 @@ namespace ItemPacker2013
 		{
 			InitializeComponent();
 			ensureButtonsVisible();
-			ListViewItem_SetSpacing(itemListView, 44, 62);
+			//ListViewItem_SetSpacing(itemListView, 44, 62);
+			ListViewItem_SetSpacing(itemListViewExt, 44, 62);
 		}
 
 		public void ensureButtonsVisible()
 		{
 			toolSave.Enabled = CurrentProject != null;
 			toolOptions.Enabled = toolSave.Enabled;
-			itemListView.Enabled = toolSave.Enabled;
+			itemListViewExt.Enabled = toolSave.Enabled;
 			toolAddItem.Enabled = toolSave.Enabled;
-			toolEditItem.Enabled = (itemListView.Items.Count > 0) & toolSave.Enabled & (itemListView.SelectedItems.Count > 0);
+			toolEditItem.Enabled = (itemListViewExt.Items.Count > 0) & toolSave.Enabled & (itemListViewExt.SelectedItems.Count > 0);
 			toolImportCSV.Enabled = toolExportCSV.Enabled = toolExport.Enabled = toolSave.Enabled;
-			toolViewIcons.Enabled = (itemListView.View != View.LargeIcon) & toolSave.Enabled;
-			toolViewDetail.Enabled = (itemListView.View != View.Details) & toolSave.Enabled;
+			toolViewIcons.Enabled = (itemListViewExt.View != View.LargeIcon) & toolSave.Enabled;
+			toolViewDetail.Enabled = (itemListViewExt.View != View.Details) & toolSave.Enabled;
 		}
 
 		public void closeCurrentProject()
 		{
 			CurrentProject = null;
-			itemListView.Items.Clear();
-			itemListView.Columns.Clear();
-			itemListView.Groups.Clear();
+			itemListViewExt.Items.Clear();
+			itemListViewExt.Columns.Clear();
+			itemListViewExt.Groups.Clear();
 			ensureButtonsVisible();
 		}
 
@@ -123,7 +124,7 @@ namespace ItemPacker2013
 				using (Loading form = new Loading())
 				{
 					//form.ShowDialog();
-					form.loadSprites(new List<ImageList>() { imageList1, imageList2 });
+					form.loadSprites(new List<ImageList>() { imageListBig, imageListSmall });
 				}
 
 				if (CurrentProject.gridView == "1")
@@ -145,100 +146,129 @@ namespace ItemPacker2013
 		private void renderItemList()
 		{
 			int selection = -1;
-			int count = itemListView.Items.Count;
-			if (itemListView.SelectedItems.Count > 0)
+			int count = itemListViewExt.Items.Count;
+			if (itemListViewExt.SelectedItems.Count > 0)
 			{
-				selection = itemListView.SelectedItems[0].Index;
+				selection = itemListViewExt.SelectedItems[0].Index;
 			}
 
-			itemListView.Enabled = false;
-			itemListView.Items.Clear();
-			itemListView.Columns.Clear();
-			itemListView.Groups.Clear();
-			objectListView1.Columns.Clear();
+			itemListViewExt.Enabled = false;
+			itemListViewExt.Items.Clear();
+			itemListViewExt.Columns.Clear();
+			itemListViewExt.Groups.Clear();
+			itemListViewExt.Columns.Clear();
 
 			// render columns
-			itemListView.Columns.Add("ID");
-			foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
-			{
-				itemListView.Columns.Add(entry.Key);
-			}
+			//itemListView.Columns.Add("ID");
+			//foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
+			//{
+			//    itemListView.Columns.Add(entry.Key);
+			//}
 
 			// render same for objectListView
-			List<OLVColumn> columns = new List<OLVColumn>();
+			//List<OLVColumn> columns = new List<OLVColumn>();
 			OLVColumn olvDefaultColumn = new OLVColumn() { AspectName = "ID", Text = "ID", Groupable = false, Sortable = true };
-			olvDefaultColumn.ImageGetter = new ImageGetterDelegate(this.RowImageGetter);
-			columns.Add(olvDefaultColumn);
-			//objectListView1.Columns.Add(olvDefaultColumn);
+			//columns.Add(olvDefaultColumn);
+			itemListViewExt.Columns.Add(olvDefaultColumn);
 
 			foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
 			{
-				OLVColumn olvKeyCol = new OLVColumn() { Text = entry.Key, AspectName = entry.Key, Sortable = (entry.Key == CurrentProject.GroupBy), Groupable = (entry.Key == CurrentProject.GroupBy) };
+				OLVColumn olvKeyCol = new OLVColumn() { Text = entry.Key, AspectName = entry.Key, Sortable = (entry.Key != CurrentProject.GroupBy), Groupable = (entry.Key == CurrentProject.GroupBy) };
+
+				itemListViewExt.Columns.Add(olvKeyCol);
 
 				if (entry.Key == CurrentProject.GroupBy)
 				{
-					objectListView1.Columns.Add(olvKeyCol);
+					//olvKeyCol.ImageGetter = new ImageGetterDelegate(this.RowImageGetter);
+					olvDefaultColumn.ImageGetter = new ImageGetterDelegate(this.RowImageGetter);
+					/*olvDefaultColumn.AspectToStringConverter = delegate(object x){
+						return "eee";
+					};*/
+					//olvKeyCol.GroupKeyToTitleConverter = delegate(object x)
+					//{
+					//    return CurrentProject.groupDefinitions[CurrentProject.GroupBy].IndexOf(x.ToString()).ToString() + ". " + x.ToString();
+					//};
+					olvKeyCol.GroupKeyGetter = delegate(object x)
+					{
+						ItemExtendable item = (ItemExtendable)x;
+						int eiteration = 0;
+						int leadingZeros = (int)Math.Ceiling(CurrentProject.groupDefinitions[CurrentProject.GroupBy].Count / 10.0);
+						string val = item.getValue(CurrentProject.GroupBy).ToString();
+						foreach (string option in CurrentProject.groupDefinitions[CurrentProject.GroupBy])
+						{
+
+							if (eiteration.ToString() == val)
+							{
+								return (eiteration + 1).ToString().PadLeft(leadingZeros, '0') + ". " + option;
+							}
+							eiteration++;
+						}
+
+						return val;
+					};
+					// add as a first column
+					itemListViewExt.AlwaysGroupByColumn = olvKeyCol;
 				}
-				else
-				{
-					columns.Add(olvKeyCol);
-				}
+				//else
+				//{
+				//columns.Add(olvKeyCol);
+				//}
 			}
 
-			objectListView1.Columns.AddRange(columns.ToArray());
+			//objectListView1.Columns.AddRange(columns.ToArray());
 
 			// render groups
-			itemListView.ShowGroups = false;
-			int iteration = 0;
-			if (CurrentProject.GroupBy.Length > 0)
-			{
-				foreach (string option in CurrentProject.groupDefinitions[CurrentProject.GroupBy])
-				{
-					iteration++;
-					itemListView.Groups.Add(option, iteration.ToString() + ". " + option);
-				}
-				itemListView.ShowGroups = true;
-			}
+			//itemListView.ShowGroups = false;
+			//int iteration = 0;
+			//if (CurrentProject.GroupBy.Length > 0)
+			//{
+			//    foreach (string option in CurrentProject.groupDefinitions[CurrentProject.GroupBy])
+			//    {
+			//        iteration++;
+			//        itemListView.Groups.Add(option, iteration.ToString() + ". " + option);
+			//    }
+			//    itemListView.ShowGroups = true;
+			//}
 
-			objectListView1.SetObjects(CurrentProject.itemCollection.Values.ToList());
+			itemListViewExt.SetObjects(CurrentProject.itemCollection.Values.ToList());
 
 			// render items
-			foreach (KeyValuePair<int, ItemExtendable> entry in CurrentProject.itemCollection)
-			{
-				ListViewItem item = itemListView.Items.Add(entry.Key.ToString());
-				item.ImageIndex = 0;
-				item.UseItemStyleForSubItems = false;
-				foreach (KeyValuePair<string, DefinitionData> data in CurrentProject.attributeDefinitions)
-				{
-					ListViewItem.ListViewSubItem c = item.SubItems.Add(entry.Value.getValueLabel(data.Key));
-					if (data.Value.GroupName == CurrentProject.GroupBy)
-					{
-						item.Group = itemListView.Groups[entry.Value.getValueLabel(data.Key)];
-					}
+			//foreach (KeyValuePair<int, ItemExtendable> entry in CurrentProject.itemCollection)
+			//{
+			//    ListViewItem item = itemListView.Items.Add(entry.Key.ToString());
+			//    item.ImageIndex = 0;
+			//    item.UseItemStyleForSubItems = false;
+			//    foreach (KeyValuePair<string, DefinitionData> data in CurrentProject.attributeDefinitions)
+			//    {
+			//        ListViewItem.ListViewSubItem c = item.SubItems.Add(entry.Value.getValueLabel(data.Key));
+			//        if (data.Value.GroupName == CurrentProject.GroupBy)
+			//        {
+			//            item.Group = itemListView.Groups[entry.Value.getValueLabel(data.Key)];
+			//        }
 
-					if (data.Value.DataType == DefinitionDataType.Sprite && item.ImageIndex == 0) // 0 == not yet changed
-					{
-						if (imageList1.Images.Keys.IndexOf(entry.Value.getValue(data.Key)) > -1)
-						{
-							item.ImageKey = entry.Value.getValue(data.Key);
-						}
-					}
+			//        if (data.Value.DataType == DefinitionDataType.Sprite && item.ImageIndex == 0) // 0 == not yet changed
+			//        {
+			//            if (imageListBig.Images.Keys.IndexOf(entry.Value.getValue(data.Key)) > -1)
+			//            {
+			//                item.ImageKey = entry.Value.getValue(data.Key);
+			//            }
+			//        }
 
-					if (item.ToolTipText == "" && data.Value.DataType == DefinitionDataType.String)
-					{
-						item.ToolTipText = entry.Value.getValue(data.Key);
-					}
+			//        if (item.ToolTipText == "" && data.Value.DataType == DefinitionDataType.String)
+			//        {
+			//            item.ToolTipText = entry.Value.getValue(data.Key);
+			//        }
 
-					if (c.Text == CurrentProject.attributeDefinitions[data.Key].DefaultValue)
-					{
-						c.ForeColor = Color.Green;
-					}
-					else if (c.Text == "0")
-					{
-						c.ForeColor = Color.Gray;
-					}
-				}
-			}
+			//        if (c.Text == CurrentProject.attributeDefinitions[data.Key].DefaultValue)
+			//        {
+			//            c.ForeColor = Color.Green;
+			//        }
+			//        else if (c.Text == "0")
+			//        {
+			//            c.ForeColor = Color.Gray;
+			//        }
+			//    }
+			//}
 
 			// auto column width
 			/*foreach (ColumnHeader col in itemListView.Columns)
@@ -250,16 +280,18 @@ namespace ItemPacker2013
 			}*/
 
 			// bring back selection
-			if (selection > -1 && itemListView.Items.Count == count)
+			if (selection > -1 && itemListViewExt.Items.Count == count)
 			{
-				itemListView.Items[selection].Selected = true;
+				itemListViewExt.SelectedIndex = selection;
+				//itemListViewExt.Items[selection].Selected = true;
+				itemListViewExt.Focus();
 			}
-			else if (itemListView.Items.Count > 0)
+			else if (itemListViewExt.Items.Count > 0)
 			{
-				itemListView.Items[itemListView.Items.Count - 1].Selected = true;
+				itemListViewExt.Items[itemListViewExt.Items.Count - 1].Selected = true;
 			}
 
-			itemListView.Enabled = true;
+			itemListViewExt.Enabled = true;
 		}
 
 		public object RowImageGetter(object rowObject)
@@ -270,7 +302,7 @@ namespace ItemPacker2013
 			{
 				if (data.Value.DataType == DefinitionDataType.Sprite)
 				{
-					if (imageList2.Images.Keys.IndexOf(s.getValue(data.Key)) > -1)
+					if (imageListSmall.Images.Keys.IndexOf(s.getValue(data.Key)) > -1)
 					{
 						string a = s.getValue(data.Key);
 						return a;
@@ -370,9 +402,9 @@ namespace ItemPacker2013
 
 		private void toolEditItem_Click(object sender, EventArgs e)
 		{
-			if (itemListView.SelectedItems.Count > 0)
+			if (itemListViewExt.SelectedItems.Count > 0)
 			{
-				editItem(true, itemListView.SelectedItems[0].Index);
+				editItem(true, itemListViewExt.SelectedItems[0].Index);
 			}
 		}
 
@@ -388,7 +420,7 @@ namespace ItemPacker2013
 			int itemID = -1;
 			if (edit)
 			{
-				int.TryParse(itemListView.Items[selectedID].Text, out itemID);
+				int.TryParse(itemListViewExt.Items[selectedID].Text, out itemID);
 			}
 
 			//ListViewItem newItem = itemListView.Items.Add("Item " + itemListView.Items.Count.ToString());
@@ -551,7 +583,16 @@ namespace ItemPacker2013
 					}
 
 					// render only if OK was pressed
-					renderItemList();
+
+					int selection = itemListViewExt.SelectedItems[0].Index;
+
+					itemListViewExt.SetObjects(CurrentProject.itemCollection.Values.ToList());
+
+					if (selection > -1)
+					{
+						itemListViewExt.SelectedIndex = selection;
+					}
+					//renderItemList();
 				}
 			}
 
@@ -560,14 +601,16 @@ namespace ItemPacker2013
 
 		private void toolViewIcons_Click(object sender, EventArgs e)
 		{
-			itemListView.View = View.LargeIcon;
+			//itemListView.View = View.LargeIcon;
+			itemListViewExt.View = View.LargeIcon;
 			CurrentProject.gridView = "0";
 			ensureButtonsVisible();
 		}
 
 		private void toolViewDetail_Click(object sender, EventArgs e)
 		{
-			itemListView.View = View.Details;
+			//itemListView.View = View.Details;
+			itemListViewExt.View = View.Details;
 			CurrentProject.gridView = "1";
 			ensureButtonsVisible();
 		}
@@ -606,14 +649,19 @@ namespace ItemPacker2013
 			}
 		}
 
-		private void itemListView_SelectedIndexChanged(object sender, EventArgs e)
+		private void itemListViewExt_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ensureButtonsVisible();
 		}
 
-		private void itemListView_MouseClick(object sender, MouseEventArgs e)
+		private void itemListViewExt_MouseClick(object sender, MouseEventArgs e)
 		{
 			ensureButtonsVisible();
+		}
+
+		private void itemListViewExt_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			toolEditItem_Click(sender, e);
 		}
 
 		private void toolImportCSV_Click(object sender, EventArgs e)
@@ -658,11 +706,6 @@ namespace ItemPacker2013
 
 				renderItemList();
 			}
-		}
-
-		private void itemListView_MouseDoubleClick(object sender, MouseEventArgs e)
-		{
-			toolEditItem_Click(sender, e);
 		}
 	}
 }

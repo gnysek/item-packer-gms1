@@ -31,31 +31,32 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.toolSave = new System.Windows.Forms.ToolStripButton();
+			this.toolOpen = new System.Windows.Forms.ToolStripButton();
+			this.toolPackage = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolAddItem = new System.Windows.Forms.ToolStripButton();
+			this.toolEditItem = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolViewIcons = new System.Windows.Forms.ToolStripButton();
+			this.toolViewDetail = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolExport = new System.Windows.Forms.ToolStripButton();
+			this.toolExportCSV = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolOptions = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-			this.itemListView = new System.Windows.Forms.ListView();
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.toolImportCSV = new System.Windows.Forms.ToolStripButton();
+			this.imageListBig = new System.Windows.Forms.ImageList(this.components);
+			this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-			this.toolSave = new System.Windows.Forms.ToolStripButton();
-			this.toolOpen = new System.Windows.Forms.ToolStripButton();
-			this.toolPackage = new System.Windows.Forms.ToolStripButton();
-			this.toolAddItem = new System.Windows.Forms.ToolStripButton();
-			this.toolEditItem = new System.Windows.Forms.ToolStripButton();
-			this.toolViewIcons = new System.Windows.Forms.ToolStripButton();
-			this.toolViewDetail = new System.Windows.Forms.ToolStripButton();
-			this.toolExport = new System.Windows.Forms.ToolStripButton();
-			this.toolExportCSV = new System.Windows.Forms.ToolStripButton();
-			this.toolOptions = new System.Windows.Forms.ToolStripButton();
-			this.toolImportCSV = new System.Windows.Forms.ToolStripButton();
-			this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+			this.itemListViewExt = new BrightIdeasSoftware.ObjectListView();
 			this.toolStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.itemListViewExt)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// toolStrip1
@@ -84,82 +85,6 @@
 			this.toolStrip1.Size = new System.Drawing.Size(790, 39);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 39);
-			// 
-			// toolStripSeparator4
-			// 
-			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 39);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
-			// 
-			// toolStripSeparator5
-			// 
-			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
-			// 
-			// itemListView
-			// 
-			this.itemListView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.itemListView.FullRowSelect = true;
-			this.itemListView.GridLines = true;
-			this.itemListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			this.itemListView.HideSelection = false;
-			this.itemListView.LargeImageList = this.imageList1;
-			this.itemListView.Location = new System.Drawing.Point(0, 39);
-			this.itemListView.Name = "itemListView";
-			this.itemListView.ShowItemToolTips = true;
-			this.itemListView.Size = new System.Drawing.Size(790, 417);
-			this.itemListView.SmallImageList = this.imageList2;
-			this.itemListView.TabIndex = 1;
-			this.itemListView.UseCompatibleStateImageBehavior = false;
-			this.itemListView.View = System.Windows.Forms.View.Details;
-			this.itemListView.SelectedIndexChanged += new System.EventHandler(this.itemListView_SelectedIndexChanged);
-			this.itemListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.itemListView_MouseClick);
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "error.png");
-			// 
-			// statusStrip1
-			// 
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 456);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(790, 22);
-			this.statusStrip1.TabIndex = 2;
-			this.statusStrip1.Text = "statusStrip1";
-			// 
-			// toolStripStatusLabel1
-			// 
-			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(12, 17);
-			this.toolStripStatusLabel1.Text = "-";
-			// 
-			// openFileDialog1
-			// 
-			this.openFileDialog1.SupportMultiDottedExtensions = true;
-			// 
-			// saveFileDialog1
-			// 
-			this.saveFileDialog1.CreatePrompt = true;
-			this.saveFileDialog1.DefaultExt = "*.gml";
-			this.saveFileDialog1.Filter = "GML files|*gml";
 			// 
 			// toolSave
 			// 
@@ -191,6 +116,11 @@
 			this.toolPackage.Text = "Create new Project...";
 			this.toolPackage.Click += new System.EventHandler(this.toolPackage_Click);
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
+			// 
 			// toolAddItem
 			// 
 			this.toolAddItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -210,6 +140,11 @@
 			this.toolEditItem.Size = new System.Drawing.Size(36, 36);
 			this.toolEditItem.Text = "Edit Item...";
 			this.toolEditItem.Click += new System.EventHandler(this.toolEditItem_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 39);
 			// 
 			// toolViewIcons
 			// 
@@ -231,6 +166,11 @@
 			this.toolViewDetail.Text = "Detail View";
 			this.toolViewDetail.Click += new System.EventHandler(this.toolViewDetail_Click);
 			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 39);
+			// 
 			// toolExport
 			// 
 			this.toolExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -251,6 +191,11 @@
 			this.toolExportCSV.Text = "Export to CSV...";
 			this.toolExportCSV.Click += new System.EventHandler(this.toolExportCSV_Click);
 			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
+			// 
 			// toolOptions
 			// 
 			this.toolOptions.Image = global::ItemPacker2013.Properties.Resources.setting_tools;
@@ -262,6 +207,11 @@
 			this.toolOptions.ToolTipText = "Project Settings...";
 			this.toolOptions.Click += new System.EventHandler(this.toolOptions_Click);
 			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
+			// 
 			// toolImportCSV
 			// 
 			this.toolImportCSV.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -272,18 +222,78 @@
 			this.toolImportCSV.Text = "CSV Import";
 			this.toolImportCSV.Click += new System.EventHandler(this.toolImportCSV_Click);
 			// 
-			// imageList2
+			// imageListBig
 			// 
-			this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
-			this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList2.Images.SetKeyName(0, "error.png");
+			this.imageListBig.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListBig.ImageStream")));
+			this.imageListBig.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageListBig.Images.SetKeyName(0, "error.png");
+			// 
+			// imageListSmall
+			// 
+			this.imageListSmall.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListSmall.ImageStream")));
+			this.imageListSmall.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageListSmall.Images.SetKeyName(0, "error.png");
+			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 456);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(790, 22);
+			this.statusStrip1.TabIndex = 2;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// toolStripStatusLabel1
+			// 
+			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(12, 17);
+			this.toolStripStatusLabel1.Text = "-";
+			// 
+			// openFileDialog1
+			// 
+			this.openFileDialog1.SupportMultiDottedExtensions = true;
+			// 
+			// saveFileDialog1
+			// 
+			this.saveFileDialog1.CreatePrompt = true;
+			this.saveFileDialog1.DefaultExt = "*.gml";
+			this.saveFileDialog1.Filter = "GML files|*gml";
+			// 
+			// itemListViewExt
+			// 
+			this.itemListViewExt.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.itemListViewExt.EmptyListMsg = "No items";
+			this.itemListViewExt.EmptyListMsgFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.itemListViewExt.FullRowSelect = true;
+			this.itemListViewExt.GridLines = true;
+			this.itemListViewExt.HasCollapsibleGroups = false;
+			this.itemListViewExt.HeaderUsesThemes = false;
+			this.itemListViewExt.HideSelection = false;
+			this.itemListViewExt.LargeImageList = this.imageListBig;
+			this.itemListViewExt.Location = new System.Drawing.Point(0, 39);
+			this.itemListViewExt.MultiSelect = false;
+			this.itemListViewExt.Name = "itemListViewExt";
+			this.itemListViewExt.ShowItemCountOnGroups = true;
+			this.itemListViewExt.Size = new System.Drawing.Size(790, 417);
+			this.itemListViewExt.SmallImageList = this.imageListSmall;
+			this.itemListViewExt.SortGroupItemsByPrimaryColumn = false;
+			this.itemListViewExt.Sorting = System.Windows.Forms.SortOrder.Ascending;
+			this.itemListViewExt.TabIndex = 3;
+			this.itemListViewExt.TintSortColumn = true;
+			this.itemListViewExt.UseCompatibleStateImageBehavior = false;
+			this.itemListViewExt.UseFiltering = true;
+			this.itemListViewExt.View = System.Windows.Forms.View.Details;
+			this.itemListViewExt.SelectedIndexChanged += new System.EventHandler(this.itemListViewExt_SelectedIndexChanged);
+			this.itemListViewExt.MouseClick += new System.Windows.Forms.MouseEventHandler(this.itemListViewExt_MouseClick);
+			this.itemListViewExt.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.itemListViewExt_MouseDoubleClick);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(790, 478);
-			this.Controls.Add(this.itemListView);
+			this.Controls.Add(this.itemListViewExt);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.toolStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -294,6 +304,7 @@
 			this.toolStrip1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.itemListViewExt)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -307,7 +318,6 @@
 		private System.Windows.Forms.ToolStripButton toolPackage;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton toolOptions;
-		private System.Windows.Forms.ListView itemListView;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -321,10 +331,11 @@
 		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-		private System.Windows.Forms.ImageList imageList1;
+		private System.Windows.Forms.ImageList imageListBig;
 		private System.Windows.Forms.ToolStripButton toolExportCSV;
 		private System.Windows.Forms.ToolStripButton toolImportCSV;
-		private System.Windows.Forms.ImageList imageList2;
+		private System.Windows.Forms.ImageList imageListSmall;
+		private BrightIdeasSoftware.ObjectListView itemListViewExt;
 	}
 }
 

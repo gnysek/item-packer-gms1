@@ -10,9 +10,18 @@ namespace ItemPacker2013.Items
 		public int ID;
 		public Dictionary<string, string> values = new Dictionary<string, string>();
 
-		public string this[string name]
+		public object this[string key]
 		{
-			get { return this.getValueLabel(name); }
+			get
+			{
+				if (Database.attributeDefinitions[key].DataType == DefinitionDataType.Int)
+				{
+					int def = 0;
+					int.TryParse(this.getValueLabel(key), out def);
+					return def;
+				}
+				return this.getValueLabel(key);
+			}
 		}
 
 		public void removeKey(string key)
