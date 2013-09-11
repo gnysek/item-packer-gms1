@@ -262,6 +262,7 @@
 			// 
 			// itemListViewExt
 			// 
+			this.itemListViewExt.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
 			this.itemListViewExt.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.itemListViewExt.EmptyListMsg = "No items";
 			this.itemListViewExt.EmptyListMsgFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -270,6 +271,7 @@
 			this.itemListViewExt.HasCollapsibleGroups = false;
 			this.itemListViewExt.HeaderUsesThemes = false;
 			this.itemListViewExt.HideSelection = false;
+			this.itemListViewExt.LabelWrap = false;
 			this.itemListViewExt.LargeImageList = this.imageListBig;
 			this.itemListViewExt.Location = new System.Drawing.Point(0, 39);
 			this.itemListViewExt.MultiSelect = false;
@@ -281,9 +283,12 @@
 			this.itemListViewExt.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.itemListViewExt.TabIndex = 3;
 			this.itemListViewExt.TintSortColumn = true;
+			this.itemListViewExt.UseAlternatingBackColors = true;
+			this.itemListViewExt.UseCellFormatEvents = true;
 			this.itemListViewExt.UseCompatibleStateImageBehavior = false;
 			this.itemListViewExt.UseFiltering = true;
 			this.itemListViewExt.View = System.Windows.Forms.View.Details;
+			this.itemListViewExt.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.itemListViewExt_FormatCell);
 			this.itemListViewExt.SelectedIndexChanged += new System.EventHandler(this.itemListViewExt_SelectedIndexChanged);
 			this.itemListViewExt.MouseClick += new System.Windows.Forms.MouseEventHandler(this.itemListViewExt_MouseClick);
 			this.itemListViewExt.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.itemListViewExt_MouseDoubleClick);
