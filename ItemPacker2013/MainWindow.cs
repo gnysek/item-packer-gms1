@@ -153,10 +153,7 @@ namespace ItemPacker2013
 			}
 
 			itemListViewExt.Enabled = false;
-			itemListViewExt.Items.Clear();
-			itemListViewExt.Columns.Clear();
-			itemListViewExt.Groups.Clear();
-			itemListViewExt.Columns.Clear();
+			itemListViewExt.Reset();
 
 			// render columns
 			//itemListView.Columns.Add("ID");
@@ -173,7 +170,16 @@ namespace ItemPacker2013
 
 			foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
 			{
-				OLVColumn olvKeyCol = new OLVColumn() { Text = entry.Key, AspectName = entry.Key, Sortable = (entry.Key != CurrentProject.GroupBy), Groupable = (entry.Key == CurrentProject.GroupBy) };
+				OLVColumn olvKeyCol = new OLVColumn()
+				{
+					Text = entry.Key,
+					AspectName = entry.Key,
+					Sortable = (entry.Key != CurrentProject.GroupBy),
+					Groupable = (entry.Key == CurrentProject.GroupBy),
+					IsHeaderVertical = (entry.Value.DataType == DefinitionDataType.Int),
+					//,
+					//FillsFreeSpace = true
+				};
 
 				itemListViewExt.Columns.Add(olvKeyCol);
 
@@ -215,6 +221,7 @@ namespace ItemPacker2013
 				//}
 			}
 
+			itemListViewExt.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 			//objectListView1.Columns.AddRange(columns.ToArray());
 
 			// render groups
@@ -231,6 +238,7 @@ namespace ItemPacker2013
 			//}
 
 			itemListViewExt.SetObjects(CurrentProject.itemCollection.Values.ToList());
+			itemListViewExt.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 
 			// render items
 			//foreach (KeyValuePair<int, ItemExtendable> entry in CurrentProject.itemCollection)
@@ -601,17 +609,20 @@ namespace ItemPacker2013
 
 		private void toolViewIcons_Click(object sender, EventArgs e)
 		{
-			//itemListView.View = View.LargeIcon;
-			itemListViewExt.View = View.LargeIcon;
-			CurrentProject.gridView = "0";
-			ensureButtonsVisible();
+			viewChange(false);
 		}
 
 		private void toolViewDetail_Click(object sender, EventArgs e)
 		{
-			//itemListView.View = View.Details;
-			itemListViewExt.View = View.Details;
-			CurrentProject.gridView = "1";
+			viewChange(true);
+		}
+
+		private void viewChange(bool details)
+		{
+			itemListViewExt.View = (details) ? View.Details : View.LargeIcon;
+			itemListViewExt.HeaderStyle = (details) ? ColumnHeaderStyle.Clickable : ColumnHeaderStyle.None;
+			ObjectListView.IgnoreMissingAspects = true;
+			CurrentProject.gridView = (details) ? "1" : "0";
 			ensureButtonsVisible();
 		}
 
@@ -705,6 +716,25 @@ namespace ItemPacker2013
 				}
 
 				renderItemList();
+			}
+		}
+
+		private void itemListViewExt_FormatCell(object sender, FormatCellEventArgs e)
+		{
+			if (e.ColumnIndex > 0)
+			{
+				if (e.CellValue.ToString() == CurrentProject.attributeDefinitions[e.Column.Text].DefaultValue)
+				{
+					e.SubItem.ForeColor = Color.Green;
+				}
+
+				if (e.Column.Text == "Upg")
+				{
+					if (e.CellValue.ToString() != "0")
+					{
+						e.Item.BackColor = Color.Red;
+					}
+				}
 			}
 		}
 	}
