@@ -53,7 +53,9 @@
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-			this.itemListViewExt = new BrightIdeasSoftware.ObjectListView();
+			this.itemListViewExt = new BrightIdeasSoftware.FastObjectListView();
+			this.toolFilterBox = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.toolStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.itemListViewExt)).BeginInit();
@@ -276,6 +278,9 @@
 			this.itemListViewExt.Location = new System.Drawing.Point(0, 39);
 			this.itemListViewExt.MultiSelect = false;
 			this.itemListViewExt.Name = "itemListViewExt";
+			this.itemListViewExt.OwnerDraw = true;
+			this.itemListViewExt.ShowGroups = false;
+			this.itemListViewExt.ShowImagesOnSubItems = true;
 			this.itemListViewExt.ShowItemCountOnGroups = true;
 			this.itemListViewExt.Size = new System.Drawing.Size(790, 417);
 			this.itemListViewExt.SmallImageList = this.imageListSmall;
@@ -284,20 +289,39 @@
 			this.itemListViewExt.TabIndex = 3;
 			this.itemListViewExt.TintSortColumn = true;
 			this.itemListViewExt.UseAlternatingBackColors = true;
-			this.itemListViewExt.UseCellFormatEvents = true;
 			this.itemListViewExt.UseCompatibleStateImageBehavior = false;
 			this.itemListViewExt.UseFiltering = true;
 			this.itemListViewExt.View = System.Windows.Forms.View.Details;
+			this.itemListViewExt.VirtualMode = true;
 			this.itemListViewExt.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.itemListViewExt_FormatCell);
 			this.itemListViewExt.SelectedIndexChanged += new System.EventHandler(this.itemListViewExt_SelectedIndexChanged);
 			this.itemListViewExt.MouseClick += new System.Windows.Forms.MouseEventHandler(this.itemListViewExt_MouseClick);
 			this.itemListViewExt.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.itemListViewExt_MouseDoubleClick);
+			// 
+			// toolFilterBox
+			// 
+			this.toolFilterBox.Location = new System.Drawing.Point(678, 12);
+			this.toolFilterBox.Name = "toolFilterBox";
+			this.toolFilterBox.Size = new System.Drawing.Size(100, 20);
+			this.toolFilterBox.TabIndex = 4;
+			this.toolFilterBox.TextChanged += new System.EventHandler(this.toolFilterBox_TextChanged);
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(637, 15);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(32, 13);
+			this.label1.TabIndex = 5;
+			this.label1.Text = "Filter:";
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(790, 478);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.toolFilterBox);
 			this.Controls.Add(this.itemListViewExt);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.toolStrip1);
@@ -340,7 +364,9 @@
 		private System.Windows.Forms.ToolStripButton toolExportCSV;
 		private System.Windows.Forms.ToolStripButton toolImportCSV;
 		private System.Windows.Forms.ImageList imageListSmall;
-		private BrightIdeasSoftware.ObjectListView itemListViewExt;
+		private BrightIdeasSoftware.FastObjectListView itemListViewExt;
+		private System.Windows.Forms.TextBox toolFilterBox;
+		private System.Windows.Forms.Label label1;
 	}
 }
 
