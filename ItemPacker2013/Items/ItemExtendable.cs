@@ -14,12 +14,13 @@ namespace ItemPacker2013.Items
 		{
 			get
 			{
-				if (Database.attributeDefinitions[key].DataType == DefinitionDataType.Int)
+				/*if (Database.attributeDefinitions[key].DataType == DefinitionDataType.Int)
 				{
-					int def = 0;
+					/*int def = 0;
 					int.TryParse(this.getValueLabel(key), out def);
-					return def;
-				}
+					return def;* /
+					return this.getValue(key);
+				}*/
 				return this.getValueLabel(key);
 			}
 		}
@@ -103,7 +104,9 @@ namespace ItemPacker2013.Items
 					case DefinitionDataType.Int:
 						if (values.ContainsKey(key))
 						{
-							return Database.groupDefinitions.ElementAt(Database.attributeDefinitions[key].GroupLink).Value[int.Parse(values[key])];
+							int val = 0;
+							int.TryParse(values[key], out val);
+							return Database.groupDefinitions.ElementAt(Database.attributeDefinitions[key].GroupLink).Value[val];
 						}
 						else
 						{
