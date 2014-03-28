@@ -55,10 +55,14 @@ namespace ItemPacker2013
 
 		public void closeCurrentProject()
 		{
+
+			//itemListViewExt.Items.Clear();
+			//itemListViewExt.Columns.Clear();
+			//itemListViewExt.Groups.Clear();
+			//itemListViewExt.SetObjects(null);
+			itemListViewExt.Reset();
+			//itemListViewExt.Refresh();
 			CurrentProject = null;
-			itemListViewExt.Items.Clear();
-			itemListViewExt.Columns.Clear();
-			itemListViewExt.Groups.Clear();
 			ensureButtonsVisible();
 		}
 
@@ -72,27 +76,40 @@ namespace ItemPacker2013
 				}
 			}
 
-			CurrentProject = null;
-			ensureButtonsVisible();
-
 			openFileDialog1.Title = "Open GMX project...";
 			openFileDialog1.DefaultExt = "*.project.gmx";
 			openFileDialog1.Filter = "GM:Studio Project|" + openFileDialog1.DefaultExt;
 			DialogResult result = openFileDialog1.ShowDialog();
 			if (result == DialogResult.OK)
 			{
+				closeCurrentProject();
+				ensureButtonsVisible();
+
+				string fileName = "items";
+
+				using (Prompt prompt = new Prompt())
+				{
+					prompt.Text = "File name";
+					prompt.attrText.Text = fileName;
+					prompt.ShowDialog();
+					if (prompt.DialogResult == DialogResult.OK)
+					{
+						fileName = prompt.attrText.Text;
+					}
+				}
+
 				using (SettingsForm settings = new SettingsForm())
 				{
 					settings.settingGMXsource.Text = openFileDialog1.FileName;
 					settings.ShowDialog();
 					if (settings.DialogResult == DialogResult.OK)
 					{
-						CurrentProject = new Project();
-						CurrentProject.GMXsource = settings.settingGMXsource.Text;
-						CurrentProject.preloadGMXsprites();
-						//CurrentProject.GMXspritePattern = settings.settingGMXspritePattern.Text.Split('|');
-						CurrentProject.filename = Path.GetDirectoryName(CurrentProject.GMXsource) + @"\items.gear.itm";
-						CurrentProject.saveXml();
+						CurrentProject = new Project(settings.settingGMXsource.Text, fileName);
+						//CurrentProject.GMXsource = settings.settingGMXsource.Text;
+						//CurrentProject.preloadGMXsprites();
+						////CurrentProject.GMXspritePattern = settings.settingGMXspritePattern.Text.Split('|');
+						//CurrentProject.filename = Path.GetDirectoryName(CurrentProject.GMXsource) + @"\items.gear.itm";
+						//CurrentProject.saveXml();
 					}
 				}
 			}
@@ -110,7 +127,7 @@ namespace ItemPacker2013
 				}
 			}
 
-			closeCurrentProject();
+			//closeCurrentProject();
 
 			openFileDialog1.Title = "Open Item package...";
 			openFileDialog1.DefaultExt = "*.gear.itm";
@@ -118,9 +135,38 @@ namespace ItemPacker2013
 			DialogResult result = openFileDialog1.ShowDialog();
 			if (result == DialogResult.OK)
 			{
+				closeCurrentProject();
+
 				CurrentProject = new Project();
 				CurrentProject.filename = openFileDialog1.FileName;
-				CurrentProject.loadXml();
+
+				//bool loadingResult = false;
+
+				//while (loadingResult == false)
+				while (CurrentProject.loadXml() == false)
+				{
+					//loadingResult = CurrentProject.loadXml();
+
+					if (MessageBox.Show("GMX Project file not found.\n(" + CurrentProject.GMXsource + ")"
+						+ "\nDo you want to manually find GM:S project used with that package?", this.Text,
+						MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+					{
+						closeCurrentProject();
+						return;
+					}
+
+					openFileDialog1.Title = "Open GMX project...";
+					openFileDialog1.DefaultExt = "*.project.gmx";
+					openFileDialog1.Filter = "GM:Studio Project|" + openFileDialog1.DefaultExt;
+					openFileDialog1.FileName = Path.GetFileName(CurrentProject.GMXsource);
+					DialogResult gmxFindResult = openFileDialog1.ShowDialog();
+					if (gmxFindResult == DialogResult.Cancel)
+					{
+						closeCurrentProject();
+						return;
+					}
+					CurrentProject.GMXsource = openFileDialog1.FileName;
+				}
 
 				using (Loading form = new Loading())
 				{
@@ -156,7 +202,6 @@ namespace ItemPacker2013
 
 			itemListViewExt.Enabled = false;
 			itemListViewExt.Reset();
-			itemListViewExt.Columns.Clear();
 
 			// render columns
 			//itemListView.Columns.Add("ID");
@@ -222,7 +267,11 @@ namespace ItemPacker2013
 					itemListViewExt.PrimarySortColumn = olvKeyCol;
 				}
 
-				itemListViewExt.Columns.Add(olvKeyCol);
+				if (itemListViewExt.Columns.Count < 8)
+				{
+					itemListViewExt.Columns.Add(olvKeyCol);
+					olvKeyCol.Hideable = true;
+				}
 			}
 
 			itemListViewExt.ShowGroups = true;
@@ -295,6 +344,7 @@ namespace ItemPacker2013
 			}
 
 			itemListViewExt.Enabled = true;
+			itemListViewExt.Focus();
 		}
 
 		public object RowImageGetter(object rowObject)
@@ -312,7 +362,6 @@ namespace ItemPacker2013
 					}
 				}
 			}
-
 
 			return -1;
 		}
@@ -405,9 +454,9 @@ namespace ItemPacker2013
 
 		private void toolEditItem_Click(object sender, EventArgs e)
 		{
-			if (itemListViewExt.SelectedItems.Count > 0)
+			if (itemListViewExt.SelectedObjects.Count > 0)
 			{
-				editItem(true, itemListViewExt.SelectedItems[0].Index);
+				editItem(true, itemListViewExt.SelectedIndex);
 			}
 		}
 
@@ -530,6 +579,13 @@ namespace ItemPacker2013
 				}
 				#endregion
 
+				Label la = new Label();
+				la.Text = "";
+				la.Top = counter;
+				la.Left = 20;
+				la.Height = 13;
+				form.Controls.Add(la);
+
 				form.Height = Math.Min(500, counter + 50);
 
 				form.ShowDialog();
@@ -540,6 +596,14 @@ namespace ItemPacker2013
 
 					// since it was already try-parsed in Edit form, just parse here
 					itemData.ID = int.Parse(form.itemID.Text);
+
+					if (edit)
+					{
+						if (itemData.ID == itemID)
+						{
+							itemData = CurrentProject.itemCollection[itemID];
+						}
+					}
 
 					// fill data for (non-)existing item
 					foreach (Control control in controlList)
@@ -572,7 +636,7 @@ namespace ItemPacker2013
 					{
 						if (itemData.ID == itemID)
 						{
-							CurrentProject.itemCollection[itemID] = itemData;
+							//CurrentProject.itemCollection[itemID] = itemData;
 						}
 						else
 						{
@@ -587,9 +651,10 @@ namespace ItemPacker2013
 
 					// render only if OK was pressed
 
-					int selection = itemListViewExt.SelectedItems[0].Index;
+					int selection = itemListViewExt.SelectedIndex;
 
-					itemListViewExt.SetObjects(CurrentProject.itemCollection.Values.ToList());
+					//itemListViewExt.SetObjects(CurrentProject.itemCollection.Values.ToList());
+					itemListViewExt.BuildList();
 
 					if (selection > -1)
 					{
@@ -735,6 +800,8 @@ namespace ItemPacker2013
 
 		private void toolFilterBox_TextChanged(object sender, EventArgs e)
 		{
+			if (itemListViewExt.Columns.Count < 4) return;
+
 			TextMatchFilter filter = null;
 			filter = TextMatchFilter.Contains(itemListViewExt, toolFilterBox.Text);
 

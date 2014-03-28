@@ -28,12 +28,12 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Name",
-            "String",
-            "-",
-            ""}, -1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new System.Windows.Forms.ListViewItem.ListViewSubItem[] {
+            new System.Windows.Forms.ListViewItem.ListViewSubItem(null, "Name"),
+            new System.Windows.Forms.ListViewItem.ListViewSubItem(null, "String", System.Drawing.SystemColors.WindowText, System.Drawing.Color.Red, new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)))),
+            new System.Windows.Forms.ListViewItem.ListViewSubItem(null, "-"),
+            new System.Windows.Forms.ListViewItem.ListViewSubItem(null, "")}, -1);
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Price",
             "Int",
             "-1",
@@ -141,11 +141,11 @@
 			this.settingDefinitions.GridLines = true;
 			this.settingDefinitions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.settingDefinitions.HideSelection = false;
-			listViewItem3.StateImageIndex = 0;
-			listViewItem4.StateImageIndex = 0;
+			listViewItem1.StateImageIndex = 0;
+			listViewItem2.StateImageIndex = 0;
 			this.settingDefinitions.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3,
-            listViewItem4});
+            listViewItem1,
+            listViewItem2});
 			this.settingDefinitions.LabelWrap = false;
 			this.settingDefinitions.Location = new System.Drawing.Point(12, 157);
 			this.settingDefinitions.MultiSelect = false;

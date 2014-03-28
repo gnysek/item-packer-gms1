@@ -119,10 +119,27 @@ namespace ItemPacker2013
 
 		private void _updateAttributeViewList(ListViewItem item, bool export, string name, string type, string dropdown, string defVal)
 		{
+			ListViewItem.ListViewSubItem sub;
 			item.SubItems.Clear();
 			item.Text = name;
 			item.Checked = export;
-			item.SubItems.Add(type);
+			item.UseItemStyleForSubItems = false;
+			sub = item.SubItems.Add(type);
+			switch (type)
+			{
+				case "String":
+					sub.BackColor = Color.LightGray;
+					break;
+				case "Int":
+					sub.BackColor = Color.LightSteelBlue;
+					break;
+				case "Bool":
+					sub.BackColor = Color.LightCyan;
+					break;
+				case "Sprite":
+					sub.BackColor = Color.LightGoldenrodYellow;
+					break;
+			}
 			item.SubItems.Add(dropdown);
 			item.SubItems.Add(defVal);
 		}

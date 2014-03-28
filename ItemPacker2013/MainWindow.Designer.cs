@@ -279,6 +279,9 @@
 			this.itemListViewExt.MultiSelect = false;
 			this.itemListViewExt.Name = "itemListViewExt";
 			this.itemListViewExt.OwnerDraw = true;
+			this.itemListViewExt.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.ModelDialog;
+			this.itemListViewExt.ShowCommandMenuOnRightClick = true;
+			this.itemListViewExt.ShowFilterMenuOnRightClick = false;
 			this.itemListViewExt.ShowGroups = false;
 			this.itemListViewExt.ShowImagesOnSubItems = true;
 			this.itemListViewExt.ShowItemCountOnGroups = true;
@@ -290,6 +293,7 @@
 			this.itemListViewExt.TintSortColumn = true;
 			this.itemListViewExt.UseAlternatingBackColors = true;
 			this.itemListViewExt.UseCompatibleStateImageBehavior = false;
+			this.itemListViewExt.UseFilterIndicator = true;
 			this.itemListViewExt.UseFiltering = true;
 			this.itemListViewExt.View = System.Windows.Forms.View.Details;
 			this.itemListViewExt.VirtualMode = true;
@@ -309,6 +313,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
+			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Location = new System.Drawing.Point(637, 15);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(32, 13);
