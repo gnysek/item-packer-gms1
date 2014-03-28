@@ -29,6 +29,24 @@ namespace ItemPacker2013.Items
 
 		public Project()
 		{
+			_defineDefault();
+		}
+
+		public Project(string sourceFile, string sourceName)
+		{
+			_defineDefault();
+			GMXsource = sourceFile;
+			preloadGMXsprites();
+			if (sourceName == "")
+			{
+				sourceName = "items";
+			}
+			filename = Path.GetDirectoryName(GMXsource) + @"\" + sourceName + ".gear.itm";
+			saveXml();
+		}
+
+		private void _defineDefault()
+		{
 			attributeDefinitions.Add("Name", new DefinitionData() { DataType = DefinitionDataType.String });
 			attributeDefinitions.Add("Price", new DefinitionData() { DataType = DefinitionDataType.String });
 		}
@@ -69,7 +87,18 @@ namespace ItemPacker2013.Items
 			doc.Load(filename);
 
 			XmlNode settings = doc.SelectSingleNode("nodes/settings");
-			GMXsource = settings.SelectSingleNode(C_GMXSource).InnerText;
+			if (GMXsource == "")
+			{
+				// load it from file only, when it wasn't forced by Main Window
+				// it may be forced when not found and users points to new one
+				GMXsource = settings.SelectSingleNode(C_GMXSource).InnerText;
+			}
+
+			if (!File.Exists(GMXsource))
+			{
+				return false;
+			}
+
 			GMXglobalItemsName = settings.SelectSingleNode(C_GMXglobalItemsName).InnerText;
 			gridView = settings.SelectSingleNode("gridView").InnerText;
 
