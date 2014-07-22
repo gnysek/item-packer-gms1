@@ -279,7 +279,7 @@
 			this.itemListViewExt.MultiSelect = false;
 			this.itemListViewExt.Name = "itemListViewExt";
 			this.itemListViewExt.OwnerDraw = true;
-			this.itemListViewExt.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.ModelDialog;
+			this.itemListViewExt.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
 			this.itemListViewExt.ShowCommandMenuOnRightClick = true;
 			this.itemListViewExt.ShowFilterMenuOnRightClick = false;
 			this.itemListViewExt.ShowGroups = false;
