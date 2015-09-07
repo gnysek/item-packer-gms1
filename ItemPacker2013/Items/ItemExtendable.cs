@@ -164,6 +164,29 @@ namespace ItemPacker2013.Items
 			return getValue(key);
 		}
 
+		public string[] toArray() {
+			List<string> ret = new List<string>();
+
+			foreach (KeyValuePair<string, DefinitionData> p in Database.attributeDefinitions)
+			{
+				ret.Add(this.getValue(p.Key));
+			}
+
+			return ret.ToArray();
+		}
+
+		public string[] toArrayWithId(int id) {
+			List<string> ret = new List<string>();
+			ret.Add(id.ToString());
+
+			foreach (KeyValuePair<string, DefinitionData> p in Database.attributeDefinitions)
+			{
+				ret.Add(this.getValue(p.Key));
+			}
+
+			return ret.ToArray();
+		}
+
 		internal void re_setValues()
 		{
 			List<string> keys = values.Keys.ToList();

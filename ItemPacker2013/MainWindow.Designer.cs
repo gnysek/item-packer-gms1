@@ -56,9 +56,13 @@
 			this.itemListViewExt = new BrightIdeasSoftware.FastObjectListView();
 			this.toolFilterBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
+			this.betterListView1 = new ComponentOwl.BetterListView.BetterListView();
+			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.toolStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.itemListViewExt)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.betterListView1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// toolStrip1
@@ -265,7 +269,7 @@
 			// itemListViewExt
 			// 
 			this.itemListViewExt.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.itemListViewExt.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.itemListViewExt.Dock = System.Windows.Forms.DockStyle.Left;
 			this.itemListViewExt.EmptyListMsg = "No items";
 			this.itemListViewExt.EmptyListMsgFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.itemListViewExt.FullRowSelect = true;
@@ -285,7 +289,7 @@
 			this.itemListViewExt.ShowGroups = false;
 			this.itemListViewExt.ShowImagesOnSubItems = true;
 			this.itemListViewExt.ShowItemCountOnGroups = true;
-			this.itemListViewExt.Size = new System.Drawing.Size(790, 417);
+			this.itemListViewExt.Size = new System.Drawing.Size(271, 417);
 			this.itemListViewExt.SmallImageList = this.imageListSmall;
 			this.itemListViewExt.SortGroupItemsByPrimaryColumn = false;
 			this.itemListViewExt.Sorting = System.Windows.Forms.SortOrder.Ascending;
@@ -320,16 +324,38 @@
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Filter:";
 			// 
+			// betterListView1
+			// 
+			this.betterListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.betterListView1.GridLines = ComponentOwl.BetterListView.BetterListViewGridLines.Grid;
+			this.betterListView1.HScrollBarDisplayMode = ComponentOwl.BetterListView.BetterListViewScrollBarDisplayMode.ShowAlways;
+			this.betterListView1.Location = new System.Drawing.Point(271, 39);
+			this.betterListView1.Name = "betterListView1";
+			this.betterListView1.Size = new System.Drawing.Size(519, 417);
+			this.betterListView1.TabIndex = 6;
+			// 
+			// dataGridView1
+			// 
+			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridView1.Location = new System.Drawing.Point(297, 90);
+			this.dataGridView1.Name = "dataGridView1";
+			this.dataGridView1.Size = new System.Drawing.Size(372, 236);
+			this.dataGridView1.TabIndex = 7;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
 			this.ClientSize = new System.Drawing.Size(790, 478);
+			this.Controls.Add(this.dataGridView1);
+			this.Controls.Add(this.betterListView1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.toolFilterBox);
 			this.Controls.Add(this.itemListViewExt);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.toolStrip1);
+			this.DoubleBuffered = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -339,6 +365,8 @@
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.itemListViewExt)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.betterListView1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -372,6 +400,8 @@
 		private BrightIdeasSoftware.FastObjectListView itemListViewExt;
 		private System.Windows.Forms.TextBox toolFilterBox;
 		private System.Windows.Forms.Label label1;
+		private ComponentOwl.BetterListView.BetterListView betterListView1;
+		private System.Windows.Forms.DataGridView dataGridView1;
 	}
 }
 

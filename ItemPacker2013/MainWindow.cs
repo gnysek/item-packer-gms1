@@ -212,9 +212,9 @@ namespace ItemPacker2013
 
 			// render same for objectListView
 			//List<OLVColumn> columns = new List<OLVColumn>();
-			OLVColumn olvDefaultColumn = new OLVColumn() { AspectName = "ID", Text = "ID", Groupable = false, Sortable = false, Hideable = false, IsVisible = true };
+			OLVColumn olvDefaultColumn = new OLVColumn() { AspectName = "ID", Text = "ID", Groupable = false, Sortable = false };
 			//columns.Add(olvDefaultColumn);
-			itemListViewExt.AllColumns.Add(olvDefaultColumn);
+			itemListViewExt.Columns.Add(olvDefaultColumn);
 
 			foreach (KeyValuePair<string, DefinitionData> entry in CurrentProject.attributeDefinitions)
 			{
@@ -223,10 +223,8 @@ namespace ItemPacker2013
 					Text = entry.Key,
 					AspectName = entry.Key,
 					//AspectGetter = delegate(object x) { return ((ItemExtendable)x).getValue(entry.Key); },
-					Sortable = (entry.Key == "Name"),
-					Groupable = false,
-					Hideable = true,
-					IsVisible = true,
+					Sortable = false,//(entry.Key != CurrentProject.GroupBy),
+					Groupable = (entry.Key == CurrentProject.GroupBy),
 					//IsHeaderVertical = (entry.Value.DataType == DefinitionDataType.Int),
 					//,
 					//FillsFreeSpace = true
@@ -265,30 +263,26 @@ namespace ItemPacker2013
 					//itemListViewExt.AlwaysGroupByColumn = olvKeyCol;
 					olvKeyCol.Groupable = true;
 					olvKeyCol.Sortable = true;
-					olvKeyCol.IsVisible = true;
+					olvKeyCol.IsVisible = false;
 					itemListViewExt.PrimarySortColumn = olvKeyCol;
 				}
 
-				//if (itemListViewExt.Columns.Count < 8)
-				//{
-					//itemListViewExt.Columns.Add(olvKeyCol);
-					itemListViewExt.AllColumns.Add(olvKeyCol);
-					//itemListViewExt.RebuildColumns();
-					//olvKeyCol.Hideable = true;
-				//}
+				if (itemListViewExt.Columns.Count < 800)
+				{
+					itemListViewExt.Columns.Add(olvKeyCol);
+					olvKeyCol.Hideable = true;
+				}
 			}
 
-			itemListViewExt.Visible = false;
 			itemListViewExt.ShowGroups = true;
 			itemListViewExt.SetObjects(CurrentProject.itemCollection.Values.ToList());
-			itemListViewExt.RebuildColumns();
+			itemListViewExt.Visible = false;
 			itemListViewExt.BuildList();
 
 			//itemListViewExt.BuildGroups(itemListViewExt.PrimarySortColumn, SortOrder.Ascending);
 
 			itemListViewExt.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 			itemListViewExt.Visible = true;
-			itemListViewExt.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 
 			// render items
 			//foreach (KeyValuePair<int, ItemExtendable> entry in CurrentProject.itemCollection)
@@ -346,8 +340,7 @@ namespace ItemPacker2013
 			}
 			else if (itemListViewExt.Items.Count > 0)
 			{
-				//itemListViewExt.Items[itemListViewExt.Items.Count - 1].Selected = true;
-				itemListViewExt.Items[0].Selected = true;
+				itemListViewExt.Items[itemListViewExt.Items.Count - 1].Selected = true;
 			}
 
 			itemListViewExt.Enabled = true;
